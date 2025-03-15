@@ -76,6 +76,7 @@
             itemname_tb.Name = "itemname_tb";
             itemname_tb.Size = new Size(164, 23);
             itemname_tb.TabIndex = 2;
+            itemname_tb.TextChanged += itemname_tb_TextChanged;
             // 
             // label2
             // 
@@ -125,6 +126,7 @@
             width_tb.Name = "width_tb";
             width_tb.Size = new Size(164, 23);
             width_tb.TabIndex = 5;
+            width_tb.TextChanged += width_tb_TextChanged;
             // 
             // length_tb
             // 
@@ -132,6 +134,7 @@
             length_tb.Name = "length_tb";
             length_tb.Size = new Size(164, 23);
             length_tb.TabIndex = 4;
+            length_tb.TextChanged += length_tb_TextChanged;
             // 
             // label5
             // 

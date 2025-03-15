@@ -58,7 +58,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
 
             if (result == DialogResult.Yes)
             {
-                sql.ExecuteQuery($"DELETE FROM Bundle_Table WHERE id = {id}");
+                sql.ExecuteQuery($"UPDATE Bundle_Table SET is_deleted = 1 WHERE id = {id}");
                 parent.UpdateVisual();
             }
             else if (result == DialogResult.No)

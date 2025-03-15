@@ -33,7 +33,7 @@
             itemlist_cb = new ComboBox();
             quantity_tb = new TextBox();
             label3 = new Label();
-            label4 = new Label();
+            details_label = new Label();
             add_btn = new Button();
             cancel_btn = new Button();
             SuspendLayout();
@@ -64,6 +64,7 @@
             itemlist_cb.Name = "itemlist_cb";
             itemlist_cb.Size = new Size(197, 23);
             itemlist_cb.TabIndex = 2;
+            itemlist_cb.SelectedIndexChanged += itemlist_cb_SelectedIndexChanged;
             // 
             // quantity_tb
             // 
@@ -82,15 +83,15 @@
             label3.TabIndex = 4;
             label3.Text = "Details:";
             // 
-            // label4
+            // details_label
             // 
-            label4.AutoSize = true;
-            label4.ForeColor = SystemColors.ControlDarkDark;
-            label4.Location = new Point(207, 129);
-            label4.Name = "label4";
-            label4.Size = new Size(112, 15);
-            label4.TabIndex = 5;
-            label4.Text = "Select an Input Item";
+            details_label.AutoSize = true;
+            details_label.ForeColor = SystemColors.ControlDarkDark;
+            details_label.Location = new Point(209, 121);
+            details_label.Name = "details_label";
+            details_label.Size = new Size(112, 15);
+            details_label.TabIndex = 5;
+            details_label.Text = "Select an Input Item";
             // 
             // add_btn
             // 
@@ -119,7 +120,7 @@
             ClientSize = new Size(531, 234);
             Controls.Add(cancel_btn);
             Controls.Add(add_btn);
-            Controls.Add(label4);
+            Controls.Add(details_label);
             Controls.Add(label3);
             Controls.Add(quantity_tb);
             Controls.Add(itemlist_cb);
@@ -139,7 +140,7 @@
         private ComboBox itemlist_cb;
         private TextBox quantity_tb;
         private Label label3;
-        private Label label4;
+        private Label details_label;
         private Button add_btn;
         private Button cancel_btn;
     }

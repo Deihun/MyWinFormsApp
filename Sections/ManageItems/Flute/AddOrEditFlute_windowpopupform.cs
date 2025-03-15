@@ -1,4 +1,5 @@
-﻿using SQLSupportLibrary;
+﻿using MyWinFormsApp.SupportClass;
+using SQLSupportLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
     public partial class AddOrEditFlute_windowpopupform : Form
     {
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
+        FilterInputSupportClass filter = new FilterInputSupportClass();
         ManageFlute_WindowPopupForm parent;
         int ID = -1;
         public AddOrEditFlute_windowpopupform(ManageFlute_WindowPopupForm parent)
@@ -70,9 +72,19 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
 
         private void rewriteFlute()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARED
         {
-            string query = "UPDATE Flute_Table"+
-                $"code_name = '{codename_tb.Text}', _value={ Convert.ToDecimal(standardsize_tb.Text) } WHERE id = {ID};";
+            string query = "UPDATE Flute_Table" +
+                $"code_name = '{codename_tb.Text}', _value={Convert.ToDecimal(standardsize_tb.Text)} WHERE id = {ID};";
             sql.ExecuteQuery(query);
+        }
+
+        private void codename_tb_TextChanged(object sender, EventArgs e)
+        {
+            filter.SanitizeSQLInput(codename_tb);
+        }
+
+        private void standardsize_tb_TextChanged(object sender, EventArgs e)
+        {
+            filter.ValidateNumericInput(standardsize_tb);
         }
     }
 }

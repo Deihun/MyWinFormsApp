@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             client_combobox = new ComboBox();
-            label1 = new Label();
+            description_label = new Label();
             panel1 = new Panel();
             storedfilter_flp = new FlowLayoutPanel();
             delete_button = new Button();
@@ -46,19 +46,19 @@
             client_combobox.TabIndex = 0;
             client_combobox.SelectedIndexChanged += client_combobox_SelectedIndexChanged;
             // 
-            // label1
+            // description_label
             // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Fill;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(83, 15);
-            label1.TabIndex = 1;
-            label1.Text = "<Description>";
+            description_label.AutoSize = true;
+            description_label.Dock = DockStyle.Fill;
+            description_label.Location = new Point(0, 0);
+            description_label.Name = "description_label";
+            description_label.Size = new Size(83, 15);
+            description_label.TabIndex = 1;
+            description_label.Text = "<Description>";
             // 
             // panel1
             // 
-            panel1.Controls.Add(label1);
+            panel1.Controls.Add(description_label);
             panel1.Location = new Point(12, 41);
             panel1.Name = "panel1";
             panel1.Size = new Size(243, 71);
@@ -107,7 +107,7 @@
         #endregion
 
         private ComboBox client_combobox;
-        private Label label1;
+        private Label description_label;
         private Panel panel1;
         private FlowLayoutPanel storedfilter_flp;
         private Button delete_button;

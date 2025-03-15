@@ -33,7 +33,7 @@ namespace MyWinFormsApp.Sections
             searchname_tb.Size = scalingsupport.ScaleObject(searchname_tb.Size);
             flutetype_cb.Size = scalingsupport.ScaleObject(flutetype_cb.Size);
             add_btn.Size = scalingsupport.ScaleObject(add_btn.Size);
-            DataTable dt = sql.ExecuteQuery("SELECT * FROM Item_Table");
+            DataTable dt = sql.ExecuteQuery("SELECT * FROM Item_Table WHERE is_deleted = 0");
             resetList();
             foreach (DataRow row in dt.Rows)
             {

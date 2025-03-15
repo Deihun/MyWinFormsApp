@@ -1,4 +1,5 @@
-﻿using SQLSupportLibrary;
+﻿using MyWinFormsApp.SupportClass;
+using SQLSupportLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace MyWinFormsApp.Sections.ManageItems
     public partial class AddNewItems_WindowPopUpForm : Form
     {
         ManageItems_form parent;
+        FilterInputSupportClass filter = new FilterInputSupportClass();
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
         int id = -1;
         public AddNewItems_WindowPopUpForm(ManageItems_form parent)
@@ -46,17 +48,23 @@ namespace MyWinFormsApp.Sections.ManageItems
         {
             DataTable dtFlute = sql.ExecuteQuery("SELECT * FROM Flute_Table");
             DataTable dtClient = sql.ExecuteQuery("SELECT * FROM Client_Table");
-            
-            foreach (DataRow row in dtFlute.Rows)flutetype_cb.Items.Add(row["code_name"].ToString());
+
+            foreach (DataRow row in dtFlute.Rows) flutetype_cb.Items.Add(row["code_name"].ToString());
             foreach (DataRow row in dtClient.Rows) client_cb.Items.Add(row["name"].ToString());
         }
 
         private void add_btn_Click(object sender, EventArgs e)
         {
-            if (id == -1) addItem();
-            else rewriteItem();
-            parent.UpdateVisual();
-            this.Dispose();
+
+            if (filter.AreAllInputsFilled(itemname_tb, client_cb, flutetype_cb, length_tb, width_tb))
+            {
+                if (id == -1) addItem();
+                else rewriteItem();
+                parent.UpdateVisual();
+                this.Dispose();
+            }
+            else MessageBox.Show("Please input all required empty spaces or avoid using existing name that is already added");
+
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -71,7 +79,7 @@ namespace MyWinFormsApp.Sections.ManageItems
             int FluteID = Convert.ToInt32(rowFlute["id"]);
             int clientID = Convert.ToInt32(rowClient["id"]);
 
-            
+
 
             Dictionary<string, object> value = new Dictionary<string, object>()
             {
@@ -89,6 +97,21 @@ namespace MyWinFormsApp.Sections.ManageItems
         private void rewriteItem()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
 
+        }
+
+        private void itemname_tb_TextChanged(object sender, EventArgs e)
+        {
+            filter.SanitizeSQLInput(itemname_tb);
+        }
+
+        private void length_tb_TextChanged(object sender, EventArgs e)
+        {
+            filter.ValidateNumericInput(length_tb);
+        }
+
+        private void width_tb_TextChanged(object sender, EventArgs e)
+        {
+            filter.ValidateNumericInput(width_tb);
         }
     }
 }

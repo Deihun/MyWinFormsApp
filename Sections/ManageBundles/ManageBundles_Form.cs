@@ -34,7 +34,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
             flutetype_cb.Size = scale.ScaleObject(flutetype_cb.Size);
             client_cb.Size = scale.ScaleObject(client_cb.Size);
 
-            foreach(DataRow row in sql.ExecuteQuery("SELECT * FROM Bundle_Table;").Rows)
+            foreach(DataRow row in sql.ExecuteQuery("SELECT * FROM Bundle_Table WHERE is_deleted = 0;").Rows)
             {
                 viewSelectedBundle_Form vsbf = new viewSelectedBundle_Form(this, Convert.ToInt32(row["id"]));
                 vsbf.TopLevel = false;

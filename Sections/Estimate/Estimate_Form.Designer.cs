@@ -42,9 +42,11 @@
             add_client = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             storeddetailreport_flp = new FlowLayoutPanel();
-            contentresult_label = new Label();
             tableLayoutPanel4 = new TableLayoutPanel();
             storedRuleWarning_flp = new FlowLayoutPanel();
+            flowLayoutPanel3 = new FlowLayoutPanel();
+            action_button = new Button();
+            remarks_rtb = new RichTextBox();
             main_tbp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tableLayoutPanel1.SuspendLayout();
@@ -52,8 +54,8 @@
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
-            storeddetailreport_flp.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
+            flowLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // main_tbp
@@ -65,6 +67,7 @@
             main_tbp.Controls.Add(pictureBox1, 1, 0);
             main_tbp.Controls.Add(tableLayoutPanel1, 0, 0);
             main_tbp.Controls.Add(tableLayoutPanel3, 2, 0);
+            main_tbp.Controls.Add(flowLayoutPanel3, 2, 1);
             main_tbp.Dock = DockStyle.Fill;
             main_tbp.Location = new Point(0, 0);
             main_tbp.Name = "main_tbp";
@@ -204,7 +207,7 @@
             addbundle_btn.Location = new Point(0, 0);
             addbundle_btn.Margin = new Padding(0);
             addbundle_btn.Name = "addbundle_btn";
-            addbundle_btn.Size = new Size(128, 39);
+            addbundle_btn.Size = new Size(155, 39);
             addbundle_btn.TabIndex = 2;
             addbundle_btn.Text = "ADD BUNDLE (+)";
             addbundle_btn.TextAlign = ContentAlignment.TopCenter;
@@ -216,7 +219,7 @@
             add_client.BackColor = Color.White;
             add_client.FlatStyle = FlatStyle.Flat;
             add_client.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            add_client.Location = new Point(153, 0);
+            add_client.Location = new Point(180, 0);
             add_client.Margin = new Padding(25, 0, 0, 0);
             add_client.Name = "add_client";
             add_client.Size = new Size(153, 39);
@@ -248,7 +251,6 @@
             // 
             storeddetailreport_flp.AutoScroll = true;
             storeddetailreport_flp.BackColor = Color.OliveDrab;
-            storeddetailreport_flp.Controls.Add(contentresult_label);
             storeddetailreport_flp.Dock = DockStyle.Fill;
             storeddetailreport_flp.FlowDirection = FlowDirection.TopDown;
             storeddetailreport_flp.Location = new Point(3, 3);
@@ -257,23 +259,13 @@
             storeddetailreport_flp.TabIndex = 1;
             storeddetailreport_flp.WrapContents = false;
             // 
-            // contentresult_label
-            // 
-            contentresult_label.AutoSize = true;
-            contentresult_label.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            contentresult_label.ForeColor = Color.White;
-            contentresult_label.Location = new Point(3, 0);
-            contentresult_label.Name = "contentresult_label";
-            contentresult_label.Size = new Size(94, 19);
-            contentresult_label.TabIndex = 0;
-            contentresult_label.Text = "<CONTENT>";
-            // 
             // tableLayoutPanel4
             // 
             tableLayoutPanel4.ColumnCount = 2;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.Controls.Add(storedRuleWarning_flp, 0, 0);
+            tableLayoutPanel4.Controls.Add(remarks_rtb, 1, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(3, 455);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -295,6 +287,40 @@
             storedRuleWarning_flp.TabIndex = 0;
             storedRuleWarning_flp.WrapContents = false;
             // 
+            // flowLayoutPanel3
+            // 
+            flowLayoutPanel3.Controls.Add(action_button);
+            flowLayoutPanel3.Dock = DockStyle.Fill;
+            flowLayoutPanel3.FlowDirection = FlowDirection.RightToLeft;
+            flowLayoutPanel3.Location = new Point(792, 576);
+            flowLayoutPanel3.Margin = new Padding(0);
+            flowLayoutPanel3.Name = "flowLayoutPanel3";
+            flowLayoutPanel3.Size = new Size(641, 63);
+            flowLayoutPanel3.TabIndex = 3;
+            // 
+            // action_button
+            // 
+            action_button.Location = new Point(506, 3);
+            action_button.Name = "action_button";
+            action_button.Size = new Size(132, 58);
+            action_button.TabIndex = 0;
+            action_button.Text = "SAVE RECORD";
+            action_button.UseVisualStyleBackColor = true;
+            action_button.Click += action_button_Click;
+            // 
+            // remarks_rtb
+            // 
+            remarks_rtb.BackColor = Color.OliveDrab;
+            remarks_rtb.BorderStyle = BorderStyle.None;
+            remarks_rtb.Dock = DockStyle.Fill;
+            remarks_rtb.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            remarks_rtb.ForeColor = Color.Transparent;
+            remarks_rtb.Location = new Point(320, 3);
+            remarks_rtb.Name = "remarks_rtb";
+            remarks_rtb.Size = new Size(312, 102);
+            remarks_rtb.TabIndex = 1;
+            remarks_rtb.Text = "Remarks";
+            // 
             // Estimate_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -315,9 +341,8 @@
             tableLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
-            storeddetailreport_flp.ResumeLayout(false);
-            storeddetailreport_flp.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
+            flowLayoutPanel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -339,6 +364,8 @@
         private FlowLayoutPanel storeddetailreport_flp;
         private TableLayoutPanel tableLayoutPanel4;
         private FlowLayoutPanel storedRuleWarning_flp;
-        private Label contentresult_label;
+        private FlowLayoutPanel flowLayoutPanel3;
+        private Button action_button;
+        private RichTextBox remarks_rtb;
     }
 }

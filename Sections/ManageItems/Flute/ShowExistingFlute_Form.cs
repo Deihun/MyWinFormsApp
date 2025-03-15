@@ -29,7 +29,7 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
 
         private void delete_btn_Click(object sender, EventArgs e)
         {
-            sql.ExecuteQuery($"DELETE FROM Flute_Table WHERE id = {ID}");
+            sql.ExecuteQuery($"UPDATE Flute_Table SET is_deleted = 1 WHERE id = {ID}");
             parent.UpdateVisual();
         }
 

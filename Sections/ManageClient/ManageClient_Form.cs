@@ -30,7 +30,7 @@ namespace MyWinFormsApp.Sections.ManageClient
         public void UpdateVisual()
         {
             resetList();
-            DataTable datatable = sql.ExecuteQuery("SELECT * FROM Client_Table");
+            DataTable datatable = sql.ExecuteQuery("SELECT * FROM Client_Table WHERE is_deleted = 0;");
             foreach (DataRow row in datatable.Rows)
             {
                 ExistingSelectClient_form escf = new ExistingSelectClient_form(

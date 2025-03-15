@@ -30,20 +30,19 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             groupBox1 = new GroupBox();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            name_lb = new Label();
-            label1 = new Label();
-            clientname_tb = new TextBox();
             description_rtb = new RichTextBox();
+            label1 = new Label();
+            name_lb = new Label();
+            clientname_tb = new TextBox();
             condition = new GroupBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             requirepallet_cb = new CheckBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
             add_btn = new Button();
             cancel_btn = new Button();
+            requireclearancespace_cb = new CheckBox();
             tableLayoutPanel1.SuspendLayout();
             groupBox1.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
             condition.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -63,80 +62,62 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.Size = new Size(494, 479);
+            tableLayoutPanel1.Size = new Size(397, 479);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(tableLayoutPanel2);
+            groupBox1.Controls.Add(description_rtb);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(name_lb);
+            groupBox1.Controls.Add(clientname_tb);
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(3, 3);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(488, 209);
+            groupBox1.Size = new Size(391, 209);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
             // 
-            // tableLayoutPanel2
+            // description_rtb
             // 
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            tableLayoutPanel2.Controls.Add(name_lb, 0, 0);
-            tableLayoutPanel2.Controls.Add(label1, 0, 1);
-            tableLayoutPanel2.Controls.Add(clientname_tb, 1, 0);
-            tableLayoutPanel2.Controls.Add(description_rtb, 1, 1);
-            tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 19);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.Padding = new Padding(30);
-            tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(482, 187);
-            tableLayoutPanel2.TabIndex = 0;
-            // 
-            // name_lb
-            // 
-            name_lb.AutoSize = true;
-            name_lb.Dock = DockStyle.Right;
-            name_lb.Location = new Point(122, 60);
-            name_lb.Margin = new Padding(0, 30, 0, 0);
-            name_lb.Name = "name_lb";
-            name_lb.Size = new Size(76, 33);
-            name_lb.TabIndex = 0;
-            name_lb.Text = "Client Name:";
+            description_rtb.BorderStyle = BorderStyle.FixedSingle;
+            description_rtb.Location = new Point(138, 83);
+            description_rtb.Margin = new Padding(3, 30, 30, 3);
+            description_rtb.Name = "description_rtb";
+            description_rtb.Size = new Size(224, 108);
+            description_rtb.TabIndex = 3;
+            description_rtb.Text = "";
+            description_rtb.TextChanged += description_rtb_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Dock = DockStyle.Right;
-            label1.Location = new Point(94, 123);
+            label1.Location = new Point(18, 85);
             label1.Margin = new Padding(0, 30, 0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(104, 34);
+            label1.Size = new Size(104, 15);
             label1.TabIndex = 1;
             label1.Text = "Client Description:";
             // 
+            // name_lb
+            // 
+            name_lb.AutoSize = true;
+            name_lb.Location = new Point(46, 48);
+            name_lb.Margin = new Padding(0, 30, 0, 0);
+            name_lb.Name = "name_lb";
+            name_lb.Size = new Size(76, 15);
+            name_lb.TabIndex = 0;
+            name_lb.Text = "Client Name:";
+            // 
             // clientname_tb
             // 
-            clientname_tb.Dock = DockStyle.Fill;
-            clientname_tb.Location = new Point(198, 60);
+            clientname_tb.Location = new Point(138, 45);
             clientname_tb.Margin = new Padding(0, 30, 30, 0);
             clientname_tb.Name = "clientname_tb";
             clientname_tb.Size = new Size(224, 23);
             clientname_tb.TabIndex = 2;
-            // 
-            // description_rtb
-            // 
-            description_rtb.BorderStyle = BorderStyle.FixedSingle;
-            description_rtb.Dock = DockStyle.Fill;
-            description_rtb.Location = new Point(201, 123);
-            description_rtb.Margin = new Padding(3, 30, 30, 3);
-            description_rtb.Name = "description_rtb";
-            description_rtb.Size = new Size(221, 31);
-            description_rtb.TabIndex = 3;
-            description_rtb.Text = "";
+            clientname_tb.TextChanged += clientname_tb_TextChanged;
             // 
             // condition
             // 
@@ -144,7 +125,7 @@
             condition.Dock = DockStyle.Fill;
             condition.Location = new Point(3, 218);
             condition.Name = "condition";
-            condition.Size = new Size(488, 209);
+            condition.Size = new Size(391, 209);
             condition.TabIndex = 1;
             condition.TabStop = false;
             condition.Text = "Conditions";
@@ -153,12 +134,13 @@
             // 
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.Controls.Add(requirepallet_cb);
+            flowLayoutPanel1.Controls.Add(requireclearancespace_cb);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(3, 19);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Padding = new Padding(25);
-            flowLayoutPanel1.Size = new Size(482, 187);
+            flowLayoutPanel1.Size = new Size(385, 187);
             flowLayoutPanel1.TabIndex = 0;
             flowLayoutPanel1.WrapContents = false;
             // 
@@ -179,7 +161,7 @@
             flowLayoutPanel2.Dock = DockStyle.Fill;
             flowLayoutPanel2.Location = new Point(3, 433);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(488, 43);
+            flowLayoutPanel2.Size = new Size(391, 43);
             flowLayoutPanel2.TabIndex = 2;
             // 
             // add_btn
@@ -206,19 +188,28 @@
             cancel_btn.UseVisualStyleBackColor = true;
             cancel_btn.Click += cancel_btn_Click;
             // 
+            // requireclearancespace_cb
+            // 
+            requireclearancespace_cb.AutoSize = true;
+            requireclearancespace_cb.Location = new Point(28, 53);
+            requireclearancespace_cb.Name = "requireclearancespace_cb";
+            requireclearancespace_cb.Size = new Size(239, 19);
+            requireclearancespace_cb.TabIndex = 1;
+            requireclearancespace_cb.Text = "Require big spaces in each Bundle inside";
+            requireclearancespace_cb.UseVisualStyleBackColor = true;
+            // 
             // AddNewClient_WindowPopupForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(494, 479);
+            ClientSize = new Size(397, 479);
             Controls.Add(tableLayoutPanel1);
-            FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "AddNewClient_WindowPopupForm";
             Text = "Add New Client";
             tableLayoutPanel1.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
+            groupBox1.PerformLayout();
             condition.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
@@ -231,7 +222,6 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private GroupBox groupBox1;
-        private TableLayoutPanel tableLayoutPanel2;
         private Label name_lb;
         private Label label1;
         private TextBox clientname_tb;
@@ -242,5 +232,6 @@
         private FlowLayoutPanel flowLayoutPanel2;
         private Button add_btn;
         private Button cancel_btn;
+        private CheckBox requireclearancespace_cb;
     }
 }

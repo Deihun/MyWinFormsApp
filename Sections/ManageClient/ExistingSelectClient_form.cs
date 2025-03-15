@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyWinFormsApp.SupportClass;
 using Newtonsoft.Json;
 using SQLSupportLibrary;
 
@@ -29,29 +30,18 @@ namespace MyWinFormsApp.Sections.ManageClient
 
         private void instantiateConditions(string raw_condition)
         {
-            Dictionary<string, bool> rawcondition = JsonConvert.DeserializeObject<Dictionary<string, bool>>(raw_condition);
-
-            foreach (var condition in rawcondition)
+            RequirementsManagement_class req = new RequirementsManagement_class(raw_condition);
+            foreach (string _req in req.getAllConditionAsList())
             {
-                if (condition.Value)
-                {
-                    string content = "";
+                Label label = new Label();
+                label.AutoSize = true;
+                label.Text = _req;
+                label.ForeColor = Color.DarkRed;
+                conditioncontainer_flp.Controls.Add(label);
+                label.Show();
+                this.Height += label.Height;
+                
 
-                    switch (condition.Key)
-                    {
-                        case "pallet_required":
-                            content = "* Requiring Pallet";
-                            break;
-                        case "clearance_space_required":
-                            content = "* Requiring Clearance Space";
-                            break;
-                    }
-
-                    Label label = new Label();
-                    label.Text = content;
-                    label.ForeColor = Color.DarkRed;
-                    conditioncontainer_flp.Controls.Add(label);
-                }
             }
         }
 
@@ -68,7 +58,7 @@ namespace MyWinFormsApp.Sections.ManageClient
             "Warning",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Exclamation);
-            if (result == DialogResult.Yes) sql.ExecuteQuery($"DELETE FROM Client_Table WHERE id = {ID}");
+            if (result == DialogResult.Yes) sql.ExecuteQuery($"UPDATE Client_Table SET is_deleted = 1 WHERE id = {ID}");
         }
 
         private void edit_btn_Click(object sender, EventArgs e)

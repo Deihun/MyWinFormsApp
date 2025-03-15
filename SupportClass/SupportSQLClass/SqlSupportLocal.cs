@@ -426,10 +426,14 @@ namespace SQLSupportLibrary
             {
                 try
                 {
-                    string values = string.Join(", ", data.Values.Select(v =>
-                        v is string || v is DateTime ? $"'{v}'" : v.ToString()));
+                string values = string.Join(", ", data.Values.Select(v =>
+                    v is string ? $"'{v}'" :
+                    v is DateTime dt ? $"'{dt:yyyy-MM-dd HH:mm:ss}'" : // Correct date format for SQL
+                    v is bool b ? (b ? "1" : "0") : // Convert bool to 1/0 for SQL compatibility
+                    v != null ? v.ToString() : "NULL" // Handle null values
+                ));
 
-                    string query = $"INSERT INTO {tableName} ({string.Join(", ", data.Keys)}) " +
+                string query = $"INSERT INTO {tableName} ({string.Join(", ", data.Keys)}) " +
                                    $"VALUES ({values}); " +
                                    $"SELECT {idColumn} FROM {tableName} WHERE {idColumn} = SCOPE_IDENTITY();";
 
@@ -478,12 +482,24 @@ namespace SQLSupportLibrary
                 return filtered.Trim();
             }
 
+        public bool DoesDataExist(string table_name, string column_name, object data_to_be_check)
+        {
+            if (data_to_be_check == null) return false; // Handle null cases early
+
+            string query = $"SELECT COUNT(*) AS Count FROM {table_name} WHERE {column_name} = '{data_to_be_check}' AND is_deleted = 0;";
+            DataTable result = ExecuteQuery(query);
+            return result.Rows.Count > 0 && Convert.ToInt32(result.Rows[0]["Count"]) > 0;
+        }
+
+
 
 #pragma warning disable CS1998
-            private async Task LogQueryAsync(string query)
+        private async Task LogQueryAsync(string query)
             {
                 throw new NotImplementedException();
             }
+
+
         }
     }
 

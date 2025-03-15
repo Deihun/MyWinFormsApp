@@ -61,6 +61,7 @@
             codename_tb.Name = "codename_tb";
             codename_tb.Size = new Size(64, 29);
             codename_tb.TabIndex = 1;
+            codename_tb.TextChanged += codename_tb_TextChanged;
             // 
             // label1
             // 
@@ -89,6 +90,7 @@
             standardsize_tb.Name = "standardsize_tb";
             standardsize_tb.Size = new Size(64, 23);
             standardsize_tb.TabIndex = 2;
+            standardsize_tb.TextChanged += standardsize_tb_TextChanged;
             // 
             // label2
             // 

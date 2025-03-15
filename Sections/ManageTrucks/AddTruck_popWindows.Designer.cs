@@ -98,6 +98,7 @@
             trucktype_cb.Name = "trucktype_cb";
             trucktype_cb.Size = new Size(181, 23);
             trucktype_cb.TabIndex = 2;
+            trucktype_cb.SelectedIndexChanged += trucktype_cb_SelectedIndexChanged;
             // 
             // groupBox2
             // 
@@ -123,6 +124,7 @@
             height_tb.Name = "height_tb";
             height_tb.Size = new Size(165, 23);
             height_tb.TabIndex = 8;
+            height_tb.TextChanged += height_tb_TextChanged;
             // 
             // width_tb
             // 
@@ -130,6 +132,7 @@
             width_tb.Name = "width_tb";
             width_tb.Size = new Size(165, 23);
             width_tb.TabIndex = 7;
+            width_tb.TextChanged += width_tb_TextChanged;
             // 
             // length_tb
             // 
@@ -137,6 +140,7 @@
             length_tb.Name = "length_tb";
             length_tb.Size = new Size(165, 23);
             length_tb.TabIndex = 6;
+            length_tb.TextChanged += length_tb_TextChanged;
             // 
             // label6
             // 
@@ -173,6 +177,7 @@
             referencesize_cb.Name = "referencesize_cb";
             referencesize_cb.Size = new Size(196, 23);
             referencesize_cb.TabIndex = 2;
+            referencesize_cb.SelectedIndexChanged += referencesize_cb_SelectedIndexChanged;
             // 
             // label3
             // 

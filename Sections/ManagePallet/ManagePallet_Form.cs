@@ -32,7 +32,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
         {
             add_btn.Size = scale.ScaleObject(add_btn.Size);
             resetList();
-            DataTable data = sql.ExecuteQuery("SELECT * FROM Pallet_Table");
+            DataTable data = sql.ExecuteQuery($"SELECT * FROM Pallet_Table WHERE is_deleted = 0");
             foreach (DataRow row in data.Rows)
             {
                 PalletSelectView_Form psvf = new PalletSelectView_Form(

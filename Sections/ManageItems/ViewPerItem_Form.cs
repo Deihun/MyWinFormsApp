@@ -49,7 +49,7 @@ namespace MyWinFormsApp.Sections.ManageItems
         }
         private void DeleteMyValue()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
-            sql.ExecuteQuery($"DELETE FROM Item_Table WHERE id = {id}");
+            sql.ExecuteQuery($"UPDATE Item_Table SET is_deleted = 1 WHERE id = {id}");
 
         }
     }

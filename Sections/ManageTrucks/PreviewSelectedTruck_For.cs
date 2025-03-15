@@ -31,21 +31,21 @@ namespace MyWinFormsApp.Sections.ManageTrucks
             DataTable data = sql.ExecuteQuery(query);
             foreach (DataRow row in data.Rows)
             {
-                int _length = Convert.ToInt32(row["_length"]);
-                int _width = Convert.ToInt32(row["_width"]);
-                int _height = Convert.ToInt32(row["_height"]);
-                int dimension = _length * _width * _height;
+                decimal _length = Convert.ToDecimal(row["_length"]);
+                decimal _width = Convert.ToDecimal(row["_width"]);
+                decimal _height = Convert.ToDecimal(row["_height"]);
+                decimal dimension = _length * _width * _height;
 
                 platenumber_label.Text = row["platenumber"].ToString();
                 trucktype_label.Text = row["trucktype"].ToString();
 
-                dimensions_label.Text = $"Length: {_length}\nWidth: {_width}\nHeight: {_height}\nDimension: {dimension}";
+                dimensions_label.Text = $"Length(mm): {_length}\nWidth(mm): {_width}\nHeight(mm): {_height}\nDimension(mm): {dimension}";
             }
         }
 
         private void DeleteMyData()
         {
-            sql.ExecuteQuery($"DELETE FROM Truck_Table WHERE id = {ID}");
+            sql.ExecuteQuery($"UPDATE Truck_Table SET is_deleted = 1 WHERE id = {ID};");
             parent.updateVisual();
         }
 

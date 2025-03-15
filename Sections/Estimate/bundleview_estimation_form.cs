@@ -1,8 +1,10 @@
-﻿using SQLSupportLibrary;
+﻿using MyWinFormsApp.SupportClass;
+using SQLSupportLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,18 +15,53 @@ namespace MyWinFormsApp.Sections.Estimate
 {
     public partial class bundleview_estimation_form : Form
     {
+        // <REFERENCE CLASS>
         Estimate_Form parent;
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-        public bundleview_estimation_form(Estimate_Form parent)
+        FilterInputSupportClass filter = new FilterInputSupportClass();
+
+                    public bundleview_estimation_form(Estimate_Form parent)
+                    {
+                        InitializeComponent();
+                        this.parent = parent;
+                        bundleitem_combobox.SelectedIndex = 0;
+                        palletchoice_combobox.SelectedIndex = 0;
+                        initializeBundleCombobox();
+                    }
+                    public bundleview_estimation_form(Estimate_Form parent, int bundle_id, int? pallet_id)
+                    {
+                        InitializeComponent();
+                        this.parent = parent;
+                        DataRow allInformation = sql.ExecuteQuery("SELECT i.item_name, bundle.quantity FROM " +
+                                                "[Bundle_Table] bundle JOIN [Item_Table] i " +
+                                                "ON bundle.item_id = i.id " +
+                                                $"WHERE bundle.id = {bundle_id}").Rows[0];
+                        string pallet_name = getPalletName(pallet_id);
+                        bundleitem_combobox.DropDownStyle = ComboBoxStyle.Simple;
+                        bundleitem_combobox.Text = allInformation["item_name"].ToString();
+                        bundleitem_combobox.Enabled = false;
+
+                        totalbundletoload_tb.Text = allInformation["quantity"].ToString();
+                        totalbundletoload_tb.Enabled = false;
+
+                        palletEnabler_checkbox.Enabled = pallet_id != -1;
+                        palletchoice_combobox.DropDownStyle = ComboBoxStyle.Simple;
+                        palletchoice_combobox.Text = pallet_name;
+                        palletchoice_combobox.Enabled = false;
+                        updateContent();
+                    }
+
+        private string getPalletName(int? pallet_id)
         {
-            InitializeComponent();
-            this.parent = parent;
-
-            bundleitem_combobox.SelectedIndex = 0;
-            palletchoice_combobox.SelectedIndex = 0;
-            initializeBundleCombobox();
+            try
+            {
+                return sql.ExecuteQuery($"SELECT name FROM Pallet_Table WHERE id = {pallet_id};").Rows[0][0].ToString();
+            }
+            catch
+            {
+                return "";
+            }
         }
-
 
         private void updateContent()
         {
@@ -44,13 +81,13 @@ namespace MyWinFormsApp.Sections.Estimate
                 string FluteType = rowFlute["code_name"].ToString();
 
                 content_label.Text = $"Quantity      : {quantity} pcs\n" +
-                                 $"Length(mm)    : {Convert.ToDecimal(rowItem["_length"]) * quantity}\n" +
-                                 $"Width(mm)     : {Convert.ToDecimal(rowItem["_width"]) * quantity}\n" +
-                                 $"Height(mm)    : {fluteValue * quantity}\n" +
-                                 $"Dimensions(mm): {(Convert.ToDecimal(rowItem["_length"]) * quantity) * (Convert.ToDecimal(rowItem["_width"]) * quantity) * (fluteValue * quantity)}\n" +
+                                 $"Length(mm)    : {getlength()}\n" +
+                                 $"Width(mm)     : {getwidth()}\n" +
+                                 $"Height(mm)    : {getheight()}\n" +
+                                 $"Dimensions(mm): {getlength() * getheight() * getwidth()}\n" +
                                  $"FluteType: ({FluteType})\n";
             }
-            if (palletEnabler_checkbox.Checked && palletchoice_combobox.SelectedIndex != 0)
+            if (palletEnabler_checkbox.Checked && palletchoice_combobox.SelectedIndex > 0)
             {
                 DataRow row = sql.ExecuteQuery($"SELECT * FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}';").Rows[0];
                 content_label.Text += "\n\nPALLET:\n" +
@@ -66,27 +103,39 @@ namespace MyWinFormsApp.Sections.Estimate
         }
 
 
+
+        public string getProductName()
+        {
+            if (bundleitem_combobox.SelectedIndex == 0) return "<RETURNING NO VALUE>";
+            return bundleitem_combobox.Text;
+        }
+
         public void initializeBundleCombobox()
         {
             bundleitem_combobox.Items.Clear();
             palletchoice_combobox.Items.Clear();
             bundleitem_combobox.Items.Add("<Select a target Bundle-Item>");
             palletchoice_combobox.Items.Add("<Select a target Pallet>");
+            List<string> bundlelist = new List<string>();
             if (parent.clientList.Count > 0)
             {
                 foreach (clientselectView_form form in parent.clientList)
                 {
                     int ClientID = form.getMyID();
                     if (ClientID == -1) continue;
-                    foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Bundle_Table;").Rows)
+                   
+                    foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Bundle_Table WHERE is_deleted = 0;").Rows)
                     {
-                        bundleitem_combobox.Items.Add(
-                            sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(row["item_id"])} AND client_id = {ClientID}").Rows[0][0].ToString()
+                        bool canProceed = (0 >= sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(row["item_id"])} AND client_id = {ClientID} AND is_deleted = 0").Rows.Count);
+                        if (canProceed) continue;
+                        bundlelist.Add(
+                            sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(row["item_id"])} AND client_id = {ClientID} AND is_deleted = 0").Rows[0][0].ToString()
                             );
                     }
                 }
             }
             foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Pallet_Table;").Rows) palletchoice_combobox.Items.Add(row["name"].ToString());
+            bundleitem_combobox.Items.AddRange(bundlelist.Distinct().ToArray());
             bundleitem_combobox.SelectedIndex = 0;
             palletchoice_combobox.SelectedIndex = 0;
         }
@@ -98,7 +147,7 @@ namespace MyWinFormsApp.Sections.Estimate
 
         private void delete_button_Click(object sender, EventArgs e)
         {
-            parent.list.Remove(this);
+            parent.bundle_list.Remove(this);
             this.Dispose();
             parent.UpdateVisual();
         }
@@ -115,12 +164,12 @@ namespace MyWinFormsApp.Sections.Estimate
         }
         public decimal getlength()
         {
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}'").Rows[0][0]) * getQuantity();
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}'").Rows[0][0]);
         }
 
         public decimal getwidth()
         {
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}'").Rows[0][0]) * getQuantity();
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}'").Rows[0][0]);
         }
 
         public decimal getheight()
@@ -135,16 +184,30 @@ namespace MyWinFormsApp.Sections.Estimate
             return Convert.ToInt32(sql.ExecuteQuery($"SELECT quantity FROM Bundle_Table WHERE item_id = {bundleid}").Rows[0][0]);
         }
 
+        public int getBundleID()
+        {
+            if (bundleitem_combobox.SelectedIndex == 0) return -1;
+            return Convert.ToInt32(sql.ExecuteQuery($"SELECT b.id FROM Bundle_Table b JOIN Item_Table i ON b.item_id = i.id WHERE i.item_name = '{bundleitem_combobox.Text}'").Rows[0][0]);
+        }
+
+        public int getPalletID()
+        {
+            if (palletEnabler_checkbox.Checked || palletchoice_combobox.SelectedIndex == 0) return -1;
+            return Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}'").Rows[0][0]);
+        }
+
         private void palletEnabler_checkbox_CheckedChanged(object sender, EventArgs e)
         {
             palletchoice_combobox.Enabled = palletEnabler_checkbox.Checked;
+            quantityof_pallet.Enabled = palletEnabler_checkbox.Checked;
+            parent.UpdateVisual();
         }
 
         private void bundleitem_combobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateContent();
+            Debug.WriteLine("Sender From BundleSelectedIndex Change:");
             parent.UpdateVisual();
-
+            updateContent();
         }
 
         private void palletchoice_combobox_SelectedIndexChanged(object sender, EventArgs e)
@@ -163,6 +226,77 @@ namespace MyWinFormsApp.Sections.Estimate
                 tb.SelectionStart = tb.Text.Length; // Keep cursor at the end
             }
             parent.UpdateVisual();
+        }
+
+        private void quantityof_pallet_TextChanged(object sender, EventArgs e)
+        {
+            filter.ValidateNumericInput(quantityof_pallet);
+            quantityof_pallet.Text = quantityof_pallet.Text.Replace(".", "");
+            parent.UpdateVisual();
+        }
+
+        private void quantityof_pallet_Enter(object sender, EventArgs e)
+        {
+            quantityof_pallet.ForeColor = Color.Black;
+            if (quantityof_pallet.Text == "qty. of pallet")
+            {
+                quantityof_pallet.Text = "0";
+            }
+        }
+
+        private void quantityof_pallet_Leave(object sender, EventArgs e)
+        {
+            if (quantityof_pallet.Text == string.Empty)
+            {
+                quantityof_pallet.ForeColor = Color.DimGray;
+                quantityof_pallet.Text = "qty. of pallet";
+            }
+            else quantityof_pallet.ForeColor = Color.Black;
+        }
+
+        public string getPalletName()
+        {
+            return palletchoice_combobox.Text;
+        }
+
+        public int getQuantityOfPallet()
+        {
+            return Convert.ToInt32(quantityof_pallet.Text == "qty. of pallet" || quantityof_pallet.Text == string.Empty ? "0" : quantityof_pallet.Text);
+        }
+        public decimal getLengthPallet()
+        {
+            if (palletchoice_combobox.SelectedIndex == 0) return 0m;
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+        }
+
+        public decimal getWidthPallet()
+        {
+            if (palletchoice_combobox.SelectedIndex == 0) return 0m;
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+        }
+
+        public decimal getHeightPallet()
+        {
+            if (palletchoice_combobox.SelectedIndex == 0) return 0m;
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+        }
+
+        public bool canPalletComputationBeUse()
+        {
+            return (palletchoice_combobox.SelectedIndex != 0 && palletEnabler_checkbox.Checked);
+        }
+
+        public bool isProvidingPallet()
+        {
+            try
+            {
+                return (palletEnabler_checkbox.Checked && Convert.ToInt32(quantityof_pallet.Text) > 0);
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
     }
 }

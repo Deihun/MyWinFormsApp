@@ -30,7 +30,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
         public void updateVisual()
         {
             removeAllTruckDataObject();
-            DataTable data = sql.ExecuteQuery("SELECT id FROM Truck_Table");
+            DataTable data = sql.ExecuteQuery("SELECT id FROM Truck_Table WHERE is_deleted = 0;");
             foreach (DataRow row in data.Rows)
             {
                 int settedID = Convert.ToInt32(row["id"]);
@@ -45,12 +45,8 @@ namespace MyWinFormsApp.Sections.ManageTrucks
 
         private void removeAllTruckDataObject()
         {
-            for (int i = 0; i < list.Count; i++)
-            {
-                PreviewSelectedTruck_Form preview = list[i];
-                list.Remove(preview);
-                preview.Dispose();
-            }
+            foreach (PreviewSelectedTruck_Form f in list) f.Dispose();
+            list.Clear();
         }
     }
 }

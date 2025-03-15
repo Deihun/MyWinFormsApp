@@ -39,6 +39,7 @@
             content_label = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             palletEnabler_checkbox = new CheckBox();
+            quantityof_pallet = new TextBox();
             palletchoice_combobox = new ComboBox();
             tableLayoutPanel1.SuspendLayout();
             quantityholder_flp.SuspendLayout();
@@ -165,6 +166,7 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Controls.Add(palletEnabler_checkbox);
+            flowLayoutPanel1.Controls.Add(quantityof_pallet);
             flowLayoutPanel1.Controls.Add(palletchoice_combobox);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.Location = new Point(0, 20);
@@ -185,6 +187,20 @@
             palletEnabler_checkbox.UseVisualStyleBackColor = true;
             palletEnabler_checkbox.CheckedChanged += palletEnabler_checkbox_CheckedChanged;
             // 
+            // quantityof_pallet
+            // 
+            quantityof_pallet.Enabled = false;
+            quantityof_pallet.ForeColor = Color.DimGray;
+            quantityof_pallet.Location = new Point(88, 0);
+            quantityof_pallet.Margin = new Padding(7, 0, 0, 0);
+            quantityof_pallet.Name = "quantityof_pallet";
+            quantityof_pallet.Size = new Size(96, 23);
+            quantityof_pallet.TabIndex = 2;
+            quantityof_pallet.Text = "qty. of pallet";
+            quantityof_pallet.TextChanged += quantityof_pallet_TextChanged;
+            quantityof_pallet.Enter += quantityof_pallet_Enter;
+            quantityof_pallet.Leave += quantityof_pallet_Leave;
+            // 
             // palletchoice_combobox
             // 
             palletchoice_combobox.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -192,10 +208,10 @@
             palletchoice_combobox.Font = new Font("Segoe UI", 8F);
             palletchoice_combobox.FormattingEnabled = true;
             palletchoice_combobox.Items.AddRange(new object[] { "<Select a Pallet Item>" });
-            palletchoice_combobox.Location = new Point(88, 0);
-            palletchoice_combobox.Margin = new Padding(7, 0, 0, 0);
+            palletchoice_combobox.Location = new Point(184, 0);
+            palletchoice_combobox.Margin = new Padding(0);
             palletchoice_combobox.Name = "palletchoice_combobox";
-            palletchoice_combobox.Size = new Size(224, 21);
+            palletchoice_combobox.Size = new Size(128, 21);
             palletchoice_combobox.TabIndex = 1;
             palletchoice_combobox.SelectedIndexChanged += palletchoice_combobox_SelectedIndexChanged;
             // 
@@ -233,5 +249,6 @@
         private FlowLayoutPanel quantityholder_flp;
         private Label label2;
         private TextBox totalbundletoload_tb;
+        private TextBox quantityof_pallet;
     }
 }

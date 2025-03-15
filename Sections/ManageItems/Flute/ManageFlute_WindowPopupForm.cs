@@ -31,7 +31,7 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
         public void UpdateVisual()
         {
             resetList();
-            DataTable dt = sql.ExecuteQuery("SELECT * FROM Flute_Table");
+            DataTable dt = sql.ExecuteQuery("SELECT * FROM Flute_Table WHERE is_deleted = 0;");
             foreach (DataRow row in dt.Rows)
             {
                 ShowExistingFlute_Form seff = new ShowExistingFlute_Form(

@@ -4,6 +4,7 @@ using MyWinFormsApp.Sections.ManageBundles;
 using MyWinFormsApp.Sections.ManageClient;
 using MyWinFormsApp.Sections.ManagePallet;
 using MyWinFormsApp.Sections.ManageTrucks;
+using MyWinFormsApp.Sections.Record;
 
 namespace MyWinFormsApp
 {
@@ -19,6 +20,7 @@ namespace MyWinFormsApp
         ManagePallet_Form pallet;
         ManageClient_Form client;
         Estimate_Form estimate;
+        ViewRecord_Form viewrecord;
 
         public main_startup_form()
         {
@@ -30,7 +32,9 @@ namespace MyWinFormsApp
             pallet = new ManagePallet_Form();
             client = new ManageClient_Form();
             estimate = new Estimate_Form();
+            viewrecord = new ViewRecord_Form();
             viewer = this.workpanel;
+
             
          
             dashboard.all_SectionTabs.Add(manageitem);
@@ -39,6 +43,7 @@ namespace MyWinFormsApp
             dashboard.all_SectionTabs.Add(pallet);
             dashboard.all_SectionTabs.Add(client);
             dashboard.all_SectionTabs.Add(estimate);
+            dashboard.all_SectionTabs.Add(viewrecord);
         }
 
         private void managebundle_dashboard_btn_Click(Object sender, EventArgs eg) //
@@ -73,7 +78,7 @@ namespace MyWinFormsApp
 
         private void viewrecords_dashboard_btn_Click(object sender, EventArgs e)
         {
-
+            dashboard.change_workpanelsection(viewrecord, viewer);
         }
 
         private void estimation_dashboard_btn_Click(object sender, EventArgs e)

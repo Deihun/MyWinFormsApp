@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
         }
         private void instantiateCB()
         {
-            foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Item_Table").Rows) itemlist_cb.Items.Add(row["item_name"].ToString());
+            foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Item_Table WHERE is_deleted = 0").Rows) itemlist_cb.Items.Add(row["item_name"].ToString());
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -73,6 +74,18 @@ namespace MyWinFormsApp.Sections.ManageBundles
             int itemID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Item_Table WHERE item_name = '{itemlist_cb.Text}';").Rows[0][0]);
             string query = $"UPDATE Bundle_Table SET quantity = {quantity_tb.Text}, item_id = {itemID} WHERE id = {id}";
             sql.ExecuteQuery(query);
+        }
+
+        private void itemlist_cb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DataRow row = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE item_name = '{itemlist_cb.Text}' AND is_deleted = 0").Rows[0];
+            DataRow fluterow = sql.ExecuteQuery($"SELECT * FROM Flute_Table WHERE id = {row["flute_id"]}").Rows[0];
+            details_label.ForeColor = Color.Black;
+            details_label.Location = new Point(20, 93);
+            details_label.Text = $"Length(mm): {row["_length"]}\n" +
+                                 $"Width(mm) :{row["_width"]}\n" +
+                                 $"Height(mm) :{fluterow["_value"]}\n" +
+                                 $"FluteType: {fluterow["code_name"]}";
         }
     }
 }

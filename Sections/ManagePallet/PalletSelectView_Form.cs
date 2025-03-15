@@ -50,7 +50,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Exclamation);
 
-            if (result == DialogResult.Yes)sql.ExecuteQuery($"DELETE FROM Pallet_Table WHERE id = {ID}");
+            if (result == DialogResult.Yes)sql.ExecuteQuery($"UPDATE Pallet_Table SET is_deleted = 1 WHERE id = {ID}");
         }
     }
 }
