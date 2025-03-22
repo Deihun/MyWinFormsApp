@@ -61,14 +61,14 @@
             panel1.Controls.Add(description_label);
             panel1.Location = new Point(12, 41);
             panel1.Name = "panel1";
-            panel1.Size = new Size(243, 71);
+            panel1.Size = new Size(243, 58);
             panel1.TabIndex = 2;
             // 
             // storedfilter_flp
             // 
-            storedfilter_flp.Location = new Point(12, 114);
+            storedfilter_flp.Location = new Point(12, 102);
             storedfilter_flp.Name = "storedfilter_flp";
-            storedfilter_flp.Size = new Size(243, 117);
+            storedfilter_flp.Size = new Size(243, 62);
             storedfilter_flp.TabIndex = 3;
             // 
             // delete_button
@@ -78,7 +78,7 @@
             delete_button.FlatStyle = FlatStyle.Flat;
             delete_button.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
             delete_button.ForeColor = Color.FromArgb(255, 192, 192);
-            delete_button.Location = new Point(194, 234);
+            delete_button.Location = new Point(192, 163);
             delete_button.Margin = new Padding(0);
             delete_button.Name = "delete_button";
             delete_button.Size = new Size(75, 20);
@@ -91,7 +91,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(267, 254);
+            ClientSize = new Size(267, 181);
             Controls.Add(delete_button);
             Controls.Add(storedfilter_flp);
             Controls.Add(panel1);

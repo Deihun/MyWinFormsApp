@@ -30,7 +30,8 @@ namespace MyWinFormsApp.SupportClass
             int newWidth = (int)(originalSize.Width * scaleFactor);
             int newHeight = (int)(originalSize.Height * scaleFactor);
 
-            return new Size(newWidth, newHeight);
+            // return new Size(newWidth, newHeight); //fix this later
+            return originalSize;
         }
     }
 }

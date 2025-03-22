@@ -31,6 +31,8 @@
             label1 = new Label();
             label2 = new Label();
             groupBox1 = new GroupBox();
+            category_cb = new ComboBox();
+            category_checkbox = new CheckBox();
             platenumber_tb = new TextBox();
             trucktype_cb = new ComboBox();
             groupBox2 = new GroupBox();
@@ -72,19 +74,45 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(category_cb);
+            groupBox1.Controls.Add(category_checkbox);
             groupBox1.Controls.Add(platenumber_tb);
             groupBox1.Controls.Add(trucktype_cb);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(label2);
             groupBox1.Location = new Point(12, 9);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(553, 88);
+            groupBox1.Size = new Size(553, 112);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
             // 
+            // category_cb
+            // 
+            category_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            category_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
+            category_cb.Enabled = false;
+            category_cb.FlatStyle = FlatStyle.Flat;
+            category_cb.FormattingEnabled = true;
+            category_cb.Location = new Point(106, 66);
+            category_cb.Name = "category_cb";
+            category_cb.Size = new Size(179, 23);
+            category_cb.TabIndex = 10;
+            // 
+            // category_checkbox
+            // 
+            category_checkbox.AutoSize = true;
+            category_checkbox.Location = new Point(21, 68);
+            category_checkbox.Name = "category_checkbox";
+            category_checkbox.Size = new Size(74, 19);
+            category_checkbox.TabIndex = 9;
+            category_checkbox.Text = "Category";
+            category_checkbox.UseVisualStyleBackColor = true;
+            category_checkbox.CheckedChanged += category_checkbox_CheckedChanged;
+            // 
             // platenumber_tb
             // 
+            platenumber_tb.BorderStyle = BorderStyle.FixedSingle;
             platenumber_tb.Location = new Point(104, 35);
             platenumber_tb.Name = "platenumber_tb";
             platenumber_tb.Size = new Size(181, 23);
@@ -93,6 +121,9 @@
             // 
             // trucktype_cb
             // 
+            trucktype_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            trucktype_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
+            trucktype_cb.FlatStyle = FlatStyle.Flat;
             trucktype_cb.FormattingEnabled = true;
             trucktype_cb.Location = new Point(363, 35);
             trucktype_cb.Name = "trucktype_cb";
@@ -111,16 +142,17 @@
             groupBox2.Controls.Add(referencesize_cb);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(pictureBox1);
-            groupBox2.Location = new Point(12, 112);
+            groupBox2.Location = new Point(12, 121);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(553, 189);
+            groupBox2.Size = new Size(553, 180);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Interior Dimension of Truck";
             // 
             // height_tb
             // 
-            height_tb.Location = new Point(132, 113);
+            height_tb.BorderStyle = BorderStyle.FixedSingle;
+            height_tb.Location = new Point(132, 121);
             height_tb.Name = "height_tb";
             height_tb.Size = new Size(165, 23);
             height_tb.TabIndex = 8;
@@ -128,7 +160,8 @@
             // 
             // width_tb
             // 
-            width_tb.Location = new Point(132, 82);
+            width_tb.BorderStyle = BorderStyle.FixedSingle;
+            width_tb.Location = new Point(132, 90);
             width_tb.Name = "width_tb";
             width_tb.Size = new Size(165, 23);
             width_tb.TabIndex = 7;
@@ -136,7 +169,8 @@
             // 
             // length_tb
             // 
-            length_tb.Location = new Point(132, 53);
+            length_tb.BorderStyle = BorderStyle.FixedSingle;
+            length_tb.Location = new Point(132, 61);
             length_tb.Name = "length_tb";
             length_tb.Size = new Size(165, 23);
             length_tb.TabIndex = 6;
@@ -145,7 +179,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(47, 116);
+            label6.Location = new Point(47, 124);
             label6.Name = "label6";
             label6.Size = new Size(79, 15);
             label6.TabIndex = 5;
@@ -154,7 +188,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(51, 85);
+            label5.Location = new Point(51, 93);
             label5.Name = "label5";
             label5.Size = new Size(78, 15);
             label5.TabIndex = 4;
@@ -163,7 +197,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(49, 56);
+            label4.Location = new Point(49, 64);
             label4.Name = "label4";
             label4.Size = new Size(83, 15);
             label4.TabIndex = 3;
@@ -171,18 +205,20 @@
             // 
             // referencesize_cb
             // 
+            referencesize_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
             referencesize_cb.DropDownStyle = ComboBoxStyle.DropDownList;
+            referencesize_cb.FlatStyle = FlatStyle.Flat;
             referencesize_cb.FormattingEnabled = true;
-            referencesize_cb.Location = new Point(101, 22);
+            referencesize_cb.Location = new Point(132, 30);
             referencesize_cb.Name = "referencesize_cb";
-            referencesize_cb.Size = new Size(196, 23);
+            referencesize_cb.Size = new Size(165, 23);
             referencesize_cb.TabIndex = 2;
             referencesize_cb.SelectedIndexChanged += referencesize_cb_SelectedIndexChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(7, 23);
+            label3.Location = new Point(33, 36);
             label3.Name = "label3";
             label3.Size = new Size(88, 15);
             label3.TabIndex = 1;
@@ -200,7 +236,7 @@
             // 
             // cancel_btn
             // 
-            cancel_btn.Location = new Point(12, 307);
+            cancel_btn.Location = new Point(144, 308);
             cancel_btn.Name = "cancel_btn";
             cancel_btn.Size = new Size(126, 45);
             cancel_btn.TabIndex = 6;
@@ -210,7 +246,7 @@
             // 
             // add_btn
             // 
-            add_btn.Location = new Point(144, 307);
+            add_btn.Location = new Point(12, 307);
             add_btn.Name = "add_btn";
             add_btn.Size = new Size(126, 46);
             add_btn.TabIndex = 7;
@@ -257,5 +293,7 @@
         private TextBox height_tb;
         private TextBox width_tb;
         private TextBox platenumber_tb;
+        private ComboBox category_cb;
+        private CheckBox category_checkbox;
     }
 }

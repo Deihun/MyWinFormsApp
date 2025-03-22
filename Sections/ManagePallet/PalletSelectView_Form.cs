@@ -16,12 +16,17 @@ namespace MyWinFormsApp.Sections.ManagePallet
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS","TruckEstimationSystem",null,null);
         ManagePallet_Form parent;
         int ID = -1;
+        public string palletname = "";
         public PalletSelectView_Form(int iD, int length, int width, int height, string name, ManagePallet_Form parent)
         {
             InitializeComponent();
             this.parent = parent;
-            content_label.Text = $"Length(mm): {length}\nWidth(mm) {width}\n, Height(mm): {height}";
+            content_label.Text = $"Length(mm): {length}\n" +
+                                 $"Width(mm) : {width}\n" +
+                                 $"Height(mm): {height}\n" +
+                                 $"Volume(mm): {length*width*height}";
             name_label.Text = name;
+            palletname = name;
             ID = iD;
         }
 
@@ -50,7 +55,11 @@ namespace MyWinFormsApp.Sections.ManagePallet
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Exclamation);
 
-            if (result == DialogResult.Yes)sql.ExecuteQuery($"UPDATE Pallet_Table SET is_deleted = 1 WHERE id = {ID}");
+            if (result == DialogResult.Yes)
+            {
+                sql.ExecuteQuery($"UPDATE Pallet_Table SET is_deleted = 1 WHERE id = {ID}");
+                sql.commitReport($"A data Pallet '{palletname}' was deleted");
+            }
         }
     }
 }

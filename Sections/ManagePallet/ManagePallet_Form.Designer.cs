@@ -36,12 +36,14 @@
             label2 = new Label();
             searchname_tb = new TextBox();
             storedarea_flt = new FlowLayoutPanel();
+            _no_result = new Label();
             flowLayoutPanel3 = new FlowLayoutPanel();
             add_btn = new Button();
             tablelayout_main.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
+            storedarea_flt.SuspendLayout();
             flowLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -98,6 +100,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(3, 0);
             label1.Margin = new Padding(3, 0, 3, 10);
             label1.Name = "label1";
@@ -125,6 +128,7 @@
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Left;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(0, 0);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
@@ -135,15 +139,21 @@
             // searchname_tb
             // 
             searchname_tb.Dock = DockStyle.Left;
+            searchname_tb.ForeColor = Color.Gray;
             searchname_tb.Location = new Point(81, 0);
             searchname_tb.Margin = new Padding(0);
             searchname_tb.Name = "searchname_tb";
             searchname_tb.Size = new Size(129, 23);
             searchname_tb.TabIndex = 7;
+            searchname_tb.Text = "ex. Standard Pallet";
+            searchname_tb.TextChanged += searchname_tb_TextChanged;
+            searchname_tb.Enter += searchname_tb_Enter;
+            searchname_tb.Leave += searchname_tb_Leave;
             // 
             // storedarea_flt
             // 
             storedarea_flt.AutoScroll = true;
+            storedarea_flt.Controls.Add(_no_result);
             storedarea_flt.Dock = DockStyle.Fill;
             storedarea_flt.FlowDirection = FlowDirection.TopDown;
             storedarea_flt.Location = new Point(221, 0);
@@ -153,6 +163,20 @@
             storedarea_flt.TabIndex = 4;
             storedarea_flt.WrapContents = false;
             storedarea_flt.Paint += storedarea_flt_Paint;
+            // 
+            // _no_result
+            // 
+            _no_result.AutoSize = true;
+            _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
+            _no_result.ForeColor = Color.LimeGreen;
+            _no_result.Location = new Point(200, 100);
+            _no_result.Margin = new Padding(200, 100, 3, 0);
+            _no_result.Name = "_no_result";
+            _no_result.Size = new Size(344, 46);
+            _no_result.TabIndex = 4;
+            _no_result.Text = "NO RECORD RESULT";
+            _no_result.TextAlign = ContentAlignment.MiddleCenter;
+            _no_result.Visible = false;
             // 
             // flowLayoutPanel3
             // 
@@ -187,6 +211,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "ManagePallet_Form";
             Text = "ManagePallet_Form";
+            Load += ManagePallet_Form_Load;
             VisibleChanged += ManagePallet_Form_VisibleChanged;
             tablelayout_main.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
@@ -194,6 +219,8 @@
             flowLayoutPanel1.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
+            storedarea_flt.ResumeLayout(false);
+            storedarea_flt.PerformLayout();
             flowLayoutPanel3.ResumeLayout(false);
             flowLayoutPanel3.PerformLayout();
             ResumeLayout(false);
@@ -211,5 +238,6 @@
         private FlowLayoutPanel storedarea_flt;
         private FlowLayoutPanel flowLayoutPanel3;
         private Button add_btn;
+        private Label _no_result;
     }
 }

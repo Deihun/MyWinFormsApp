@@ -9,6 +9,64 @@ namespace MyWinFormsApp.SupportClass
     class FilterInputSupportClass
     {
 
+
+        public bool ContainsSimilarSubstring(string text, string query, int threshold = 0)
+        {
+            int len1 = query.Length;
+            int len2 = text.Length;
+
+            if (len1 > len2) return false; // Query can't be longer than text
+
+            for (int i = 0; i <= len2 - len1; i++)
+            {
+                string substring = text.Substring(i, len1);
+                if (ComputeLevenshtein(query, substring) <= threshold)
+                    return true; // Found a similar match
+            }
+
+            return false;
+        }
+
+        public bool LevenshteinDistance(string s1, string s2, int threshold = 2)
+        {
+            int len1 = s1.Length;
+            int len2 = s2.Length;
+
+            if (len1 > len2) return false; // s1 can't be more similar if it's longer
+
+            for (int i = 0; i <= len2 - len1; i++)
+            {
+                string substring = s2.Substring(i, len1);
+                if (ComputeLevenshtein(s1, substring) <= threshold)
+                    return true; // Found a similar match
+            }
+
+            return false;
+        }
+
+        private int ComputeLevenshtein(string s1, string s2)
+        {
+            int len1 = s1.Length;
+            int len2 = s2.Length;
+            int[,] dp = new int[len1 + 1, len2 + 1];
+
+            for (int i = 0; i <= len1; i++)
+                dp[i, 0] = i;
+            for (int j = 0; j <= len2; j++)
+                dp[0, j] = j;
+
+            for (int i = 1; i <= len1; i++)
+            {
+                for (int j = 1; j <= len2; j++)
+                {
+                    int cost = (s1[i - 1] == s2[j - 1]) ? 0 : 1;
+                    dp[i, j] = Math.Min(Math.Min(dp[i - 1, j] + 1, dp[i, j - 1] + 1), dp[i - 1, j - 1] + cost);
+                }
+            }
+            return dp[len1, len2];
+        }
+
+
         public void ValidateNumericInput(TextBox textBox)
         {
             if (textBox == null) return;
@@ -77,7 +135,7 @@ namespace MyWinFormsApp.SupportClass
             }
         }
 
-        private string RemoveSQLInjectionRisks(string input)
+        public string RemoveSQLInjectionRisks(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return input; // Preserve empty input
 

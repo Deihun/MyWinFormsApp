@@ -30,6 +30,8 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             groupBox1 = new GroupBox();
+            category_cb = new ComboBox();
+            category_checkbox = new CheckBox();
             description_rtb = new RichTextBox();
             label1 = new Label();
             name_lb = new Label();
@@ -37,10 +39,10 @@
             condition = new GroupBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             requirepallet_cb = new CheckBox();
+            requireclearancespace_cb = new CheckBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
             add_btn = new Button();
             cancel_btn = new Button();
-            requireclearancespace_cb = new CheckBox();
             tableLayoutPanel1.SuspendLayout();
             groupBox1.SuspendLayout();
             condition.SuspendLayout();
@@ -67,6 +69,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(category_cb);
+            groupBox1.Controls.Add(category_checkbox);
             groupBox1.Controls.Add(description_rtb);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(name_lb);
@@ -79,10 +83,33 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
             // 
+            // category_cb
+            // 
+            category_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            category_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
+            category_cb.Enabled = false;
+            category_cb.FlatStyle = FlatStyle.Flat;
+            category_cb.FormattingEnabled = true;
+            category_cb.Location = new Point(138, 169);
+            category_cb.Name = "category_cb";
+            category_cb.Size = new Size(224, 23);
+            category_cb.TabIndex = 12;
+            // 
+            // category_checkbox
+            // 
+            category_checkbox.AutoSize = true;
+            category_checkbox.Location = new Point(46, 172);
+            category_checkbox.Name = "category_checkbox";
+            category_checkbox.Size = new Size(74, 19);
+            category_checkbox.TabIndex = 11;
+            category_checkbox.Text = "Category";
+            category_checkbox.UseVisualStyleBackColor = true;
+            category_checkbox.CheckedChanged += category_checkbox_CheckedChanged;
+            // 
             // description_rtb
             // 
             description_rtb.BorderStyle = BorderStyle.FixedSingle;
-            description_rtb.Location = new Point(138, 83);
+            description_rtb.Location = new Point(138, 54);
             description_rtb.Margin = new Padding(3, 30, 30, 3);
             description_rtb.Name = "description_rtb";
             description_rtb.Size = new Size(224, 108);
@@ -93,7 +120,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(18, 85);
+            label1.Location = new Point(18, 56);
             label1.Margin = new Padding(0, 30, 0, 0);
             label1.Name = "label1";
             label1.Size = new Size(104, 15);
@@ -103,7 +130,7 @@
             // name_lb
             // 
             name_lb.AutoSize = true;
-            name_lb.Location = new Point(46, 48);
+            name_lb.Location = new Point(46, 25);
             name_lb.Margin = new Padding(0, 30, 0, 0);
             name_lb.Name = "name_lb";
             name_lb.Size = new Size(76, 15);
@@ -112,7 +139,7 @@
             // 
             // clientname_tb
             // 
-            clientname_tb.Location = new Point(138, 45);
+            clientname_tb.Location = new Point(138, 22);
             clientname_tb.Margin = new Padding(0, 30, 30, 0);
             clientname_tb.Name = "clientname_tb";
             clientname_tb.Size = new Size(224, 23);
@@ -128,7 +155,7 @@
             condition.Size = new Size(391, 209);
             condition.TabIndex = 1;
             condition.TabStop = false;
-            condition.Text = "Conditions";
+            condition.Text = "Conditions (optional)";
             // 
             // flowLayoutPanel1
             // 
@@ -153,6 +180,16 @@
             requirepallet_cb.TabIndex = 0;
             requirepallet_cb.Text = "Requires Pallet";
             requirepallet_cb.UseVisualStyleBackColor = true;
+            // 
+            // requireclearancespace_cb
+            // 
+            requireclearancespace_cb.AutoSize = true;
+            requireclearancespace_cb.Location = new Point(28, 53);
+            requireclearancespace_cb.Name = "requireclearancespace_cb";
+            requireclearancespace_cb.Size = new Size(239, 19);
+            requireclearancespace_cb.TabIndex = 1;
+            requireclearancespace_cb.Text = "Require big spaces in each Bundle inside";
+            requireclearancespace_cb.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel2
             // 
@@ -187,16 +224,6 @@
             cancel_btn.Text = "CANCEL";
             cancel_btn.UseVisualStyleBackColor = true;
             cancel_btn.Click += cancel_btn_Click;
-            // 
-            // requireclearancespace_cb
-            // 
-            requireclearancespace_cb.AutoSize = true;
-            requireclearancespace_cb.Location = new Point(28, 53);
-            requireclearancespace_cb.Name = "requireclearancespace_cb";
-            requireclearancespace_cb.Size = new Size(239, 19);
-            requireclearancespace_cb.TabIndex = 1;
-            requireclearancespace_cb.Text = "Require big spaces in each Bundle inside";
-            requireclearancespace_cb.UseVisualStyleBackColor = true;
             // 
             // AddNewClient_WindowPopupForm
             // 
@@ -233,5 +260,7 @@
         private Button add_btn;
         private Button cancel_btn;
         private CheckBox requireclearancespace_cb;
+        private ComboBox category_cb;
+        private CheckBox category_checkbox;
     }
 }

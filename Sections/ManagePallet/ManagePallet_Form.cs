@@ -30,6 +30,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
 
         public void UpdateVisual()
         {
+            resetFilter();
             add_btn.Size = scale.ScaleObject(add_btn.Size);
             resetList();
             DataTable data = sql.ExecuteQuery($"SELECT * FROM Pallet_Table WHERE is_deleted = 0");
@@ -64,10 +65,64 @@ namespace MyWinFormsApp.Sections.ManagePallet
             UpdateVisual();
         }
 
+        private void resetFilter()
+        {
+            searchname_tb.Text = "ex. Standard Pallet";
+            searchname_tb.ForeColor = Color.Gray;
+            setSearchFilter();
+        }
+
+        private void setSearchFilter()
+        {
+            FilterInputSupportClass filter = new FilterInputSupportClass();
+            foreach (PalletSelectView_Form f in list)
+            {
+                bool _name = searchname_tb.Text == "ex. Standard Pallet" || string.IsNullOrEmpty(searchname_tb.Text) || (filter.ContainsSimilarSubstring(f.palletname, searchname_tb.Text));
+                f.Visible = _name;
+            }
+            noresult();
+
+        }
+
         private void storedarea_flt_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        private void searchname_tb_TextChanged(object sender, EventArgs e)
+        {
+            setSearchFilter();
+        }
+
+        private void searchname_tb_Enter(object sender, EventArgs e)
+        {
+            if (searchname_tb.Text == "ex. Standard Pallet")
+            {
+                searchname_tb.Text = "";
+                searchname_tb.ForeColor = Color.Black;
+            }
+        }
+
+        private void searchname_tb_Leave(object sender, EventArgs e)
+        {
+            if (searchname_tb.Text == "")
+            {
+                searchname_tb.Text = "ex. Standard Pallet";
+                searchname_tb.ForeColor = Color.Gray;
+            }
+        }
+
+        private void noresult()
+        {
+            int a = 0;
+            foreach (PalletSelectView_Form f in list) a += f.Visible ? 1 : 0;
+            a = Math.Min(a, list.Count);
+            _no_result.Visible = a < 1;
+        }
+
+        private void ManagePallet_Form_Load(object sender, EventArgs e)
+        {
+            UpdateVisual();
+        }
     }
 }

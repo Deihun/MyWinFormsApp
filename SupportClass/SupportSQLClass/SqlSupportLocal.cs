@@ -9,7 +9,7 @@ namespace SQLSupportLibrary
     {
         class Sqlsupportlocal : ISqlSupport
         {
-            private readonly string? _connection_server;
+            private readonly string _connection_server;
             /// <summary>
             /// If set to 'true', allows method to send a debug messages through Console.
             /// </summary>
@@ -29,6 +29,107 @@ namespace SQLSupportLibrary
             }
         }
 
+        public void commitReport(string report)
+        {
+            Dictionary<string, object> value = new Dictionary<string, object>()
+            {
+                {"date_added", DateTime.Now },
+                {"content", report }
+            };
+            InsertData("History_Table", value);
+        }
+        public void BackupDatabase()
+        {
+            // Define the backup directory
+            string backupDirectory = @"C:\SQL_Backups\";
+
+            // Check if the directory exists; if not, create it
+            if (!Directory.Exists(backupDirectory))
+            {
+                Directory.CreateDirectory(backupDirectory);
+            }
+
+            // Set the backup file name with a timestamp to avoid overwriting
+            string databaseName = "TruckEstimationSystem";
+            string backupFileName = $"{databaseName}_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
+            string backupPath = Path.Combine(backupDirectory, backupFileName);
+
+            // Define the backup SQL command
+            string backupQuery = $"BACKUP DATABASE [{databaseName}] TO DISK = '{backupPath}' " +
+                                 "WITH FORMAT, INIT, NAME = @BackupName, SKIP, NOREWIND, NOUNLOAD, STATS = 10";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(this._connection_server))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(backupQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@BackupName", $"{databaseName} Full Backup");
+                        command.ExecuteNonQuery();
+                        MessageBox.Show($"Database backup completed successfully.\nSaved at: {backupPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Backup Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void RestoreToExistingDatabase()
+        {
+
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select Backup File";
+            openFileDialog.Filter = "SQL Backup Files (*.bak)|*.bak|All Files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            string backupPath = openFileDialog.FileName;
+            string databaseName = "TruckEstimationSystem";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(this._connection_server))
+                {
+                    connection.Open();
+
+                    // Force close active connections to prevent restore conflicts
+                    string killConnections = $@"
+                ALTER DATABASE [{databaseName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;";
+                    using (SqlCommand killCmd = new SqlCommand(killConnections, connection))
+                    {
+                        killCmd.ExecuteNonQuery();
+                    }
+
+                    // Restore the existing database
+                    string restoreQuery = $@"
+                RESTORE DATABASE [{databaseName}] FROM DISK = '{backupPath}'
+                WITH REPLACE, RECOVERY;";
+                    using (SqlCommand restoreCmd = new SqlCommand(restoreQuery, connection))
+                    {
+                        restoreCmd.ExecuteNonQuery();
+                    }
+
+                    // Ensure the database is set back to multi-user mode
+                    string setMultiUser = $@"
+                ALTER DATABASE [{databaseName}] SET MULTI_USER;";
+                    using (SqlCommand multiUserCmd = new SqlCommand(setMultiUser, connection))
+                    {
+                        multiUserCmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show($"Database '{databaseName}' restored successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Restore Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         /// <summary>
         /// SQLSupport class allows you to easily connect into your own Database. Automatically finds the Server instance of the SQLEXPRESS

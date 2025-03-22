@@ -34,13 +34,15 @@ namespace MyWinFormsApp.Sections.Estimate
             client_combobox.Text = client["name"].ToString();
             description_label.Text = client["description"].ToString();
             client_combobox.Enabled = false;
+            filter = client["filter"].ToString();
+            delete_button.Hide();
         }
 
         public void instantiateCombobox()
         {
             client_combobox.Items.Clear();
             client_combobox.Items.Add("<Select a Client>");
-            foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Client_Table").Rows) client_combobox.Items.Add(row["name"]);
+            foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Client_Table WHERE is_deleted = 0").Rows) client_combobox.Items.Add(row["name"]);
             client_combobox.SelectedIndex = 0;
         }
 
@@ -70,17 +72,20 @@ namespace MyWinFormsApp.Sections.Estimate
 
         private void client_combobox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.BackColor = Color.IndianRed;
             if (client_combobox.SelectedIndex > 0) 
             { 
               DataRow clientrow = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE name = '{client_combobox.Text}' AND is_deleted = 0").Rows[0];
               description_label.Text = clientrow["description"].ToString();
               filter = clientrow["filter"].ToString();
               description_label.ForeColor = Color.Black;
+                this.BackColor = Color.Gainsboro;
             }
             else if(client_combobox.Items.Count < 0)
             {
                 description_label.ForeColor = Color.DimGray;
                 description_label.Text = "There's no existing Client data. Please create a new Client Data";
+                
                    
             }
             else

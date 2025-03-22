@@ -17,6 +17,9 @@ namespace MyWinFormsApp.Sections.ManageTrucks
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
         ManageTrucks_Form parent;
         public int ID = -1;
+        public string platenumber = "";
+        public string TypeOfTruck = "";
+        public string category = "";
         public PreviewSelectedTruck_Form(int iD, ManageTrucks_Form parent)
         {
             InitializeComponent();
@@ -34,12 +37,14 @@ namespace MyWinFormsApp.Sections.ManageTrucks
                 decimal _length = Convert.ToDecimal(row["_length"]);
                 decimal _width = Convert.ToDecimal(row["_width"]);
                 decimal _height = Convert.ToDecimal(row["_height"]);
-                decimal dimension = _length * _width * _height;
+                decimal dimension = Math.Round(_length * _width * _height, 0);
 
-                platenumber_label.Text = row["platenumber"].ToString();
-                trucktype_label.Text = row["trucktype"].ToString();
-
+                
+                trucktype_label.Text = $"{row["platenumber"].ToString()} ({row["trucktype"].ToString()})";
                 dimensions_label.Text = $"Length(mm): {_length}\nWidth(mm): {_width}\nHeight(mm): {_height}\nDimension(mm): {dimension}";
+                platenumber = row["platenumber"].ToString();
+                TypeOfTruck = row["trucktype"].ToString();
+                category = row["category"].ToString();
             }
         }
 
@@ -60,6 +65,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
 
             if (result == DialogResult.Yes)
             {
+                sql.commitReport($"A Truck data with platenumber of '{platenumber}' was deleted");
                 DeleteMyData();
             }
             else if (result == DialogResult.No)

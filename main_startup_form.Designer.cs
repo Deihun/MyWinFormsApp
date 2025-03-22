@@ -37,6 +37,7 @@ partial class main_startup_form
         manageclient_dashboard_btn = new Button();
         managepallet_dashboard_btn = new Button();
         managetruck_dashboard_btn = new Button();
+        system_btn = new Button();
         exit_dashboard_btn = new Button();
         workpanel = new Panel();
         tableLayoutPanel_main.SuspendLayout();
@@ -70,6 +71,7 @@ partial class main_startup_form
         flowLayoutPanel_dashboard.Controls.Add(manageclient_dashboard_btn);
         flowLayoutPanel_dashboard.Controls.Add(managepallet_dashboard_btn);
         flowLayoutPanel_dashboard.Controls.Add(managetruck_dashboard_btn);
+        flowLayoutPanel_dashboard.Controls.Add(system_btn);
         flowLayoutPanel_dashboard.Controls.Add(exit_dashboard_btn);
         flowLayoutPanel_dashboard.Dock = DockStyle.Fill;
         flowLayoutPanel_dashboard.Location = new Point(0, 0);
@@ -190,6 +192,22 @@ partial class main_startup_form
         managetruck_dashboard_btn.UseVisualStyleBackColor = false;
         managetruck_dashboard_btn.Click += managetruck_dashboard_btn_Click;
         // 
+        // system_btn
+        // 
+        system_btn.BackColor = Color.SeaGreen;
+        system_btn.FlatAppearance.BorderSize = 0;
+        system_btn.FlatStyle = FlatStyle.Flat;
+        system_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+        system_btn.ForeColor = Color.White;
+        system_btn.Location = new Point(3, 402);
+        system_btn.Name = "system_btn";
+        system_btn.Size = new Size(234, 51);
+        system_btn.TabIndex = 8;
+        system_btn.Text = "SYSTEM";
+        system_btn.TextAlign = ContentAlignment.MiddleLeft;
+        system_btn.UseVisualStyleBackColor = false;
+        system_btn.Click += system_btn_Click;
+        // 
         // exit_dashboard_btn
         // 
         exit_dashboard_btn.BackColor = Color.SeaGreen;
@@ -197,7 +215,7 @@ partial class main_startup_form
         exit_dashboard_btn.FlatStyle = FlatStyle.Flat;
         exit_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         exit_dashboard_btn.ForeColor = Color.White;
-        exit_dashboard_btn.Location = new Point(3, 402);
+        exit_dashboard_btn.Location = new Point(3, 459);
         exit_dashboard_btn.Name = "exit_dashboard_btn";
         exit_dashboard_btn.Size = new Size(234, 51);
         exit_dashboard_btn.TabIndex = 7;
@@ -225,6 +243,8 @@ partial class main_startup_form
         Name = "main_startup_form";
         Text = "Record";
         WindowState = FormWindowState.Maximized;
+        FormClosed += main_startup_form_FormClosed;
+        Load += main_startup_form_Load;
         tableLayoutPanel_main.ResumeLayout(false);
         flowLayoutPanel_dashboard.ResumeLayout(false);
         ResumeLayout(false);
@@ -243,4 +263,5 @@ partial class main_startup_form
     private Button managepallet_dashboard_btn;
     private Button managetruck_dashboard_btn;
     private Button exit_dashboard_btn;
+    private Button system_btn;
 }

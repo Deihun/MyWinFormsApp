@@ -43,10 +43,9 @@
             tableLayoutPanel3 = new TableLayoutPanel();
             storeddetailreport_flp = new FlowLayoutPanel();
             tableLayoutPanel4 = new TableLayoutPanel();
-            storedRuleWarning_flp = new FlowLayoutPanel();
+            remarks_rtb = new RichTextBox();
             flowLayoutPanel3 = new FlowLayoutPanel();
             action_button = new Button();
-            remarks_rtb = new RichTextBox();
             main_tbp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tableLayoutPanel1.SuspendLayout();
@@ -261,31 +260,31 @@
             // 
             // tableLayoutPanel4
             // 
-            tableLayoutPanel4.ColumnCount = 2;
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.Controls.Add(storedRuleWarning_flp, 0, 0);
-            tableLayoutPanel4.Controls.Add(remarks_rtb, 1, 0);
+            tableLayoutPanel4.ColumnCount = 1;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel4.Controls.Add(remarks_rtb, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(3, 455);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel4.Size = new Size(635, 108);
             tableLayoutPanel4.TabIndex = 0;
             // 
-            // storedRuleWarning_flp
+            // remarks_rtb
             // 
-            storedRuleWarning_flp.AutoScroll = true;
-            storedRuleWarning_flp.BackColor = Color.OliveDrab;
-            storedRuleWarning_flp.Dock = DockStyle.Fill;
-            storedRuleWarning_flp.FlowDirection = FlowDirection.TopDown;
-            storedRuleWarning_flp.Location = new Point(3, 3);
-            storedRuleWarning_flp.Name = "storedRuleWarning_flp";
-            storedRuleWarning_flp.Size = new Size(311, 102);
-            storedRuleWarning_flp.TabIndex = 0;
-            storedRuleWarning_flp.WrapContents = false;
+            remarks_rtb.BackColor = Color.OliveDrab;
+            remarks_rtb.BorderStyle = BorderStyle.None;
+            remarks_rtb.Cursor = Cursors.Hand;
+            remarks_rtb.Dock = DockStyle.Fill;
+            remarks_rtb.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            remarks_rtb.ForeColor = Color.Transparent;
+            remarks_rtb.Location = new Point(3, 3);
+            remarks_rtb.Name = "remarks_rtb";
+            remarks_rtb.Size = new Size(629, 102);
+            remarks_rtb.TabIndex = 1;
+            remarks_rtb.Text = "Remarks";
             // 
             // flowLayoutPanel3
             // 
@@ -307,19 +306,6 @@
             action_button.Text = "SAVE RECORD";
             action_button.UseVisualStyleBackColor = true;
             action_button.Click += action_button_Click;
-            // 
-            // remarks_rtb
-            // 
-            remarks_rtb.BackColor = Color.OliveDrab;
-            remarks_rtb.BorderStyle = BorderStyle.None;
-            remarks_rtb.Dock = DockStyle.Fill;
-            remarks_rtb.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            remarks_rtb.ForeColor = Color.Transparent;
-            remarks_rtb.Location = new Point(320, 3);
-            remarks_rtb.Name = "remarks_rtb";
-            remarks_rtb.Size = new Size(312, 102);
-            remarks_rtb.TabIndex = 1;
-            remarks_rtb.Text = "Remarks";
             // 
             // Estimate_Form
             // 
@@ -363,7 +349,6 @@
         private TableLayoutPanel tableLayoutPanel3;
         private FlowLayoutPanel storeddetailreport_flp;
         private TableLayoutPanel tableLayoutPanel4;
-        private FlowLayoutPanel storedRuleWarning_flp;
         private FlowLayoutPanel flowLayoutPanel3;
         private Button action_button;
         private RichTextBox remarks_rtb;

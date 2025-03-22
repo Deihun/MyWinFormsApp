@@ -1,4 +1,5 @@
-﻿using MyWinFormsApp.SupportClass;
+﻿using Microsoft.Data.SqlClient;
+using MyWinFormsApp.SupportClass;
 using SQLSupportLibrary;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace MyWinFormsApp.Sections.Estimate
                     public List<bundleview_estimation_form> bundle_list = new List<bundleview_estimation_form>();
                     public List<clientselectView_form> clientList = new List<clientselectView_form>();
                     public List<Label> warningList = new List<Label>();
-                    public List<Label> forDisplayContentList = new List<Label>();
+                    public List<object> forDisplayContentList = new List<object>();
                     public List<IDisposable> requireManagementList = new List<IDisposable>();
                     public List<string> storedWarningList = new List<string>();
                     public List<string> forDisplayStringList = new List<string>();
@@ -58,11 +59,13 @@ namespace MyWinFormsApp.Sections.Estimate
 
                         string plateNumber = getTruckPlateNumber();
                         this.truck_cb.Items.Add("Select a Truck");
-                        this.truck_cb.Items.Add(plateNumber); // Adds the new plate number
+                        this.truck_cb.Items.Add(plateNumber);
                     
-                        this.truck_cb.SelectedItem = plateNumber; // Force selection of the first (new) item
+                        this.truck_cb.SelectedItem = plateNumber;
 
-                        this.truck_cb.Enabled = false; // Disable if necessary
+                        this.truck_cb.Enabled = false;
+
+
                         initialize_all_sub_forms_referencing_id();
                         UpdateVisual();
         }
@@ -79,39 +82,52 @@ namespace MyWinFormsApp.Sections.Estimate
 
                 getValues();
                 computeData();
-                updateWarnings();
                 showDisplay();
             }
             public void showDisplay()
             {
-                foreach (Label l in forDisplayContentList) l.Dispose();
+                List<string> filter = getAllFilterAsList();
+                foreach (object _obj in forDisplayContentList) {
+                if (_obj is Label dis) dis.Dispose();
+                if (_obj is Text_Unit_Conversion_list t) t.Dispose();
+                }
+
                 forDisplayContentList.Clear();
                 bool clientCount = clientList.Count > 0;
                 bool bundleCount = bundle_list.Count > 0;
+                bool dontShowRequirements = (clientCount && bundleCount && isThereAtleastPresentClient() && isAllBundleFillUp() && isTruckSelectionValid());
 
-                if (clientCount && bundleCount && isThereAtleastPresentClient()) { }
+                if (dontShowRequirements)  { }
                 else
                 {
                     forDisplayStringList.Clear(); 
                     forDisplayStringList.Add("FILL UP ALL THE REQUIREMENTS:");
                     forDisplayStringList.Add($"\n - Missing:");
+                    if (!isTruckSelectionValid()) forDisplayStringList.Add(" -  There's no selected Truck. Please select a truck.");
                     if (!clientCount) forDisplayStringList.Add(" -  There's no client. Please insert a client!");
                     else if (clientCount && !isThereAtleastPresentClient()) forDisplayStringList.Add(" -  Please select a target client.");
                     if (!bundleCount) forDisplayStringList.Add(" -  There's no Bundle. Please insert a bundle");
-
+                    if (!isAllBundleFillUp()) forDisplayStringList.Add(" -  Please fill up all the bundle");
                 }
-
-
                 foreach (string message in forDisplayStringList)
                 {
-                    Label label = new Label();
-                    label.Font = new Font("Arial", 12, FontStyle.Bold);
-                    label.Text = message;
-                    label.AutoSize = true;
-                    label.ForeColor = Color.White;
-                    storeddetailreport_flp.Controls.Add(label);
-                    forDisplayContentList.Add(label);
-                    label.Show();
+                    if (message.Contains("%#%"))
+                    {
+                        Text_Unit_Conversion_list text_Unit_Conversion_List = new Text_Unit_Conversion_list(message);
+                        storeddetailreport_flp.Controls.Add(text_Unit_Conversion_List);
+                        text_Unit_Conversion_List.Show();
+                        forDisplayContentList.Add(text_Unit_Conversion_List);
+                    }
+                    else
+                    {
+                        createDisplayAlreadyPreset(message);
+                    }
+                }
+                if (dontShowRequirements)
+                {
+                    createDisplayAlreadyPreset("\n\n");
+                    createDisplayAlreadyPreset("REQUIREMENTS");
+                    foreach (string f in filter) createDisplayAlreadyPreset(f);
                 }
                 forDisplayStringList.Clear();
             }
@@ -140,16 +156,7 @@ namespace MyWinFormsApp.Sections.Estimate
                 foreach (clientselectView_form f in clientList) requireManagementList.Add(new RequirementsManagement_class(f.getFilter()));
                 foreach (RequirementsManagement_class reqms in requireManagementList) storedWarningList = storedWarningList.Concat(reqms.getAllConditionAsList()).ToList();
             }
-            private void updateWarnings()
-            {
-                foreach (Label l in warningList) l.Dispose();
-                warningList.Clear();
-                storedRuleWarning_flp.Controls.Add(createWarning("WARNING: ", warningList));
-                if (truck_cb.SelectedIndex == 0) storedRuleWarning_flp.Controls.Add(createWarning("* Please Select a Truck", warningList));
-                if (bundle_list.Count == 0) storedRuleWarning_flp.Controls.Add(createWarning("* Please add a new bundle", warningList));
-                presetMultipleWarnings();
-                foreach (string a in storedWarningList) storedRuleWarning_flp.Controls.Add(createWarning($"* {a}", warningList));
-            }
+
             private Label createWarning(string content, List<Label> bundle_list)
             {
                 Label label = new Label();
@@ -158,6 +165,18 @@ namespace MyWinFormsApp.Sections.Estimate
                 label.AutoSize = true;
                 label.ForeColor = Color.Orange;
                 bundle_list.Add(label);
+                return label;
+            }
+            private Label createDisplayAlreadyPreset(string content)
+            {
+                Label label = new Label();
+                label.Font = new Font("Arial", 12, FontStyle.Bold);
+                label.Text = content;
+                label.AutoSize = true;
+                label.ForeColor = Color.White;
+                storeddetailreport_flp.Controls.Add(label);
+                forDisplayContentList.Add(label);
+                label.Show();
                 return label;
             }
             private void createDisplay(string content)
@@ -179,7 +198,7 @@ namespace MyWinFormsApp.Sections.Estimate
             {
                 truck_cb.Items.Clear();
                 truck_cb.Items.Add("<Select a Truck>");
-                foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Truck_Table").Rows) truck_cb.Items.Add(row["platenumber"].ToString());
+                foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Truck_Table WHERE is_deleted = 0").Rows) truck_cb.Items.Add(row["platenumber"].ToString());
                 truck_cb.SelectedIndex = 0;
             }
             private void add_new_bundle_form()
@@ -207,7 +226,7 @@ namespace MyWinFormsApp.Sections.Estimate
         {
             DataRow record = sql.ExecuteQuery($"SELECT * FROM Record_Table WHERE id={id} AND is_deleted = 0;").Rows[0];
             foreach (DataRow row in sql.ExecuteQuery(
-                $"SELECT i.id AS item_id, p.id AS pallet_id " +
+                $"SELECT i.id AS item_id, p.id AS pallet_id, ab._value AS bundletotalquantity " +
                 $"FROM AddedBundle_Table ab " +
                 $"JOIN Bundle_Table b ON ab.bundle_id = b.id " +
                 $"JOIN Item_Table i ON b.item_id = i.id " +
@@ -216,11 +235,12 @@ namespace MyWinFormsApp.Sections.Estimate
             ).Rows)
             {
                 int pallet_id = row["pallet_id"] == DBNull.Value ? -1 : Convert.ToInt32(row["pallet_id"]);
-                bundleview_estimation_form bvef = new bundleview_estimation_form(this, Convert.ToInt32(row["item_id"]), pallet_id);
+                bundleview_estimation_form bvef = new bundleview_estimation_form(this, Convert.ToInt32(row["item_id"]), pallet_id, Convert.ToInt32(row["bundletotalquantity"]));
                 bvef.TopLevel = false;
                 stored_bundlecontainer.Controls.Add(bvef);
                 bundle_list.Add(bvef);
                 bvef.Show();
+                bvef.BackColor = Color.Gainsboro;
             }
             foreach (DataRow row in sql.ExecuteQuery($"SELECT * FROM AddedClient_Table WHERE record_id = {Convert.ToInt32(record["id"])}").Rows)
             {
@@ -230,6 +250,8 @@ namespace MyWinFormsApp.Sections.Estimate
                 clientList.Add(csvf);
                 csvf.Show();
             }
+            remarks_rtb.Text = record["remarks"].ToString();
+            remarks_rtb.ReadOnly = true;
         }
 
 
@@ -283,7 +305,8 @@ namespace MyWinFormsApp.Sections.Estimate
                 }
 
                 createDisplay("SINGLE ESTIMATION");
-                createDisplay($"TRUCKS DIMENSIONS: \n\tPlate Number: {stored_measurement.TruckPlateName}\n\tTruckType: {stored_measurement.TruckType} \n\tLength: {stored_measurement.Trucklength}mm\n\tWidth: {stored_measurement.Truckwidth}mm\n\tHeight: {stored_measurement.Truckheight}mm\n\tVolume: {stored_measurement.Trucklength * stored_measurement.Truckwidth * stored_measurement.Truckheight}mm");
+                createDisplay($"TRUCKS DIMENSIONS: \n\tPlate Number: {stored_measurement.TruckPlateName}\n\tTruckType: {stored_measurement.TruckType} \n\tLength: {Math.Round(stored_measurement.Trucklength,2)}mm\n\tWidth: {Math.Round(stored_measurement.Truckwidth,2)}mm\n\tHeight: {Math.Round(stored_measurement.Truckheight,2)}mm");
+                createDisplay($"Volume: %#%{stored_measurement.Trucklength * stored_measurement.Truckwidth * stored_measurement.Truckheight}%#%");
                 createDisplay("\n\n");
 
                 if (palletQuantity > 0)
@@ -307,9 +330,14 @@ namespace MyWinFormsApp.Sections.Estimate
                         cfmo.AddObject(new ObjectDimension(form.getLengthPallet(), form.getWidthPallet(), form.getHeightPallet(), form.getQuantityOfPallet(), form.getPalletName(), true));
                     }
                 }
-                createDisplay("MULTIPLE ESTIMATION");
-                createDisplay($"TRUCKS DIMENSIONS: \n\tPlate Number: {stored_measurement.TruckPlateName}\n\tTruckType: {stored_measurement.TruckType} \n\tLength: {stored_measurement.Trucklength}mm\n\tWidth: {stored_measurement.Truckwidth}mm\n\tHeight: {stored_measurement.Truckheight}mm\n\tVolume: {stored_measurement.Trucklength * stored_measurement.Truckwidth * stored_measurement.Truckheight}mm");
-
+                decimal volume = stored_measurement.Trucklength * stored_measurement.Truckwidth * stored_measurement.Truckheight;
+                createDisplay("");
+                createDisplay("MULTIPLE ESTIMATION\n\nTRUCK:");
+                createDisplay($"-  Plate Number: {stored_measurement.TruckPlateName}  -  ({stored_measurement.TruckType})");
+                createDisplay($"-  Length: {stored_measurement.Trucklength}mm");
+                createDisplay($"-  Width : {stored_measurement.Truckwidth}mm");
+                createDisplay($"-  Height: {stored_measurement.Truckheight}mm");
+                createDisplay($"  - Volume:  %#%{volume}%#%");
 
                 bool result = cfmo.CanFitAllObjects(); Debug.WriteLine("TRIGGERING CANFITALLOBJECT"); 
                 string canFit = result ? "ALL OBJECTS CAN FIT!" : "NOT ALL OBJECTS CAN FIT!";
@@ -351,6 +379,7 @@ namespace MyWinFormsApp.Sections.Estimate
                     {"truck_id", getTruckID()}
                 };
                 newID = sql.InsertDataAndGetId("Record_Table", values_Record_Table);
+                sql.commitReport($"A new data estimation report with '{newID}' has been added");
             
 
 
@@ -363,14 +392,15 @@ namespace MyWinFormsApp.Sections.Estimate
                     {
                         values_AddedBundleData.Add("record_id", newID);
                         values_AddedBundleData.Add("bundle_id", bvef.getBundleID());
-                        values_AddedBundleData.Add("_value", bvef.getQuantity());
+                        values_AddedBundleData.Add("_value", bvef.getQuantityOFTotalBundlesInGroup());
+                       // MessageBox.Show($"{bvef.getQuantityOFTotalBundlesInGroup()}");
                         //values_AddedBundleData.Add();
                     }
                     else
                     {
                         values_AddedBundleData.Add("record_id", newID);
                         values_AddedBundleData.Add("bundle_id", bvef.getBundleID());
-                        values_AddedBundleData.Add("_value", bvef.getQuantity());
+                        values_AddedBundleData.Add("_value", bvef.getQuantityOFTotalBundlesInGroup());
                         values_AddedBundleData.Add("pallet_id",bvef.getPalletID());
                         values_AddedBundleData.Add("pallet_quantity", bvef.getQuantityOfPallet());
                     }
@@ -413,6 +443,15 @@ namespace MyWinFormsApp.Sections.Estimate
                 foreach (clientselectView_form f in clientList) if (f.canBeSelected()) return true;
                 return false;
             }
+            private bool isAllBundleFillUp()
+            {
+            foreach (bundleview_estimation_form f in bundle_list) if (!f.isApplicableForComputation()) return false;
+            return true;
+            }
+            private bool isTruckSelectionValid()
+            {
+                return truck_cb.SelectedItem != "<Select a Truck>";
+            }
             private int getTruckID()
             {
                 return Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Truck_Table WHERE platenumber = '{truck_cb.Text}'").Rows[0][0]);
@@ -424,6 +463,18 @@ namespace MyWinFormsApp.Sections.Estimate
                     return sql.ExecuteQuery($"SELECT Truck.platenumber FROM Record_Table Record JOIN Truck_Table Truck ON Record.truck_id = Truck.id WHERE Record.id = {id};").Rows[0][0].ToString();
                 }
                 catch { return "error"; }
+            }
+            public List<string> getAllFilterAsList()
+            {
+                List<string> conditions = new List<string>();
+                
+                foreach (clientselectView_form c in clientList)
+                {
+                RequirementsManagement_class req = new RequirementsManagement_class(c.getFilter());
+                conditions = conditions.Concat(req.getAllConditionAsList()).ToList();
+                }
+                conditions = conditions.Distinct().ToList();
+                return conditions;
             }
 
         /// <summary>
@@ -443,7 +494,11 @@ namespace MyWinFormsApp.Sections.Estimate
         // ** CONTROL EVENTS
             private void Estimate_Form_VisibleChanged(object sender, EventArgs e)
             {
-                if (id == -1)initializeComboBox();
+            if (id == -1)
+            {
+                initializeComboBox();
+                resetAllUserInputs();
+            }
             }
             private void addbundle_btn_Click(object sender, EventArgs e)
             {
@@ -552,10 +607,10 @@ namespace MyWinFormsApp.Sections.Estimate
                 remainingVolume -= obj.Quantity * objectVolume;
                 bundlesPlaced += obj.Quantity;
 
-                if (obj.isPallet) AddMessage($"Successfully fit {bundlesPlaced} {obj._name} pallet of {obj.Length}x{obj.Width}x{obj.Height}.\n");
-                else AddMessage($"Successfully fit {bundlesPlaced} {obj._name} Bundles of {obj.Length}x{obj.Width}x{obj.Height}.\n");
+                if (obj.isPallet) AddMessage($"- Successfully fit {bundlesPlaced} {obj._name} pallet of ({Math.Round(obj.Length)}x{Math.Round(obj.Width)}x{Math.Round(obj.Height)}).\n");
+                else AddMessage($"- Successfully fit {bundlesPlaced} {obj._name} Bundles of ({Math.Round(obj.Length,2)}x{Math.Round(obj.Width,2)}x{Math.Round(obj.Height,2)}).\n");
             }
-            AddMessage($"\nRemaining available volume: {Math.Round(remainingVolume)}mm");
+            AddMessage($"\nRemaining available volume: %#%{Math.Round(remainingVolume,2)}%#%");
             AddMessage("All objects fit successfully!");//until here
             testvalue++;
             return true;

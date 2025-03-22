@@ -27,8 +27,8 @@ namespace MyWinFormsApp.SupportClass
         /// <param name="required_pallet"></param>
         public RequirementsManagement_class(CheckBox required_pallet, CheckBox required_clearance)
         {
-            string conditions = $"\"pallet_required\": {required_pallet.Checked.ToString().ToLower()}," +
-                                $"\"clearance_space_required\": {required_clearance.Checked.ToString().ToLower()}";
+            string conditions = $"\"pallet_required\": {(!required_pallet.Checked).ToString().ToLower()}," +
+                                $"\"clearance_space_required\": {(!required_clearance.Checked).ToString().ToLower()}";
             _filter = $"{{ {conditions} }}";
         }
 
@@ -40,6 +40,8 @@ namespace MyWinFormsApp.SupportClass
         {
             return _filter;
         }
+
+
 
         public List<string> getAllConditionAsList() 
         {

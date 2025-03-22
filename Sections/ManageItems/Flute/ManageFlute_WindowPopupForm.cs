@@ -37,9 +37,10 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
                 ShowExistingFlute_Form seff = new ShowExistingFlute_Form(
                     Convert.ToInt32(row["id"]), 
                     row["code_name"].ToString(),
-                    Convert.ToDecimal(row["_value"]),
-                    (decimal)0.0, //CHANGE THIS LATER
-                    (decimal)0.0,//CHANGE THIS LATER
+                    Math.Round(Convert.ToDecimal(row["_value"]),2),
+                    Math.Round(Convert.ToDecimal(row["targetrange_from"]), 2),
+                    Math.Round(Convert.ToDecimal(row["targetrange_to"]), 2),
+                    Math.Round(Convert.ToDecimal(row["tolerance"]), 2),
                     this
                     );
 

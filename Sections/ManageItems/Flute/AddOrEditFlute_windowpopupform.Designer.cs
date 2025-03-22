@@ -32,6 +32,12 @@
             codename_tb = new TextBox();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            textBox1 = new TextBox();
+            label5 = new Label();
+            targetrange_from_tb = new TextBox();
+            label4 = new Label();
+            targetrange_to_tb = new TextBox();
+            label3 = new Label();
             standardsize_tb = new TextBox();
             label2 = new Label();
             pictureBox1 = new PictureBox();
@@ -56,10 +62,10 @@
             // codename_tb
             // 
             codename_tb.Font = new Font("Segoe UI", 12F);
-            codename_tb.Location = new Point(142, 32);
+            codename_tb.Location = new Point(134, 32);
             codename_tb.MaxLength = 2;
             codename_tb.Name = "codename_tb";
-            codename_tb.Size = new Size(64, 29);
+            codename_tb.Size = new Size(103, 29);
             codename_tb.TabIndex = 1;
             codename_tb.TextChanged += codename_tb_TextChanged;
             // 
@@ -75,6 +81,12 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(textBox1);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(targetrange_from_tb);
+            groupBox2.Controls.Add(label4);
+            groupBox2.Controls.Add(targetrange_to_tb);
+            groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(standardsize_tb);
             groupBox2.Controls.Add(label2);
             groupBox2.Location = new Point(12, 97);
@@ -84,18 +96,69 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Value";
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(134, 115);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(103, 23);
+            textBox1.TabIndex = 8;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(29, 118);
+            label5.Name = "label5";
+            label5.Size = new Size(99, 15);
+            label5.TabIndex = 7;
+            label5.Text = "Tolerance (mm) : ";
+            // 
+            // targetrange_from_tb
+            // 
+            targetrange_from_tb.Location = new Point(134, 73);
+            targetrange_from_tb.Name = "targetrange_from_tb";
+            targetrange_from_tb.Size = new Size(42, 23);
+            targetrange_from_tb.TabIndex = 4;
+            targetrange_from_tb.TextChanged += targetrange_from_tb_TextChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(173, 76);
+            label4.Name = "label4";
+            label4.Size = new Size(17, 15);
+            label4.TabIndex = 6;
+            label4.Text = "→";
+            // 
+            // targetrange_to_tb
+            // 
+            targetrange_to_tb.Location = new Point(191, 73);
+            targetrange_to_tb.Name = "targetrange_to_tb";
+            targetrange_to_tb.Size = new Size(46, 23);
+            targetrange_to_tb.TabIndex = 5;
+            targetrange_to_tb.TextChanged += targetrange_to_tb_TextChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 76);
+            label3.Name = "label3";
+            label3.Size = new Size(114, 15);
+            label3.TabIndex = 3;
+            label3.Text = "Target Range(mm) : ";
+            // 
             // standardsize_tb
             // 
-            standardsize_tb.Location = new Point(142, 31);
+            standardsize_tb.Location = new Point(134, 31);
             standardsize_tb.Name = "standardsize_tb";
-            standardsize_tb.Size = new Size(64, 23);
+            standardsize_tb.Size = new Size(103, 23);
             standardsize_tb.TabIndex = 2;
             standardsize_tb.TextChanged += standardsize_tb_TextChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(20, 34);
+            label2.Location = new Point(12, 36);
             label2.Name = "label2";
             label2.Size = new Size(116, 15);
             label2.TabIndex = 1;
@@ -162,5 +225,11 @@
         private PictureBox pictureBox1;
         private Button add_btn;
         private Button cancel_btn;
+        private TextBox targetrange_to_tb;
+        private TextBox targetrange_from_tb;
+        private Label label3;
+        private Label label4;
+        private TextBox textBox1;
+        private Label label5;
     }
 }

@@ -65,9 +65,18 @@ namespace MyWinFormsApp.Sections.ManagePallet
         {
             this.Dispose();
         }
-
+        private bool containsSameName()
+        {
+            foreach (DataRow row in sql.ExecuteQuery("SELECT name FROM Pallet_Table WHERE is_deleted = 0").Rows) if (row["name"].ToString() == name_tb.Text) return true;
+            return false;
+        }
         private void AddPallet() //REWRITE THIS WHEN INTEGRATING TO DATABASE
         {
+            if (containsSameName())
+            {
+                MessageBox.Show("Pallet name is already taken. Please use a non existing Pallet name or make it not exactly the same with other existing one.");
+                return;
+            }
             Dictionary<string, object> value = new Dictionary<string, object>(){
                 { "name", name_tb.Text},
                 { "_length", Convert.ToDecimal(length_tb.Text) },
@@ -76,6 +85,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
             };
 
             sql.InsertData("Pallet_Table", value);
+            sql.commitReport($"A new data Pallet '{name_tb.Text}' was added");
         }
 
         private void RewritePallet() //REWRITE THIS WHEN INTEGRATING TO DATABASE
@@ -83,6 +93,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
             string query = "UPDATE Pallet_Table " +
                 $"SET name =  '{name_tb.Text}', _length = {Convert.ToInt32(length_tb.Text)}, _width = {Convert.ToInt32(width_tb.Text)}, _height = {Convert.ToInt32(height_tb.Text)};";
             sql.ExecuteQuery(query);
+            sql.commitReport($"A data Pallet '{name_tb.Text}' was modified");
         }
 
         private void name_tb_TextChanged(object sender, EventArgs e)

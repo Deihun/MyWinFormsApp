@@ -65,7 +65,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(328, 245);
+            tableLayoutPanel1.Size = new Size(328, 193);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // quantityholder_flp
@@ -134,6 +134,7 @@
             bundleitem_combobox.Size = new Size(224, 21);
             bundleitem_combobox.Sorted = true;
             bundleitem_combobox.TabIndex = 1;
+            bundleitem_combobox.DrawItem += bundleitem_combobox_DrawItem;
             bundleitem_combobox.SelectedIndexChanged += bundleitem_combobox_SelectedIndexChanged;
             // 
             // delete_button
@@ -144,7 +145,7 @@
             delete_button.FlatStyle = FlatStyle.Flat;
             delete_button.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
             delete_button.ForeColor = Color.FromArgb(255, 192, 192);
-            delete_button.Location = new Point(253, 225);
+            delete_button.Location = new Point(253, 173);
             delete_button.Margin = new Padding(0);
             delete_button.Name = "delete_button";
             delete_button.Size = new Size(75, 20);
@@ -219,7 +220,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(328, 245);
+            BackColor = Color.IndianRed;
+            ClientSize = new Size(328, 193);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "bundleview_estimation_form";

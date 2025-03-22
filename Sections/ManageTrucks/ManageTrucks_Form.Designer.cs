@@ -32,19 +32,25 @@
             add_btn = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            label1 = new Label();
+            flowLayoutPanel2 = new FlowLayoutPanel();
+            label4 = new Label();
+            clear_btn = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             label2 = new Label();
             platenumbersearch_tb = new TextBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             label3 = new Label();
             wheelertype_cb = new ComboBox();
+            label1 = new Label();
             storedarea_flt = new FlowLayoutPanel();
+            _no_result = new Label();
             tablelayout_main.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            storedarea_flt.SuspendLayout();
             SuspendLayout();
             // 
             // tablelayout_main
@@ -95,9 +101,10 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.BackColor = Color.DarkSeaGreen;
-            flowLayoutPanel1.Controls.Add(label1);
+            flowLayoutPanel1.Controls.Add(flowLayoutPanel2);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel3);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel2);
+            flowLayoutPanel1.Controls.Add(label1);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(0, 0);
@@ -107,17 +114,39 @@
             flowLayoutPanel1.TabIndex = 3;
             flowLayoutPanel1.WrapContents = false;
             // 
-            // label1
+            // flowLayoutPanel2
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(3, 0);
-            label1.Margin = new Padding(3, 0, 3, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(58, 21);
-            label1.TabIndex = 3;
-            label1.Text = "FILTER";
+            flowLayoutPanel2.Controls.Add(label4);
+            flowLayoutPanel2.Controls.Add(clear_btn);
+            flowLayoutPanel2.Location = new Point(3, 3);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(213, 28);
+            flowLayoutPanel2.TabIndex = 11;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(3, 0);
+            label4.Margin = new Padding(3, 0, 3, 10);
+            label4.Name = "label4";
+            label4.Size = new Size(58, 21);
+            label4.TabIndex = 3;
+            label4.Text = "FILTER";
+            // 
+            // clear_btn
+            // 
+            clear_btn.BackColor = Color.White;
+            clear_btn.FlatStyle = FlatStyle.Flat;
+            clear_btn.Location = new Point(134, 3);
+            clear_btn.Margin = new Padding(70, 3, 3, 3);
+            clear_btn.Name = "clear_btn";
+            clear_btn.Size = new Size(69, 23);
+            clear_btn.TabIndex = 9;
+            clear_btn.Text = "CLEAR";
+            clear_btn.UseVisualStyleBackColor = false;
+            clear_btn.Click += clear_btn_Click;
             // 
             // tableLayoutPanel3
             // 
@@ -128,7 +157,7 @@
             tableLayoutPanel3.Controls.Add(platenumbersearch_tb, 1, 0);
             tableLayoutPanel3.Dock = DockStyle.Left;
             tableLayoutPanel3.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel3.Location = new Point(3, 34);
+            tableLayoutPanel3.Location = new Point(3, 37);
             tableLayoutPanel3.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
@@ -140,7 +169,7 @@
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Left;
-            label2.ForeColor = Color.Black;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(0, 0);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
@@ -151,11 +180,16 @@
             // platenumbersearch_tb
             // 
             platenumbersearch_tb.Dock = DockStyle.Left;
+            platenumbersearch_tb.ForeColor = Color.Gray;
             platenumbersearch_tb.Location = new Point(83, 0);
             platenumbersearch_tb.Margin = new Padding(0);
             platenumbersearch_tb.Name = "platenumbersearch_tb";
             platenumbersearch_tb.Size = new Size(125, 23);
             platenumbersearch_tb.TabIndex = 7;
+            platenumbersearch_tb.Text = "<ex. AAU5659>";
+            platenumbersearch_tb.TextChanged += platenumbersearch_tb_TextChanged;
+            platenumbersearch_tb.Enter += platenumbersearch_tb_Enter;
+            platenumbersearch_tb.Leave += platenumbersearch_tb_Leave;
             // 
             // tableLayoutPanel2
             // 
@@ -166,7 +200,7 @@
             tableLayoutPanel2.Controls.Add(wheelertype_cb, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Left;
             tableLayoutPanel2.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel2.Location = new Point(3, 61);
+            tableLayoutPanel2.Location = new Point(3, 64);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -177,7 +211,7 @@
             // 
             label3.AutoSize = true;
             label3.Dock = DockStyle.Left;
-            label3.ForeColor = Color.Black;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(0, 0);
             label3.Margin = new Padding(0);
             label3.Name = "label3";
@@ -189,15 +223,31 @@
             // 
             wheelertype_cb.Dock = DockStyle.Left;
             wheelertype_cb.DropDownStyle = ComboBoxStyle.DropDownList;
+            wheelertype_cb.FlatStyle = FlatStyle.Flat;
             wheelertype_cb.FormattingEnabled = true;
             wheelertype_cb.Location = new Point(83, 0);
             wheelertype_cb.Margin = new Padding(0);
             wheelertype_cb.Name = "wheelertype_cb";
             wheelertype_cb.Size = new Size(125, 23);
             wheelertype_cb.TabIndex = 6;
+            wheelertype_cb.SelectedIndexChanged += wheelertype_cb_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(3, 122);
+            label1.Margin = new Padding(3, 30, 3, 10);
+            label1.Name = "label1";
+            label1.Size = new Size(95, 21);
+            label1.TabIndex = 12;
+            label1.Text = "CATEGORY:";
             // 
             // storedarea_flt
             // 
+            storedarea_flt.AutoScroll = true;
+            storedarea_flt.Controls.Add(_no_result);
             storedarea_flt.Dock = DockStyle.Fill;
             storedarea_flt.FlowDirection = FlowDirection.TopDown;
             storedarea_flt.Location = new Point(221, 0);
@@ -205,6 +255,20 @@
             storedarea_flt.Name = "storedarea_flt";
             storedarea_flt.Size = new Size(1257, 647);
             storedarea_flt.TabIndex = 4;
+            storedarea_flt.WrapContents = false;
+            // 
+            // _no_result
+            // 
+            _no_result.AutoSize = true;
+            _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
+            _no_result.ForeColor = Color.LimeGreen;
+            _no_result.Location = new Point(200, 100);
+            _no_result.Margin = new Padding(200, 100, 3, 0);
+            _no_result.Name = "_no_result";
+            _no_result.Size = new Size(344, 46);
+            _no_result.TabIndex = 4;
+            _no_result.Text = "NO RECORD RESULT";
+            _no_result.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ManageTrucks_Form
             // 
@@ -216,14 +280,19 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "ManageTrucks_Form";
             Text = "ManageTrucks_Form";
+            VisibleChanged += ManageTrucks_Form_VisibleChanged;
             tablelayout_main.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            flowLayoutPanel2.ResumeLayout(false);
+            flowLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            storedarea_flt.ResumeLayout(false);
+            storedarea_flt.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -233,7 +302,6 @@
         private Button add_btn;
         private TableLayoutPanel tableLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Label label1;
         private TableLayoutPanel tableLayoutPanel3;
         private Label label2;
         private TextBox platenumbersearch_tb;
@@ -241,5 +309,10 @@
         private Label label3;
         private ComboBox wheelertype_cb;
         private FlowLayoutPanel storedarea_flt;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Label label4;
+        private Button clear_btn;
+        private Label _no_result;
+        private Label label1;
     }
 }
