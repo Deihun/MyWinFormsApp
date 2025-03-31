@@ -37,11 +37,14 @@ partial class main_startup_form
         manageclient_dashboard_btn = new Button();
         managepallet_dashboard_btn = new Button();
         managetruck_dashboard_btn = new Button();
+        help_btn = new Button();
         system_btn = new Button();
         exit_dashboard_btn = new Button();
         workpanel = new Panel();
+        pictureBox1 = new PictureBox();
         tableLayoutPanel_main.SuspendLayout();
         flowLayoutPanel_dashboard.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
         SuspendLayout();
         // 
         // tableLayoutPanel_main
@@ -64,6 +67,7 @@ partial class main_startup_form
         // flowLayoutPanel_dashboard
         // 
         flowLayoutPanel_dashboard.BackColor = Color.SeaGreen;
+        flowLayoutPanel_dashboard.Controls.Add(pictureBox1);
         flowLayoutPanel_dashboard.Controls.Add(estimation_dashboard_btn);
         flowLayoutPanel_dashboard.Controls.Add(viewrecords_dashboard_btn);
         flowLayoutPanel_dashboard.Controls.Add(manageitems_dashboard_btn);
@@ -71,6 +75,7 @@ partial class main_startup_form
         flowLayoutPanel_dashboard.Controls.Add(manageclient_dashboard_btn);
         flowLayoutPanel_dashboard.Controls.Add(managepallet_dashboard_btn);
         flowLayoutPanel_dashboard.Controls.Add(managetruck_dashboard_btn);
+        flowLayoutPanel_dashboard.Controls.Add(help_btn);
         flowLayoutPanel_dashboard.Controls.Add(system_btn);
         flowLayoutPanel_dashboard.Controls.Add(exit_dashboard_btn);
         flowLayoutPanel_dashboard.Dock = DockStyle.Fill;
@@ -87,7 +92,7 @@ partial class main_startup_form
         estimation_dashboard_btn.FlatStyle = FlatStyle.Flat;
         estimation_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         estimation_dashboard_btn.ForeColor = Color.White;
-        estimation_dashboard_btn.Location = new Point(3, 3);
+        estimation_dashboard_btn.Location = new Point(3, 98);
         estimation_dashboard_btn.Name = "estimation_dashboard_btn";
         estimation_dashboard_btn.Size = new Size(234, 51);
         estimation_dashboard_btn.TabIndex = 0;
@@ -103,7 +108,7 @@ partial class main_startup_form
         viewrecords_dashboard_btn.FlatStyle = FlatStyle.Flat;
         viewrecords_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         viewrecords_dashboard_btn.ForeColor = Color.White;
-        viewrecords_dashboard_btn.Location = new Point(3, 60);
+        viewrecords_dashboard_btn.Location = new Point(3, 155);
         viewrecords_dashboard_btn.Name = "viewrecords_dashboard_btn";
         viewrecords_dashboard_btn.Size = new Size(234, 51);
         viewrecords_dashboard_btn.TabIndex = 1;
@@ -119,7 +124,7 @@ partial class main_startup_form
         manageitems_dashboard_btn.FlatStyle = FlatStyle.Flat;
         manageitems_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         manageitems_dashboard_btn.ForeColor = Color.White;
-        manageitems_dashboard_btn.Location = new Point(3, 117);
+        manageitems_dashboard_btn.Location = new Point(3, 212);
         manageitems_dashboard_btn.Name = "manageitems_dashboard_btn";
         manageitems_dashboard_btn.Size = new Size(234, 51);
         manageitems_dashboard_btn.TabIndex = 2;
@@ -135,7 +140,7 @@ partial class main_startup_form
         managebundle_dashboard_btn.FlatStyle = FlatStyle.Flat;
         managebundle_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         managebundle_dashboard_btn.ForeColor = Color.White;
-        managebundle_dashboard_btn.Location = new Point(3, 174);
+        managebundle_dashboard_btn.Location = new Point(3, 269);
         managebundle_dashboard_btn.Name = "managebundle_dashboard_btn";
         managebundle_dashboard_btn.Size = new Size(234, 51);
         managebundle_dashboard_btn.TabIndex = 3;
@@ -151,7 +156,7 @@ partial class main_startup_form
         manageclient_dashboard_btn.FlatStyle = FlatStyle.Flat;
         manageclient_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         manageclient_dashboard_btn.ForeColor = Color.White;
-        manageclient_dashboard_btn.Location = new Point(3, 231);
+        manageclient_dashboard_btn.Location = new Point(3, 326);
         manageclient_dashboard_btn.Name = "manageclient_dashboard_btn";
         manageclient_dashboard_btn.Size = new Size(234, 51);
         manageclient_dashboard_btn.TabIndex = 4;
@@ -167,7 +172,7 @@ partial class main_startup_form
         managepallet_dashboard_btn.FlatStyle = FlatStyle.Flat;
         managepallet_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         managepallet_dashboard_btn.ForeColor = Color.White;
-        managepallet_dashboard_btn.Location = new Point(3, 288);
+        managepallet_dashboard_btn.Location = new Point(3, 383);
         managepallet_dashboard_btn.Name = "managepallet_dashboard_btn";
         managepallet_dashboard_btn.Size = new Size(234, 51);
         managepallet_dashboard_btn.TabIndex = 5;
@@ -183,7 +188,7 @@ partial class main_startup_form
         managetruck_dashboard_btn.FlatStyle = FlatStyle.Flat;
         managetruck_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         managetruck_dashboard_btn.ForeColor = Color.White;
-        managetruck_dashboard_btn.Location = new Point(3, 345);
+        managetruck_dashboard_btn.Location = new Point(3, 440);
         managetruck_dashboard_btn.Name = "managetruck_dashboard_btn";
         managetruck_dashboard_btn.Size = new Size(234, 51);
         managetruck_dashboard_btn.TabIndex = 6;
@@ -192,6 +197,22 @@ partial class main_startup_form
         managetruck_dashboard_btn.UseVisualStyleBackColor = false;
         managetruck_dashboard_btn.Click += managetruck_dashboard_btn_Click;
         // 
+        // help_btn
+        // 
+        help_btn.BackColor = Color.SeaGreen;
+        help_btn.FlatAppearance.BorderSize = 0;
+        help_btn.FlatStyle = FlatStyle.Flat;
+        help_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+        help_btn.ForeColor = Color.White;
+        help_btn.Location = new Point(3, 497);
+        help_btn.Name = "help_btn";
+        help_btn.Size = new Size(234, 51);
+        help_btn.TabIndex = 9;
+        help_btn.Text = "HELP";
+        help_btn.TextAlign = ContentAlignment.MiddleLeft;
+        help_btn.UseVisualStyleBackColor = false;
+        help_btn.Click += help_btn_Click;
+        // 
         // system_btn
         // 
         system_btn.BackColor = Color.SeaGreen;
@@ -199,7 +220,7 @@ partial class main_startup_form
         system_btn.FlatStyle = FlatStyle.Flat;
         system_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         system_btn.ForeColor = Color.White;
-        system_btn.Location = new Point(3, 402);
+        system_btn.Location = new Point(3, 554);
         system_btn.Name = "system_btn";
         system_btn.Size = new Size(234, 51);
         system_btn.TabIndex = 8;
@@ -215,7 +236,7 @@ partial class main_startup_form
         exit_dashboard_btn.FlatStyle = FlatStyle.Flat;
         exit_dashboard_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         exit_dashboard_btn.ForeColor = Color.White;
-        exit_dashboard_btn.Location = new Point(3, 459);
+        exit_dashboard_btn.Location = new Point(3, 611);
         exit_dashboard_btn.Name = "exit_dashboard_btn";
         exit_dashboard_btn.Size = new Size(234, 51);
         exit_dashboard_btn.TabIndex = 7;
@@ -233,6 +254,17 @@ partial class main_startup_form
         workpanel.Size = new Size(1364, 881);
         workpanel.TabIndex = 1;
         // 
+        // pictureBox1
+        // 
+        pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+        pictureBox1.Image = Properties.Resources.header;
+        pictureBox1.Location = new Point(3, 3);
+        pictureBox1.Name = "pictureBox1";
+        pictureBox1.Size = new Size(234, 89);
+        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        pictureBox1.TabIndex = 10;
+        pictureBox1.TabStop = false;
+        // 
         // main_startup_form
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -247,6 +279,7 @@ partial class main_startup_form
         Load += main_startup_form_Load;
         tableLayoutPanel_main.ResumeLayout(false);
         flowLayoutPanel_dashboard.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
         ResumeLayout(false);
     }
 
@@ -264,4 +297,6 @@ partial class main_startup_form
     private Button managetruck_dashboard_btn;
     private Button exit_dashboard_btn;
     private Button system_btn;
+    private Button help_btn;
+    private PictureBox pictureBox1;
 }

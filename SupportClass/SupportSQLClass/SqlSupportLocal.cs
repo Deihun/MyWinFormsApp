@@ -542,17 +542,17 @@ namespace SQLSupportLibrary
                     int id = Convert.ToInt32(dt.Rows[0][0]);
                     if (dt.Rows.Count > 0)
                     {
-                        return id; // Get the first row, first column
+                        return id; 
                     }
                     else
                     {
                         Console.WriteLine("No data returned.");
-                        return -1; // Indicate failure
+                        return -1; 
                     }
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"SQL Error: {ex.Message}");
+                    MessageBox.Show($"SQL Error: {ex.Message}");
                     return -1; // Indicate failure
                 }
             }
@@ -568,11 +568,8 @@ namespace SQLSupportLibrary
             {
                 if (string.IsNullOrEmpty(input))
                     return string.Empty;
-
-                // Escape single quotes by doubling them (' becomes '')
                 string filtered = input.Replace("'", "''");
 
-                // Remove dangerous SQL keywords (basic protection)
                 string[] blacklist = ["DROP", "DELETE", "INSERT", "UPDATE", "--", ";", "xp_cmdshell", "EXEC", "UNION", "ALTER"];
 
                 foreach (string word in blacklist)

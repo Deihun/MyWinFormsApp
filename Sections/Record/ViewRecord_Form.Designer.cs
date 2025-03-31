@@ -47,9 +47,11 @@
             label5 = new Label();
             month_cb = new ComboBox();
             year_cb = new ComboBox();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            panel2 = new Panel();
+            panel1 = new Panel();
             storedarea_flt = new FlowLayoutPanel();
             _no_result = new Label();
-            flowLayoutPanel3 = new FlowLayoutPanel();
             tablelayout_main.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -58,6 +60,7 @@
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             flowLayoutPanel4.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
             storedarea_flt.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,15 +69,13 @@
             tablelayout_main.BackColor = Color.PaleGreen;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 1);
-            tablelayout_main.Controls.Add(flowLayoutPanel3, 0, 0);
+            tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
             tablelayout_main.Dock = DockStyle.Fill;
             tablelayout_main.Location = new Point(0, 0);
             tablelayout_main.Margin = new Padding(0);
             tablelayout_main.Name = "tablelayout_main";
-            tablelayout_main.RowCount = 2;
-            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 6F));
-            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 94F));
+            tablelayout_main.RowCount = 1;
+            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tablelayout_main.Size = new Size(1443, 649);
             tablelayout_main.TabIndex = 2;
@@ -82,18 +83,17 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 225F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 0);
-            tableLayoutPanel1.Controls.Add(storedarea_flt, 1, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel5, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 38);
+            tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(1443, 611);
+            tableLayoutPanel1.Size = new Size(1443, 649);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -109,7 +109,7 @@
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(216, 611);
+            flowLayoutPanel1.Size = new Size(225, 649);
             flowLayoutPanel1.TabIndex = 3;
             flowLayoutPanel1.WrapContents = false;
             // 
@@ -315,16 +315,55 @@
             year_cb.TabIndex = 9;
             year_cb.SelectedIndexChanged += year_cb_SelectedIndexChanged;
             // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 1;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.Controls.Add(panel2, 0, 0);
+            tableLayoutPanel5.Controls.Add(panel1, 0, 2);
+            tableLayoutPanel5.Controls.Add(storedarea_flt, 0, 1);
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.Location = new Point(225, 0);
+            tableLayoutPanel5.Margin = new Padding(0);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 3;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel5.Size = new Size(1218, 649);
+            tableLayoutPanel5.TabIndex = 4;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.OliveDrab;
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 0);
+            panel2.Margin = new Padding(0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1218, 50);
+            panel2.TabIndex = 10;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.OliveDrab;
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 614);
+            panel1.Margin = new Padding(0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1218, 35);
+            panel1.TabIndex = 9;
+            // 
             // storedarea_flt
             // 
             storedarea_flt.AutoScroll = true;
             storedarea_flt.Controls.Add(_no_result);
             storedarea_flt.Dock = DockStyle.Fill;
             storedarea_flt.FlowDirection = FlowDirection.TopDown;
-            storedarea_flt.Location = new Point(216, 0);
+            storedarea_flt.Location = new Point(0, 50);
             storedarea_flt.Margin = new Padding(0);
             storedarea_flt.Name = "storedarea_flt";
-            storedarea_flt.Size = new Size(1227, 611);
+            storedarea_flt.Padding = new Padding(10);
+            storedarea_flt.Size = new Size(1218, 564);
             storedarea_flt.TabIndex = 4;
             storedarea_flt.WrapContents = false;
             // 
@@ -333,22 +372,13 @@
             _no_result.AutoSize = true;
             _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
             _no_result.ForeColor = Color.LimeGreen;
-            _no_result.Location = new Point(200, 100);
+            _no_result.Location = new Point(210, 110);
             _no_result.Margin = new Padding(200, 100, 3, 0);
             _no_result.Name = "_no_result";
             _no_result.Size = new Size(344, 46);
             _no_result.TabIndex = 0;
             _no_result.Text = "NO RECORD RESULT";
             _no_result.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // flowLayoutPanel3
-            // 
-            flowLayoutPanel3.Dock = DockStyle.Fill;
-            flowLayoutPanel3.Location = new Point(0, 0);
-            flowLayoutPanel3.Margin = new Padding(0);
-            flowLayoutPanel3.Name = "flowLayoutPanel3";
-            flowLayoutPanel3.Size = new Size(1443, 38);
-            flowLayoutPanel3.TabIndex = 8;
             // 
             // ViewRecord_Form
             // 
@@ -374,6 +404,7 @@
             tableLayoutPanel4.PerformLayout();
             flowLayoutPanel4.ResumeLayout(false);
             flowLayoutPanel4.PerformLayout();
+            tableLayoutPanel5.ResumeLayout(false);
             storedarea_flt.ResumeLayout(false);
             storedarea_flt.PerformLayout();
             ResumeLayout(false);
@@ -389,7 +420,6 @@
         private Label label2;
         private TextBox searchname_tb;
         private FlowLayoutPanel storedarea_flt;
-        private FlowLayoutPanel flowLayoutPanel3;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label3;
         private ComboBox client_cb;
@@ -403,5 +433,8 @@
         private ComboBox month_cb;
         private ComboBox year_cb;
         private Label _no_result;
+        private Panel panel1;
+        private TableLayoutPanel tableLayoutPanel5;
+        private Panel panel2;
     }
 }

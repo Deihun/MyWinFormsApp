@@ -32,6 +32,7 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
         {
             InitializeComponent();
             this.parent = parent;
+            updateWarning();
         }
         public AddOrEditFlute_windowpopupform(ManageFlute_WindowPopupForm parent, int id)
         {
@@ -47,6 +48,7 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
             targetrange_from_tb.Text = row["targetrange_from"].ToString();
             targetrange_to_tb.Text = row["targetrange_to"].ToString();
             textBox1.Text = row["tolerance"].ToString();
+            updateWarning();
         }
 
         private void add_btn_Click(object sender, EventArgs e)
@@ -104,26 +106,39 @@ namespace MyWinFormsApp.Sections.ManageItems.Flute
         private void codename_tb_TextChanged(object sender, EventArgs e)
         {
             filter.SanitizeSQLInput(codename_tb);
+            updateWarning();
         }
 
         private void standardsize_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(standardsize_tb);
+            updateWarning();
         }
 
         private void targetrange_from_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(targetrange_from_tb);
+            updateWarning();
         }
 
         private void targetrange_to_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(targetrange_to_tb);
+            updateWarning();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(textBox1);
+            updateWarning();
+        }
+
+        private void updateWarning()
+        {
+            name_warning.Visible = codename_tb.Text == string.Empty;
+            standard_warning.Visible = standardsize_tb.Text == string.Empty;
+            target_warning.Visible = targetrange_to_tb.Text == string.Empty || targetrange_from_tb.Text == string.Empty;
+            tolerance_warning.Visible = textBox1.Text == string.Empty;
         }
     }
 }

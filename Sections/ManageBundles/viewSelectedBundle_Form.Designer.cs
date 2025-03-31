@@ -35,6 +35,7 @@
             edit_btn = new Button();
             panel1 = new Panel();
             panel2 = new Panel();
+            client_label = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -43,7 +44,7 @@
             // 
             itemname_label.AutoSize = true;
             itemname_label.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            itemname_label.Location = new Point(12, 10);
+            itemname_label.Location = new Point(9, 9);
             itemname_label.Name = "itemname_label";
             itemname_label.Size = new Size(236, 25);
             itemname_label.TabIndex = 2;
@@ -55,8 +56,8 @@
             content_label.Dock = DockStyle.Fill;
             content_label.Font = new Font("Segoe UI", 12F);
             content_label.ForeColor = Color.FromArgb(64, 64, 64);
-            content_label.Location = new Point(120, 0);
-            content_label.Margin = new Padding(120, 0, 3, 0);
+            content_label.Location = new Point(50, 0);
+            content_label.Margin = new Padding(20, 0, 3, 0);
             content_label.Name = "content_label";
             content_label.Size = new Size(126, 84);
             content_label.TabIndex = 3;
@@ -114,17 +115,29 @@
             // panel2
             // 
             panel2.Controls.Add(content_label);
-            panel2.Location = new Point(-1, 50);
+            panel2.Location = new Point(34, 62);
             panel2.Name = "panel2";
-            panel2.Padding = new Padding(120, 0, 0, 0);
-            panel2.Size = new Size(841, 88);
+            panel2.Padding = new Padding(50, 0, 0, 0);
+            panel2.Size = new Size(692, 112);
             panel2.TabIndex = 8;
+            // 
+            // client_label
+            // 
+            client_label.AutoSize = true;
+            client_label.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            client_label.ForeColor = Color.FromArgb(64, 64, 64);
+            client_label.Location = new Point(51, 30);
+            client_label.Name = "client_label";
+            client_label.Size = new Size(86, 21);
+            client_label.TabIndex = 9;
+            client_label.Text = "<CLIENT>";
             // 
             // viewSelectedBundle_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(840, 186);
+            Controls.Add(client_label);
             Controls.Add(panel1);
             Controls.Add(edit_btn);
             Controls.Add(delete_btn);
@@ -149,5 +162,6 @@
         private Button edit_btn;
         private Panel panel1;
         private Panel panel2;
+        private Label client_label;
     }
 }

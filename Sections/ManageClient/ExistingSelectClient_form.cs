@@ -30,8 +30,29 @@ namespace MyWinFormsApp.Sections.ManageClient
             this.category = category;
             description_label.Text = description;
             instantiateConditions(raw_condition);
+            instantiateItemName();
         }
-
+        private void instantiateItemName()
+        {
+            Label label1 = new Label();
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe",12,FontStyle.Bold);
+            label1.ForeColor = ColorTranslator.FromHtml("#282828");
+            label1.Text = "ITEM OF THIS CLIENT";
+            label1.Padding = new Padding(10, 0, 0, 0);
+            stored_itemname_flp.Controls.Add(label1);
+            label1.Show();
+            foreach (DataRow row in sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE client_id = {ID} AND is_deleted = 0").Rows)
+            {
+                Label label = new Label();
+                label.AutoSize = true;
+                label.ForeColor = ColorTranslator.FromHtml("#414040");
+                label.Text = row["item_name"].ToString();
+                label.Margin = new Padding(30, 0, 5, 0);
+                stored_itemname_flp.Controls.Add(label);
+                label.Show();
+            }
+        }
         private void instantiateConditions(string raw_condition)
         {
             RequirementsManagement_class req = new RequirementsManagement_class(raw_condition);
@@ -43,14 +64,15 @@ namespace MyWinFormsApp.Sections.ManageClient
                 label.ForeColor = Color.DarkRed;
                 conditioncontainer_flp.Controls.Add(label);
                 label.Show();
-
             }
         }
 
         private void delete_btn_Click(object sender, EventArgs e)
         {
             DeleteMyValue();
-            parent.UpdateVisual();
+            this.parent.resetFilter();
+            this.parent.TriggerVisualUpdate();
+            this.parent.updatePageSelector();
         }
 
         private void DeleteMyValue()//MODIFY THIS IF INTEGRATING FROM LOCAL TO SHARE

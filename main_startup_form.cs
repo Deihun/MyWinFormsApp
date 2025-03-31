@@ -1,6 +1,7 @@
 using MyWinFormsApp.Sections;
 using MyWinFormsApp.Sections._ettings;
 using MyWinFormsApp.Sections.Estimate;
+using MyWinFormsApp.Sections.InstructionManual;
 using MyWinFormsApp.Sections.ManageBundles;
 using MyWinFormsApp.Sections.ManageClient;
 using MyWinFormsApp.Sections.ManagePallet;
@@ -24,11 +25,12 @@ namespace MyWinFormsApp
         Estimate_Form estimate;
         ViewRecord_Form viewrecord;
         settings_form settings;
+        Instruction_Manual instruction;
 
         public main_startup_form()
         {
-            try
-            {
+            //try
+            //{
                 Opener open = new Opener();
                 if (!open.IsDatabaseDetected() && !open.IsSQLExpressInstalled() && !open.IsSQLExpressRunning() && !open.IsDatabaseSchemaValid()) open.ShowDialog();
 
@@ -36,7 +38,7 @@ namespace MyWinFormsApp
                 InitializeComponent();
 
                 sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-                manageitem = new ManageItems_form();
+                manageitem = new ManageItems_form(this);
                 truck = new ManageTrucks_Form();
                 bundle = new ManageBundles_Form();
                 pallet = new ManagePallet_Form();
@@ -44,9 +46,10 @@ namespace MyWinFormsApp
                 estimate = new Estimate_Form();
                 viewrecord = new ViewRecord_Form();
                 settings = new settings_form();
+                instruction = new Instruction_Manual();
                 viewer = this.workpanel;
 
-
+                viewrecord.parent = this;
 
                 dashboard.all_SectionTabs.Add(manageitem);
                 dashboard.all_SectionTabs.Add(truck);
@@ -56,6 +59,7 @@ namespace MyWinFormsApp
                 dashboard.all_SectionTabs.Add(estimate);
                 dashboard.all_SectionTabs.Add(viewrecord);
                 dashboard.all_SectionTabs.Add(settings);
+                dashboard.all_SectionTabs.Add(instruction);
 
                 dashboard.all_buttonsDashBoard.Add(this.estimation_dashboard_btn);
                 dashboard.all_buttonsDashBoard.Add(this.managebundle_dashboard_btn);
@@ -65,17 +69,26 @@ namespace MyWinFormsApp
                 dashboard.all_buttonsDashBoard.Add(this.managepallet_dashboard_btn);
                 dashboard.all_buttonsDashBoard.Add(this.managetruck_dashboard_btn);
                 dashboard.all_buttonsDashBoard.Add(this.system_btn);
+                dashboard.all_buttonsDashBoard.Add(this.help_btn);
                 sql.commitReport($"The system log in.");
 
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"ERROR: {e.Message}");
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show($"ERROR: {e.Message}");
+            //}
 
         }
-
-
+        public void copyFromRecord_To_Estimate(int id)
+        {
+            dashboard.change_workpanelsection(estimate, viewer, estimation_dashboard_btn);
+            estimate.paste_in(id);
+        }
+        public void copyFromItem_To_Bundle(string item_name)
+        {
+            dashboard.change_workpanelsection(bundle, viewer, managebundle_dashboard_btn);
+            bundle.AddBundleFromCopy(item_name);
+        }
         private void managebundle_dashboard_btn_Click(Object sender, EventArgs eg) //
         {
             dashboard.change_workpanelsection(bundle, viewer, managebundle_dashboard_btn);
@@ -136,6 +149,11 @@ namespace MyWinFormsApp
             {
 
             }
+        }
+
+        private void help_btn_Click(object sender, EventArgs e)
+        {
+            dashboard.change_workpanelsection(instruction, viewer, help_btn);
         }
     }
 

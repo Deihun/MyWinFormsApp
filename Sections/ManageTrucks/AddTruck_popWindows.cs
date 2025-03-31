@@ -19,6 +19,8 @@ namespace MyWinFormsApp.Sections.ManageTrucks
         FilterInputSupportClass filter = new FilterInputSupportClass();
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
         ReferenceTruckSizes rts;
+
+        private string category = "";
         private int ID = -1;
         public AddTruck_popWindows(ManageTrucks_Form parent)
         {
@@ -26,6 +28,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
             referenceSizeInitialize();
             truckTypeInitialize();
             this.parent = parent;
+            updateWarning();
         }
 
         public AddTruck_popWindows(ManageTrucks_Form parent, int ID)
@@ -39,6 +42,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
             add_btn.Text = "CONFIRM CHANGES";
             reupdateItself();
             platenumber_tb.Enabled = false;
+            updateWarning();
         }
 
         private void reupdateItself()
@@ -51,8 +55,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
                 length_tb.Text = row["_length"].ToString();
                 width_tb.Text = row["_width"].ToString();
                 height_tb.Text = row["_height"].ToString();
-                category_checkbox.Checked = !string.IsNullOrEmpty(row["category"].ToString());
-                category_cb.Text = row["category"].ToString();
+                set_category(row["category"].ToString());
             }
         }
 
@@ -63,9 +66,11 @@ namespace MyWinFormsApp.Sections.ManageTrucks
 
         private void button1_Click(object sender, EventArgs e)
         {
-                if (ID == -1) CommitAddTruck();
-                else RewriteTruck();
-                parent.updateVisual();
+            if (ID == -1) CommitAddTruck();
+            else RewriteTruck();
+            this.parent.resetFilter();
+            this.parent.TriggerVisualUpdate();
+            this.parent.updatePageSelector();
 
         }
 
@@ -88,7 +93,6 @@ namespace MyWinFormsApp.Sections.ManageTrucks
         {
             trucktype_cb.Items.Clear();
             foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT trucktype FROM Truck_Table WHERE is_deleted = 0").Rows) trucktype_cb.Items.Add(row[0].ToString());
-            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Truck_Table WHERE is_deleted = 0").Rows) category_cb.Items.Add(row[0].ToString());
 
         }
         private void referenceSizeInitialize()
@@ -106,7 +110,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
 
         private void CommitAddTruck() //CHANGE THIS WHEN INTEGRATING IT TO DIFFERENT DB SYSTEM
         {
-            if (!filter.AreAllInputsFilled(trucktype_cb, platenumber_tb, length_tb, width_tb, height_tb)) 
+            if (!filter.AreAllInputsFilled(trucktype_cb, platenumber_tb, length_tb, width_tb, height_tb))
             {
                 MessageBox.Show("Please fill up all the empty boxes");
                 return;
@@ -123,16 +127,12 @@ namespace MyWinFormsApp.Sections.ManageTrucks
                 {"_length", Convert.ToDecimal(length_tb.Text) },
                 {"_width", Convert.ToDecimal(width_tb.Text) },
                 {"_height", Convert.ToDecimal(height_tb.Text) },
-                {"category", getCategory()}
+                {"category", this.category}
             };
 
             sql.InsertData("Truck_Table", values);
             sql.commitReport($"A new Truck Data was added with platenumber '{platenumber_tb.Text}'");
             this.Dispose();
-        }
-        private string getCategory()
-        { string a = category_checkbox.Checked ? filter.RemoveSQLInjectionRisks(category_cb.Text).ToUpper() : "";
-            return a;
         }
         private void RewriteTruck()// CHANGE THIS WHEN INTEGRATING IT TO DIFFERENT DB SYSTEM, 
         {
@@ -147,7 +147,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
                            $"_length = {length_tb.Text}, " +
                            $"_width = {width_tb.Text}, " +
                            $"_height = {height_tb.Text}, " +
-                           $"category = '{category_cb.Text}' "+
+                           $"category = '{this.category}' " +
                            $"WHERE id = {ID};";
 
             sql.ExecuteQuery(query);
@@ -158,26 +158,31 @@ namespace MyWinFormsApp.Sections.ManageTrucks
         private void platenumber_tb_TextChanged(object sender, EventArgs e)
         {
             filter.SanitizeSQLInput(platenumber_tb);
+            updateWarning();
         }
 
         private void width_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(width_tb);
+            updateWarning();
         }
 
         private void height_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(height_tb);
+            updateWarning();
         }
 
         private void trucktype_cb_SelectedIndexChanged(object sender, EventArgs e)
         {
             filter.SanitizeSQLInput(trucktype_cb);
+            updateWarning();
         }
 
         private void length_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(length_tb);
+            updateWarning();
         }
 
         private void referencesize_cb_SelectedIndexChanged(object sender, EventArgs e)
@@ -188,9 +193,32 @@ namespace MyWinFormsApp.Sections.ManageTrucks
             height_tb.Text = rts.height.ToString();
         }
 
-        private void category_checkbox_CheckedChanged(object sender, EventArgs e)
+
+        private void updateWarning()
         {
-            category_cb.Enabled = category_checkbox.Checked;
+            platenumber_warning.Visible = platenumber_tb.Text == string.Empty;
+            trucktype_warning.Visible = trucktype_cb.Text == string.Empty;
+            length_warning.Visible = length_tb.Text == string.Empty;
+            width_warning.Visible = width_tb.Text == string.Empty;
+            height_warning.Visible = height_tb.Text == string.Empty;
+        }
+
+        private void editcategory_btn_Click(object sender, EventArgs e)
+        {
+            List<string> list_of_category = new List<string>();
+            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Truck_Table WHERE is_deleted = 0;").Rows) list_of_category.Add(row["category"].ToString());
+            ListSelector ls = new ListSelector(set_category, reset_category, list_of_category);
+            ls.ShowDialog();
+        }
+        private void reset_category()
+        {
+            this.category = "";
+            this.category_path.Text = "No Category";
+        }
+        private void set_category(string _category)
+        {
+            this.category = _category;
+            this.category_path.Text = _category;
         }
     }
 

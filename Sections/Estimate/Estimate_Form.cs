@@ -194,7 +194,24 @@ namespace MyWinFormsApp.Sections.Estimate
 
 
         //**INITIALIZATIONS AND MANIPULATION OF CONTROLS
-        private void initializeComboBox()
+            public void paste_in(int id)
+            {
+                try
+                {
+                    initializeComboBox();
+                    this.id = id;
+                    string plateNumber = getTruckPlateNumber();
+                    this.truck_cb.SelectedItem = plateNumber;
+                    initialize_all_sub_forms_referencing_id(true);
+                }
+                catch
+                {
+                MessageBox.Show("Some part of this data has been deleted");
+                }
+                this.id = -1;
+                UpdateVisual();
+            }
+            private void initializeComboBox()
             {
                 truck_cb.Items.Clear();
                 truck_cb.Items.Add("<Select a Truck>");
@@ -222,11 +239,11 @@ namespace MyWinFormsApp.Sections.Estimate
             {
                 this.Dispose();
             }
-        private void initialize_all_sub_forms_referencing_id()
+        private void initialize_all_sub_forms_referencing_id(bool editable = false)
         {
             DataRow record = sql.ExecuteQuery($"SELECT * FROM Record_Table WHERE id={id} AND is_deleted = 0;").Rows[0];
             foreach (DataRow row in sql.ExecuteQuery(
-                $"SELECT i.id AS item_id, p.id AS pallet_id, ab._value AS bundletotalquantity " +
+                $"SELECT i.id AS item_id, p.id AS pallet_id, ab._value AS bundletotalquantity, ab.pallet_quantiy AS PalletQuantity " +
                 $"FROM AddedBundle_Table ab " +
                 $"JOIN Bundle_Table b ON ab.bundle_id = b.id " +
                 $"JOIN Item_Table i ON b.item_id = i.id " +
@@ -235,17 +252,21 @@ namespace MyWinFormsApp.Sections.Estimate
             ).Rows)
             {
                 int pallet_id = row["pallet_id"] == DBNull.Value ? -1 : Convert.ToInt32(row["pallet_id"]);
-                bundleview_estimation_form bvef = new bundleview_estimation_form(this, Convert.ToInt32(row["item_id"]), pallet_id, Convert.ToInt32(row["bundletotalquantity"]));
+                int palletQuantity = Convert.ToInt32(row["PalletQuantity"] == DBNull.Value ? 0 : row["PalletQuantity"]);
+                bundleview_estimation_form bvef = new bundleview_estimation_form(this, Convert.ToInt32(row["item_id"]), pallet_id, Convert.ToInt32(row["bundletotalquantity"]), palletQuantity);
                 bvef.TopLevel = false;
+                if (!editable) bvef.disable_inputs();
                 stored_bundlecontainer.Controls.Add(bvef);
                 bundle_list.Add(bvef);
                 bvef.Show();
                 bvef.BackColor = Color.Gainsboro;
+
             }
             foreach (DataRow row in sql.ExecuteQuery($"SELECT * FROM AddedClient_Table WHERE record_id = {Convert.ToInt32(record["id"])}").Rows)
             {
                 clientselectView_form csvf = new clientselectView_form(this, Convert.ToInt32(row["client_id"]));
                 csvf.TopLevel = false;
+                if (!editable) csvf.disable_inputs();
                 storedclient_flp.Controls.Add(csvf);
                 clientList.Add(csvf);
                 csvf.Show();
@@ -305,13 +326,13 @@ namespace MyWinFormsApp.Sections.Estimate
                 }
 
                 createDisplay("SINGLE ESTIMATION");
-                createDisplay($"TRUCKS DIMENSIONS: \n\tPlate Number: {stored_measurement.TruckPlateName}\n\tTruckType: {stored_measurement.TruckType} \n\tLength: {Math.Round(stored_measurement.Trucklength,2)}mm\n\tWidth: {Math.Round(stored_measurement.Truckwidth,2)}mm\n\tHeight: {Math.Round(stored_measurement.Truckheight,2)}mm");
-                createDisplay($"Volume: %#%{stored_measurement.Trucklength * stored_measurement.Truckwidth * stored_measurement.Truckheight}%#%");
+                createDisplay($"TRUCKS INFORMATION: \n\t- Plate Number: {stored_measurement.TruckPlateName}\n\t- TruckType: {stored_measurement.TruckType} \n\t- Length: {Math.Round(stored_measurement.Trucklength,2)}mm\n\t- Width: {Math.Round(stored_measurement.Truckwidth,2)}mm\n\t- Height: {Math.Round(stored_measurement.Truckheight,2)}mm");
+                createDisplay($"- Volume: %#%{stored_measurement.Trucklength * stored_measurement.Truckwidth * stored_measurement.Truckheight}%#%");
                 createDisplay("\n\n");
 
                 if (palletQuantity > 0)
                 {
-                    createDisplay($"PALLET DETAILS: \n\tPallet Length: {palletLength}mm\n\tPallet Width: {palletWidth}mm\n\tPallet Height: {palletHeight}mm\n\tQuantity: {palletQuantity}");
+                    createDisplay($"PALLET DETAILS: \n\t- Pallet Length: {palletLength}mm\n\t- Pallet Width: {palletWidth}mm\n\t- Pallet Height: {palletHeight}mm\n\t- Quantity: {palletQuantity}");
                     createDisplay("\n\n");
                 }
 
@@ -393,7 +414,6 @@ namespace MyWinFormsApp.Sections.Estimate
                         values_AddedBundleData.Add("record_id", newID);
                         values_AddedBundleData.Add("bundle_id", bvef.getBundleID());
                         values_AddedBundleData.Add("_value", bvef.getQuantityOFTotalBundlesInGroup());
-                       // MessageBox.Show($"{bvef.getQuantityOFTotalBundlesInGroup()}");
                         //values_AddedBundleData.Add();
                     }
                     else
@@ -402,7 +422,7 @@ namespace MyWinFormsApp.Sections.Estimate
                         values_AddedBundleData.Add("bundle_id", bvef.getBundleID());
                         values_AddedBundleData.Add("_value", bvef.getQuantityOFTotalBundlesInGroup());
                         values_AddedBundleData.Add("pallet_id",bvef.getPalletID());
-                        values_AddedBundleData.Add("pallet_quantity", bvef.getQuantityOfPallet());
+                        values_AddedBundleData.Add("pallet_quantiy", bvef.getQuantityOfPallet());
                     }
                     sql.InsertDataAndGetId("AddedBundle_Table", values_AddedBundleData);
                 }
@@ -476,6 +496,47 @@ namespace MyWinFormsApp.Sections.Estimate
                 conditions = conditions.Distinct().ToList();
                 return conditions;
             }
+            private bool isAllowToAdd()
+            {
+                string message = "";
+                bool truck_selection = false;
+                bool client_selection = false;
+                bool bundle_selection = false;
+                if (this.truck_cb.SelectedItem == "<Select a Truck>")
+                {
+                message += "- No Truck is Selected\n";
+                truck_selection = true;
+                }
+                if (!isClientCanBePush())
+                {
+                message += "- Not All Client are filled complete\n";
+                client_selection = true;
+                }
+                if (!isBundleCanBePush())
+                {
+                message += "- Not All Bundle are filled complete\n";
+                bundle_selection = true;
+                }
+                if (truck_selection || client_selection || bundle_selection)
+                {
+                MessageBox.Show($"CANNOT ADD ITEM:\n{message}");
+                return false;
+                }
+            return true;
+            }
+
+            private bool isClientCanBePush()
+            {
+            if (clientList.Count < 1) return false;
+            foreach (clientselectView_form c in clientList) if (c.BackColor == Color.IndianRed) return false;
+            return true;
+            }
+            private bool isBundleCanBePush()
+            {
+                if (bundle_list.Count < 1) return false;
+                foreach (bundleview_estimation_form b in bundle_list) if (b.BackColor == Color.IndianRed) return false;
+                return true;
+            }
 
         /// <summary>
         /// Returns a Boolean value base on how much complete is the user input controls.
@@ -520,9 +581,14 @@ namespace MyWinFormsApp.Sections.Estimate
             }
             private void action_button_Click(object sender, EventArgs e)
             {
-                if (this.id == -1) AddNewRecord();
-                else ExitRecord();Debug.WriteLine("\n\n\tXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   SAVE    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n");
+                if (this.id == -1)
+                {
+                    if (!isAllowToAdd()) return;
+                    AddNewRecord();
+                }
+                else ExitRecord(); Debug.WriteLine("\n\n\tXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   SAVE    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n\n");
             }
+
 
     }
 

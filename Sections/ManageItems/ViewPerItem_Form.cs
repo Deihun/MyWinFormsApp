@@ -14,30 +14,54 @@ namespace MyWinFormsApp.Sections.ManageItems
     public partial class ViewPerItem_Form : Form
     {
         ManageItems_form parent;
+        main_startup_form mainparent;
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
         int id;
         public string itemname = "";
         public string clientname = "";
         public string flutecode = "";
         public string category = "";
-        public ViewPerItem_Form(string clientname, string itemname, decimal length, decimal width, decimal height, string fluteCode, int id, string category, string fcc, ManageItems_form parent, bool giveWarning = false)
+        public ViewPerItem_Form(int id, ManageItems_form parent, main_startup_form mparent)
         {
             InitializeComponent();
+            DataRow Item_Table = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE id = {id}").Rows[0];
+            DataRow client_table = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE id = {Convert.ToInt32(Item_Table["client_id"])} ORDER BY is_deleted ASC").Rows[0];
+            DataRow Flute_Table = sql.ExecuteQuery($"SELECT * FROM Flute_Table WHERE id = {Convert.ToInt32(Item_Table["flute_id"])}").Rows[0];
+            bool ClientisDeleted = Convert.ToBoolean(client_table["is_deleted"]);
+            bool FluteisDeleted = Convert.ToBoolean(Flute_Table["is_deleted"]);
+            bool isError = ClientisDeleted || FluteisDeleted;
+            bool isFolded = Convert.ToBoolean(Item_Table["isFolded"]);
+
+            string clientName = client_table["name"].ToString();
+            string fluteType = Flute_Table["code_name"].ToString();
+
+            fluteType += FluteisDeleted ? " (DELETED)" : string.Empty;
+
+            clientName = ClientisDeleted ? clientName + "(DELETED)" : clientName;
+            decimal fluteValue = Convert.ToDecimal(Flute_Table["_value"]);
+            decimal length = Convert.ToDecimal(Item_Table["_length"]);
+            decimal width = Convert.ToDecimal(Item_Table["_width"]);
+
+            fluteValue = isFolded ? fluteValue * 2 : fluteValue;
+            
             this.parent = parent;
+            this.mainparent = mparent;
             this.id = id;
-            client_label.Text = $"{clientname}";
+            client_label.Text = $"{clientName}";
             itemname_label.Text = itemname;
-            flute_label.Text = $"FluteType: ({fluteCode.ToUpper()})";
+            flute_label.Text = $"FluteType: ({fluteType.ToUpper()})";
             content_label.Text = $"Length(mm):     {Math.Round(length,2)}\n" +
                                  $"Width(mm) :     {Math.Round(width,2)}\n" +
-                                 $"Height(mm):     {Math.Round(height,2)}\n" +
-                                 $"Dimension (mm): {Math.Round(height * width * height, 0)}";
-            this.fcc_label.Text = $"F.C. CONTROL No.:\n    {fcc}";
+                                 $"Height(mm):     {Math.Round(fluteValue, 2)}\n" +
+                                 $"Dimension (mm): {Math.Round(length * width * fluteValue, 0)}";
+            this.fcc_label.Text = $"F.C. CONTROL No.:\n    {Item_Table["fc_control_number"]}";
             this.category = category;
             this.itemname = itemname;
             this.clientname = clientname;
-            this.flutecode = fluteCode;
-            if (giveWarning) this.BackColor = Color.MistyRose;
+            
+            this.flutecode = Flute_Table["code_name"].ToString();
+
+            if (isError) this.BackColor = Color.MistyRose;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -57,7 +81,10 @@ MessageBoxIcon.Exclamation
             {
                 sql.commitReport($"A data Item '{itemname}' was deleted");
                 DeleteMyValue();
-                parent.UpdateVisual();
+                this.parent.resetFilter();
+                this.parent.updatePageSelection();
+                this.parent.TriggerVisualUpdate();
+                this.parent.updatePageSelection();
             }
             else if (result == DialogResult.No)
             {
@@ -66,7 +93,7 @@ MessageBoxIcon.Exclamation
 
         private void edit_btn_Click(object sender, EventArgs e)
         {
-            AddNewItems_WindowPopUpForm aniwpuf = new AddNewItems_WindowPopUpForm(parent, id);
+            AddNewItems_WindowPopUpForm aniwpuf = new AddNewItems_WindowPopUpForm(parent, id, mainparent);
             aniwpuf.ShowDialog();
             parent.UpdateVisual();
         }

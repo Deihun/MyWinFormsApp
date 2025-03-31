@@ -31,11 +31,16 @@
             label1 = new Label();
             label2 = new Label();
             groupBox1 = new GroupBox();
-            category_cb = new ComboBox();
-            category_checkbox = new CheckBox();
+            label7 = new Label();
+            category_path = new Label();
+            editcategory_btn = new Button();
+            platenumber_warning = new Label();
             platenumber_tb = new TextBox();
             trucktype_cb = new ComboBox();
+            trucktype_warning = new Label();
             groupBox2 = new GroupBox();
+            height_warning = new Label();
+            width_warning = new Label();
             height_tb = new TextBox();
             width_tb = new TextBox();
             length_tb = new TextBox();
@@ -45,6 +50,7 @@
             referencesize_cb = new ComboBox();
             label3 = new Label();
             pictureBox1 = new PictureBox();
+            length_warning = new Label();
             cancel_btn = new Button();
             add_btn = new Button();
             groupBox1.SuspendLayout();
@@ -74,12 +80,15 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(category_cb);
-            groupBox1.Controls.Add(category_checkbox);
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(category_path);
+            groupBox1.Controls.Add(editcategory_btn);
+            groupBox1.Controls.Add(platenumber_warning);
             groupBox1.Controls.Add(platenumber_tb);
             groupBox1.Controls.Add(trucktype_cb);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(trucktype_warning);
             groupBox1.Location = new Point(12, 9);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(553, 112);
@@ -87,28 +96,45 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
             // 
-            // category_cb
+            // label7
             // 
-            category_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            category_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
-            category_cb.Enabled = false;
-            category_cb.FlatStyle = FlatStyle.Flat;
-            category_cb.FormattingEnabled = true;
-            category_cb.Location = new Point(106, 66);
-            category_cb.Name = "category_cb";
-            category_cb.Size = new Size(179, 23);
-            category_cb.TabIndex = 10;
+            label7.AutoSize = true;
+            label7.Location = new Point(40, 68);
+            label7.Name = "label7";
+            label7.Size = new Size(58, 15);
+            label7.TabIndex = 25;
+            label7.Text = "Category:";
             // 
-            // category_checkbox
+            // category_path
             // 
-            category_checkbox.AutoSize = true;
-            category_checkbox.Location = new Point(21, 68);
-            category_checkbox.Name = "category_checkbox";
-            category_checkbox.Size = new Size(74, 19);
-            category_checkbox.TabIndex = 9;
-            category_checkbox.Text = "Category";
-            category_checkbox.UseVisualStyleBackColor = true;
-            category_checkbox.CheckedChanged += category_checkbox_CheckedChanged;
+            category_path.AutoSize = true;
+            category_path.ForeColor = Color.DimGray;
+            category_path.Location = new Point(194, 68);
+            category_path.Name = "category_path";
+            category_path.Size = new Size(74, 15);
+            category_path.TabIndex = 24;
+            category_path.Text = "No Category";
+            // 
+            // editcategory_btn
+            // 
+            editcategory_btn.Location = new Point(104, 64);
+            editcategory_btn.Name = "editcategory_btn";
+            editcategory_btn.Size = new Size(84, 23);
+            editcategory_btn.TabIndex = 23;
+            editcategory_btn.Text = "EDIT";
+            editcategory_btn.UseVisualStyleBackColor = true;
+            editcategory_btn.Click += editcategory_btn_Click;
+            // 
+            // platenumber_warning
+            // 
+            platenumber_warning.AutoSize = true;
+            platenumber_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            platenumber_warning.ForeColor = Color.Red;
+            platenumber_warning.Location = new Point(3, 35);
+            platenumber_warning.Name = "platenumber_warning";
+            platenumber_warning.Size = new Size(14, 19);
+            platenumber_warning.TabIndex = 21;
+            platenumber_warning.Text = "!";
             // 
             // platenumber_tb
             // 
@@ -131,8 +157,21 @@
             trucktype_cb.TabIndex = 2;
             trucktype_cb.SelectedIndexChanged += trucktype_cb_SelectedIndexChanged;
             // 
+            // trucktype_warning
+            // 
+            trucktype_warning.AutoSize = true;
+            trucktype_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            trucktype_warning.ForeColor = Color.Red;
+            trucktype_warning.Location = new Point(283, 36);
+            trucktype_warning.Name = "trucktype_warning";
+            trucktype_warning.Size = new Size(14, 19);
+            trucktype_warning.TabIndex = 22;
+            trucktype_warning.Text = "!";
+            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(height_warning);
+            groupBox2.Controls.Add(width_warning);
             groupBox2.Controls.Add(height_tb);
             groupBox2.Controls.Add(width_tb);
             groupBox2.Controls.Add(length_tb);
@@ -142,12 +181,35 @@
             groupBox2.Controls.Add(referencesize_cb);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(pictureBox1);
+            groupBox2.Controls.Add(length_warning);
             groupBox2.Location = new Point(12, 121);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(553, 180);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Interior Dimension of Truck";
+            // 
+            // height_warning
+            // 
+            height_warning.AutoSize = true;
+            height_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            height_warning.ForeColor = Color.Red;
+            height_warning.Location = new Point(37, 122);
+            height_warning.Name = "height_warning";
+            height_warning.Size = new Size(14, 19);
+            height_warning.TabIndex = 24;
+            height_warning.Text = "!";
+            // 
+            // width_warning
+            // 
+            width_warning.AutoSize = true;
+            width_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            width_warning.ForeColor = Color.Red;
+            width_warning.Location = new Point(37, 91);
+            width_warning.Name = "width_warning";
+            width_warning.Size = new Size(14, 19);
+            width_warning.TabIndex = 23;
+            width_warning.Text = "!";
             // 
             // height_tb
             // 
@@ -234,6 +296,17 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
+            // length_warning
+            // 
+            length_warning.AutoSize = true;
+            length_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            length_warning.ForeColor = Color.Red;
+            length_warning.Location = new Point(40, 62);
+            length_warning.Name = "length_warning";
+            length_warning.Size = new Size(14, 19);
+            length_warning.TabIndex = 23;
+            length_warning.Text = "!";
+            // 
             // cancel_btn
             // 
             cancel_btn.Location = new Point(144, 308);
@@ -293,7 +366,13 @@
         private TextBox height_tb;
         private TextBox width_tb;
         private TextBox platenumber_tb;
-        private ComboBox category_cb;
-        private CheckBox category_checkbox;
+        private Label platenumber_warning;
+        private Label trucktype_warning;
+        private Label height_warning;
+        private Label width_warning;
+        private Label length_warning;
+        private Label label7;
+        private Label category_path;
+        private Button editcategory_btn;
     }
 }

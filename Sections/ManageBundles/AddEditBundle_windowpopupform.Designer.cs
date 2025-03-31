@@ -36,14 +36,17 @@
             details_label = new Label();
             add_btn = new Button();
             cancel_btn = new Button();
-            category_cb = new ComboBox();
-            category_checkbox = new CheckBox();
+            item_warning = new Label();
+            quantity_warning = new Label();
+            label7 = new Label();
+            category_path = new Label();
+            editcategory_btn = new Button();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(38, 17);
+            label1.Location = new Point(53, 13);
             label1.Name = "label1";
             label1.Size = new Size(37, 15);
             label1.TabIndex = 0;
@@ -52,7 +55,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(325, 17);
+            label2.Location = new Point(325, 14);
             label2.Name = "label2";
             label2.Size = new Size(56, 15);
             label2.TabIndex = 1;
@@ -75,6 +78,7 @@
             quantity_tb.Name = "quantity_tb";
             quantity_tb.Size = new Size(132, 23);
             quantity_tb.TabIndex = 3;
+            quantity_tb.TextChanged += quantity_tb_TextChanged;
             // 
             // label3
             // 
@@ -115,36 +119,65 @@
             cancel_btn.UseVisualStyleBackColor = true;
             cancel_btn.Click += cancel_btn_Click;
             // 
-            // category_cb
+            // item_warning
             // 
-            category_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            category_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
-            category_cb.Enabled = false;
-            category_cb.FlatStyle = FlatStyle.Flat;
-            category_cb.FormattingEnabled = true;
-            category_cb.Location = new Point(139, 38);
-            category_cb.Name = "category_cb";
-            category_cb.Size = new Size(149, 23);
-            category_cb.TabIndex = 12;
+            item_warning.AutoSize = true;
+            item_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            item_warning.ForeColor = Color.Red;
+            item_warning.Location = new Point(44, 12);
+            item_warning.Name = "item_warning";
+            item_warning.Size = new Size(14, 19);
+            item_warning.TabIndex = 18;
+            item_warning.Text = "!";
             // 
-            // category_checkbox
+            // quantity_warning
             // 
-            category_checkbox.AutoSize = true;
-            category_checkbox.Location = new Point(38, 42);
-            category_checkbox.Name = "category_checkbox";
-            category_checkbox.Size = new Size(74, 19);
-            category_checkbox.TabIndex = 11;
-            category_checkbox.Text = "Category";
-            category_checkbox.UseVisualStyleBackColor = true;
-            category_checkbox.CheckedChanged += category_checkbox_CheckedChanged;
+            quantity_warning.AutoSize = true;
+            quantity_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            quantity_warning.ForeColor = Color.Red;
+            quantity_warning.Location = new Point(317, 12);
+            quantity_warning.Name = "quantity_warning";
+            quantity_warning.Size = new Size(14, 19);
+            quantity_warning.TabIndex = 19;
+            quantity_warning.Text = "!";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(32, 43);
+            label7.Name = "label7";
+            label7.Size = new Size(58, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Category:";
+            // 
+            // category_path
+            // 
+            category_path.AutoSize = true;
+            category_path.ForeColor = Color.DimGray;
+            category_path.Location = new Point(186, 43);
+            category_path.Name = "category_path";
+            category_path.Size = new Size(74, 15);
+            category_path.TabIndex = 27;
+            category_path.Text = "No Category";
+            // 
+            // editcategory_btn
+            // 
+            editcategory_btn.Location = new Point(96, 39);
+            editcategory_btn.Name = "editcategory_btn";
+            editcategory_btn.Size = new Size(84, 23);
+            editcategory_btn.TabIndex = 26;
+            editcategory_btn.Text = "EDIT";
+            editcategory_btn.UseVisualStyleBackColor = true;
+            editcategory_btn.Click += editcategory_btn_Click;
             // 
             // AddEditBundle_windowpopupform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(524, 234);
-            Controls.Add(category_cb);
-            Controls.Add(category_checkbox);
+            Controls.Add(label7);
+            Controls.Add(category_path);
+            Controls.Add(editcategory_btn);
             Controls.Add(cancel_btn);
             Controls.Add(add_btn);
             Controls.Add(details_label);
@@ -153,9 +186,12 @@
             Controls.Add(itemlist_cb);
             Controls.Add(label2);
             Controls.Add(label1);
+            Controls.Add(item_warning);
+            Controls.Add(quantity_warning);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "AddEditBundle_windowpopupform";
             Text = "ADD BUNDLE";
+            Load += AddEditBundle_windowpopupform_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -170,7 +206,10 @@
         private Label details_label;
         private Button add_btn;
         private Button cancel_btn;
-        private ComboBox category_cb;
-        private CheckBox category_checkbox;
+        private Label item_warning;
+        private Label quantity_warning;
+        private Label label7;
+        private Label category_path;
+        private Button editcategory_btn;
     }
 }

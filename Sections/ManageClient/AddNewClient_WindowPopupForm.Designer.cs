@@ -30,8 +30,11 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             groupBox1 = new GroupBox();
-            category_cb = new ComboBox();
-            category_checkbox = new CheckBox();
+            label7 = new Label();
+            category_path = new Label();
+            editcategory_btn = new Button();
+            description_warning = new Label();
+            name_warning = new Label();
             description_rtb = new RichTextBox();
             label1 = new Label();
             name_lb = new Label();
@@ -69,8 +72,11 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(category_cb);
-            groupBox1.Controls.Add(category_checkbox);
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(category_path);
+            groupBox1.Controls.Add(editcategory_btn);
+            groupBox1.Controls.Add(description_warning);
+            groupBox1.Controls.Add(name_warning);
             groupBox1.Controls.Add(description_rtb);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(name_lb);
@@ -83,28 +89,56 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
             // 
-            // category_cb
+            // label7
             // 
-            category_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            category_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
-            category_cb.Enabled = false;
-            category_cb.FlatStyle = FlatStyle.Flat;
-            category_cb.FormattingEnabled = true;
-            category_cb.Location = new Point(138, 169);
-            category_cb.Name = "category_cb";
-            category_cb.Size = new Size(224, 23);
-            category_cb.TabIndex = 12;
+            label7.AutoSize = true;
+            label7.Location = new Point(73, 171);
+            label7.Name = "label7";
+            label7.Size = new Size(58, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Category:";
             // 
-            // category_checkbox
+            // category_path
             // 
-            category_checkbox.AutoSize = true;
-            category_checkbox.Location = new Point(46, 172);
-            category_checkbox.Name = "category_checkbox";
-            category_checkbox.Size = new Size(74, 19);
-            category_checkbox.TabIndex = 11;
-            category_checkbox.Text = "Category";
-            category_checkbox.UseVisualStyleBackColor = true;
-            category_checkbox.CheckedChanged += category_checkbox_CheckedChanged;
+            category_path.AutoSize = true;
+            category_path.ForeColor = Color.DimGray;
+            category_path.Location = new Point(227, 171);
+            category_path.Name = "category_path";
+            category_path.Size = new Size(74, 15);
+            category_path.TabIndex = 27;
+            category_path.Text = "No Category";
+            // 
+            // editcategory_btn
+            // 
+            editcategory_btn.Location = new Point(137, 167);
+            editcategory_btn.Name = "editcategory_btn";
+            editcategory_btn.Size = new Size(84, 23);
+            editcategory_btn.TabIndex = 26;
+            editcategory_btn.Text = "EDIT";
+            editcategory_btn.UseVisualStyleBackColor = true;
+            editcategory_btn.Click += editcategory_btn_Click;
+            // 
+            // description_warning
+            // 
+            description_warning.AutoSize = true;
+            description_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            description_warning.ForeColor = Color.Red;
+            description_warning.Location = new Point(5, 52);
+            description_warning.Name = "description_warning";
+            description_warning.Size = new Size(14, 19);
+            description_warning.TabIndex = 21;
+            description_warning.Text = "!";
+            // 
+            // name_warning
+            // 
+            name_warning.AutoSize = true;
+            name_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            name_warning.ForeColor = Color.Red;
+            name_warning.Location = new Point(40, 23);
+            name_warning.Name = "name_warning";
+            name_warning.Size = new Size(14, 19);
+            name_warning.TabIndex = 20;
+            name_warning.Text = "!";
             // 
             // description_rtb
             // 
@@ -120,7 +154,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(18, 56);
+            label1.Location = new Point(29, 56);
             label1.Margin = new Padding(0, 30, 0, 0);
             label1.Name = "label1";
             label1.Size = new Size(104, 15);
@@ -130,7 +164,7 @@
             // name_lb
             // 
             name_lb.AutoSize = true;
-            name_lb.Location = new Point(46, 25);
+            name_lb.Location = new Point(57, 25);
             name_lb.Margin = new Padding(0, 30, 0, 0);
             name_lb.Name = "name_lb";
             name_lb.Size = new Size(76, 15);
@@ -260,7 +294,10 @@
         private Button add_btn;
         private Button cancel_btn;
         private CheckBox requireclearancespace_cb;
-        private ComboBox category_cb;
-        private CheckBox category_checkbox;
+        private Label description_warning;
+        private Label name_warning;
+        private Label label7;
+        private Label category_path;
+        private Button editcategory_btn;
     }
 }

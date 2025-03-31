@@ -33,8 +33,12 @@ namespace MyWinFormsApp.Sections.Estimate
             client_combobox.DropDownStyle = ComboBoxStyle.DropDown;
             client_combobox.Text = client["name"].ToString();
             description_label.Text = client["description"].ToString();
-            client_combobox.Enabled = false;
             filter = client["filter"].ToString();
+        }
+
+        public void disable_inputs()
+        {
+            client_combobox.Enabled = false;
             delete_button.Hide();
         }
 

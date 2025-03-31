@@ -29,13 +29,20 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label7 = new Label();
+            category_path = new Label();
+            editcategory_btn = new Button();
+            fccontrol_tb = new TextBox();
+            label6 = new Label();
             itemdescription_rtb = new RichTextBox();
-            category_cb = new ComboBox();
-            category_checkbox = new CheckBox();
             client_cb = new ComboBox();
             label2 = new Label();
             label1 = new Label();
+            itemdescription_warning = new Label();
+            client_warning = new Label();
+            fcControl_warning = new Label();
             groupBox2 = new GroupBox();
+            width_warning = new Label();
             unfolded_rb = new RadioButton();
             fold_rb = new RadioButton();
             flutetype_cb = new ComboBox();
@@ -44,32 +51,85 @@
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
+            flute_warning = new Label();
+            length_warning = new Label();
             pictureBox1 = new PictureBox();
             add_btn = new Button();
             cancel_btn = new Button();
-            label6 = new Label();
-            fccontrol_tb = new TextBox();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(category_path);
+            groupBox1.Controls.Add(editcategory_btn);
             groupBox1.Controls.Add(fccontrol_tb);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(itemdescription_rtb);
-            groupBox1.Controls.Add(category_cb);
-            groupBox1.Controls.Add(category_checkbox);
             groupBox1.Controls.Add(client_cb);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(itemdescription_warning);
+            groupBox1.Controls.Add(client_warning);
+            groupBox1.Controls.Add(fcControl_warning);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(573, 130);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(56, 89);
+            label7.Name = "label7";
+            label7.Size = new Size(58, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Category:";
+            // 
+            // category_path
+            // 
+            category_path.AutoSize = true;
+            category_path.ForeColor = Color.DimGray;
+            category_path.Location = new Point(210, 89);
+            category_path.Name = "category_path";
+            category_path.Size = new Size(74, 15);
+            category_path.TabIndex = 27;
+            category_path.Text = "No Category";
+            // 
+            // editcategory_btn
+            // 
+            editcategory_btn.Location = new Point(120, 85);
+            editcategory_btn.Name = "editcategory_btn";
+            editcategory_btn.Size = new Size(84, 23);
+            editcategory_btn.TabIndex = 26;
+            editcategory_btn.Text = "EDIT";
+            editcategory_btn.UseVisualStyleBackColor = true;
+            editcategory_btn.Click += editcategory_btn_Click;
+            // 
+            // fccontrol_tb
+            // 
+            fccontrol_tb.Location = new Point(424, 53);
+            fccontrol_tb.Name = "fccontrol_tb";
+            fccontrol_tb.Size = new Size(143, 23);
+            fccontrol_tb.TabIndex = 15;
+            fccontrol_tb.TextChanged += fccontrol_tb_TextChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(355, 56);
+            label6.Name = "label6";
+            label6.Size = new Size(73, 15);
+            label6.TabIndex = 14;
+            label6.Text = "F.C. Control:";
             // 
             // itemdescription_rtb
             // 
@@ -78,29 +138,7 @@
             itemdescription_rtb.Size = new Size(222, 57);
             itemdescription_rtb.TabIndex = 13;
             itemdescription_rtb.Text = "";
-            // 
-            // category_cb
-            // 
-            category_cb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            category_cb.AutoCompleteSource = AutoCompleteSource.ListItems;
-            category_cb.Enabled = false;
-            category_cb.FlatStyle = FlatStyle.Flat;
-            category_cb.FormattingEnabled = true;
-            category_cb.Location = new Point(120, 85);
-            category_cb.Name = "category_cb";
-            category_cb.Size = new Size(222, 23);
-            category_cb.TabIndex = 12;
-            // 
-            // category_checkbox
-            // 
-            category_checkbox.AutoSize = true;
-            category_checkbox.Location = new Point(40, 89);
-            category_checkbox.Name = "category_checkbox";
-            category_checkbox.Size = new Size(74, 19);
-            category_checkbox.TabIndex = 11;
-            category_checkbox.Text = "Category";
-            category_checkbox.UseVisualStyleBackColor = true;
-            category_checkbox.CheckedChanged += category_checkbox_CheckedChanged;
+            itemdescription_rtb.TextChanged += itemdescription_rtb_TextChanged;
             // 
             // client_cb
             // 
@@ -110,6 +148,7 @@
             client_cb.Name = "client_cb";
             client_cb.Size = new Size(165, 23);
             client_cb.TabIndex = 3;
+            client_cb.SelectedIndexChanged += client_cb_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -129,8 +168,42 @@
             label1.TabIndex = 0;
             label1.Text = "Item Description:";
             // 
+            // itemdescription_warning
+            // 
+            itemdescription_warning.AutoSize = true;
+            itemdescription_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            itemdescription_warning.ForeColor = Color.Red;
+            itemdescription_warning.Location = new Point(9, 22);
+            itemdescription_warning.Name = "itemdescription_warning";
+            itemdescription_warning.Size = new Size(14, 19);
+            itemdescription_warning.TabIndex = 6;
+            itemdescription_warning.Text = "!";
+            // 
+            // client_warning
+            // 
+            client_warning.AutoSize = true;
+            client_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            client_warning.ForeColor = Color.Red;
+            client_warning.Location = new Point(346, 19);
+            client_warning.Name = "client_warning";
+            client_warning.Size = new Size(14, 19);
+            client_warning.TabIndex = 16;
+            client_warning.Text = "!";
+            // 
+            // fcControl_warning
+            // 
+            fcControl_warning.AutoSize = true;
+            fcControl_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            fcControl_warning.ForeColor = Color.Red;
+            fcControl_warning.Location = new Point(345, 52);
+            fcControl_warning.Name = "fcControl_warning";
+            fcControl_warning.Size = new Size(14, 19);
+            fcControl_warning.TabIndex = 17;
+            fcControl_warning.Text = "!";
+            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(width_warning);
             groupBox2.Controls.Add(unfolded_rb);
             groupBox2.Controls.Add(fold_rb);
             groupBox2.Controls.Add(flutetype_cb);
@@ -139,12 +212,25 @@
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(label3);
+            groupBox2.Controls.Add(flute_warning);
+            groupBox2.Controls.Add(length_warning);
             groupBox2.Location = new Point(12, 139);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(316, 146);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Dimensions";
+            // 
+            // width_warning
+            // 
+            width_warning.AutoSize = true;
+            width_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            width_warning.ForeColor = Color.Red;
+            width_warning.Location = new Point(37, 114);
+            width_warning.Name = "width_warning";
+            width_warning.Size = new Size(14, 19);
+            width_warning.TabIndex = 20;
+            width_warning.Text = "!";
             // 
             // unfolded_rb
             // 
@@ -177,6 +263,7 @@
             flutetype_cb.Name = "flutetype_cb";
             flutetype_cb.Size = new Size(164, 23);
             flutetype_cb.TabIndex = 6;
+            flutetype_cb.SelectedIndexChanged += flutetype_cb_SelectedIndexChanged;
             // 
             // width_tb
             // 
@@ -221,6 +308,28 @@
             label3.TabIndex = 1;
             label3.Text = "Flute Type:";
             // 
+            // flute_warning
+            // 
+            flute_warning.AutoSize = true;
+            flute_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            flute_warning.ForeColor = Color.Red;
+            flute_warning.Location = new Point(22, 30);
+            flute_warning.Name = "flute_warning";
+            flute_warning.Size = new Size(14, 19);
+            flute_warning.TabIndex = 18;
+            flute_warning.Text = "!";
+            // 
+            // length_warning
+            // 
+            length_warning.AutoSize = true;
+            length_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            length_warning.ForeColor = Color.Red;
+            length_warning.Location = new Point(37, 84);
+            length_warning.Name = "length_warning";
+            length_warning.Size = new Size(14, 19);
+            length_warning.TabIndex = 19;
+            length_warning.Text = "!";
+            // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.ItemHintPicture;
@@ -232,7 +341,7 @@
             // 
             // add_btn
             // 
-            add_btn.Location = new Point(12, 291);
+            add_btn.Location = new Point(3, 3);
             add_btn.Name = "add_btn";
             add_btn.Size = new Size(91, 33);
             add_btn.TabIndex = 3;
@@ -242,7 +351,7 @@
             // 
             // cancel_btn
             // 
-            cancel_btn.Location = new Point(109, 291);
+            cancel_btn.Location = new Point(230, 3);
             cancel_btn.Name = "cancel_btn";
             cancel_btn.Size = new Size(91, 33);
             cancel_btn.TabIndex = 4;
@@ -250,29 +359,32 @@
             cancel_btn.UseVisualStyleBackColor = true;
             cancel_btn.Click += cancel_btn_Click;
             // 
-            // label6
+            // flowLayoutPanel1
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(355, 56);
-            label6.Name = "label6";
-            label6.Size = new Size(73, 15);
-            label6.TabIndex = 14;
-            label6.Text = "F.C. Control:";
+            flowLayoutPanel1.Controls.Add(add_btn);
+            flowLayoutPanel1.Controls.Add(button1);
+            flowLayoutPanel1.Controls.Add(cancel_btn);
+            flowLayoutPanel1.Location = new Point(12, 290);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(342, 40);
+            flowLayoutPanel1.TabIndex = 5;
             // 
-            // fccontrol_tb
+            // button1
             // 
-            fccontrol_tb.Location = new Point(424, 53);
-            fccontrol_tb.Name = "fccontrol_tb";
-            fccontrol_tb.Size = new Size(143, 23);
-            fccontrol_tb.TabIndex = 15;
+            button1.Location = new Point(100, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(124, 33);
+            button1.TabIndex = 5;
+            button1.Text = "ADD && COPY";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // AddNewItems_WindowPopUpForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(596, 330);
-            Controls.Add(cancel_btn);
-            Controls.Add(add_btn);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(pictureBox1);
@@ -284,6 +396,7 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -303,12 +416,21 @@
         private PictureBox pictureBox1;
         private Button add_btn;
         private Button cancel_btn;
-        private ComboBox category_cb;
-        private CheckBox category_checkbox;
         private RadioButton unfolded_rb;
         private RadioButton fold_rb;
         private RichTextBox itemdescription_rtb;
         private TextBox fccontrol_tb;
         private Label label6;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Button button1;
+        private Label itemdescription_warning;
+        private Label client_warning;
+        private Label fcControl_warning;
+        private Label width_warning;
+        private Label flute_warning;
+        private Label length_warning;
+        private Label label7;
+        private Label category_path;
+        private Button editcategory_btn;
     }
 }

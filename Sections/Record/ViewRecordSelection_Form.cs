@@ -19,6 +19,7 @@ namespace MyWinFormsApp.Sections.Record
         private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
         private FilterInputSupportClass filter = new FilterInputSupportClass();
         private ViewRecord_Form parent;
+        private main_startup_form main_parent;
         //<LIST>
         private List<Label> bundle_label_list = new List<Label>();
         private List<Label> client_label_list = new List<Label>();
@@ -26,10 +27,11 @@ namespace MyWinFormsApp.Sections.Record
         private int id = -1;
         public DateTime datecreated;
 
-        public ViewRecordSelection_Form(int id, ViewRecord_Form parent)
+        public ViewRecordSelection_Form(int id, ViewRecord_Form parent, main_startup_form main_parent)
         {
             InitializeComponent();
             this.id = id;
+            this.main_parent = main_parent;
             this.parent = parent;
             ReTextVisualControls();
         }
@@ -59,7 +61,7 @@ namespace MyWinFormsApp.Sections.Record
                 data_label.Text = $"Date Created: {sql.ExecuteQuery($"SELECT date_added FROM Record_Table WHERE id = {id}").Rows[0][0].ToString()}";
                 description_label.Text = sql.ExecuteQuery($"SELECT remarks FROM Record_Table WHERE id = {id}").Rows[0][0].ToString();
                 datecreated = Convert.ToDateTime(sql.ExecuteQuery($"SELECT date_added FROM Record_Table WHERE id = {id}").Rows[0][0]);
-            DataTable Addedbundles = sql.ExecuteQuery($"SELECT * FROM AddedBundle_Table WHERE record_id = {id}");
+                DataTable Addedbundles = sql.ExecuteQuery($"SELECT * FROM AddedBundle_Table WHERE record_id = {id}");
                 DataTable Addedclients = sql.ExecuteQuery($"SELECT * FROM AddedClient_Table WHERE record_id = {id}");
 
                 foreach (DataRow row in Addedbundles.Rows)
@@ -76,8 +78,8 @@ namespace MyWinFormsApp.Sections.Record
                         continue;
                     }
                 }
-                
-                foreach (DataRow row in Addedclients.Rows) AddClient("- "+sql.ExecuteQuery($"SELECT name FROM Client_Table WHERE id = {row["client_id"]}").Rows[0][0].ToString());
+
+                foreach (DataRow row in Addedclients.Rows) AddClient("- " + sql.ExecuteQuery($"SELECT name FROM Client_Table WHERE id = {row["client_id"]}").Rows[0][0].ToString());
                 foreach (DataRow row in Addedbundles.Rows) AddBundleList("- " + sql.ExecuteQuery($"SELECT i.item_name FROM Bundle_Table b JOIN Item_Table i ON b.item_id = i.id WHERE b.id = {row["bundle_id"]}").Rows[0][0].ToString());
             }
         }
@@ -177,7 +179,7 @@ namespace MyWinFormsApp.Sections.Record
                 sql.commitReport($"A record data with item name '{a}' and id '{id}' has been deleted.");
                 deleteMyData();
                 parent.UpdateVisuals();
-                
+
             }
             else if (result == DialogResult.No)
             {
@@ -194,5 +196,9 @@ namespace MyWinFormsApp.Sections.Record
 
         }
 
+        private void copyTo_btn_Click(object sender, EventArgs e)
+        {
+            main_parent.copyFromRecord_To_Estimate(id);
+        }
     }
 }

@@ -168,7 +168,7 @@ namespace MyWinFormsApp.SupportClass
             {
                 if (control is TextBox textBox && string.IsNullOrWhiteSpace(textBox.Text))
                     return false;
-                if (control is ComboBox comboBox && string.IsNullOrWhiteSpace(comboBox.Text))
+                if (control is ComboBox comboBox && (string.IsNullOrWhiteSpace(comboBox.Text)|| string.IsNullOrEmpty(comboBox.Text)))
                     return false;
                 if (control is RichTextBox richTextBox && string.IsNullOrWhiteSpace(richTextBox.Text))
                     return false;

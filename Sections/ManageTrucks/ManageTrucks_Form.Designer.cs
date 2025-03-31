@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             tablelayout_main = new TableLayoutPanel();
-            add_btn = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             flowLayoutPanel2 = new FlowLayoutPanel();
@@ -42,15 +41,21 @@
             label3 = new Label();
             wheelertype_cb = new ComboBox();
             label1 = new Label();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            panel2 = new Panel();
             storedarea_flt = new FlowLayoutPanel();
             _no_result = new Label();
+            panel1 = new Panel();
+            add_btn = new Button();
             tablelayout_main.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
             storedarea_flt.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // tablelayout_main
@@ -58,44 +63,31 @@
             tablelayout_main.BackColor = Color.PaleGreen;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tablelayout_main.Controls.Add(add_btn, 0, 0);
-            tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 1);
+            tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
             tablelayout_main.Dock = DockStyle.Fill;
             tablelayout_main.Location = new Point(0, 0);
             tablelayout_main.Margin = new Padding(0);
             tablelayout_main.Name = "tablelayout_main";
-            tablelayout_main.RowCount = 2;
-            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 6F));
-            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 94F));
+            tablelayout_main.RowCount = 1;
+            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tablelayout_main.Size = new Size(1478, 688);
             tablelayout_main.TabIndex = 2;
-            // 
-            // add_btn
-            // 
-            add_btn.Dock = DockStyle.Left;
-            add_btn.Location = new Point(3, 3);
-            add_btn.Name = "add_btn";
-            add_btn.Size = new Size(217, 35);
-            add_btn.TabIndex = 0;
-            add_btn.Text = "ADD NEW TRUCK";
-            add_btn.UseVisualStyleBackColor = true;
-            add_btn.Click += add_btn_Click;
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 225F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 0);
-            tableLayoutPanel1.Controls.Add(storedarea_flt, 1, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 41);
+            tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(1478, 647);
+            tableLayoutPanel1.Size = new Size(1478, 688);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -110,7 +102,7 @@
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(221, 647);
+            flowLayoutPanel1.Size = new Size(225, 688);
             flowLayoutPanel1.TabIndex = 3;
             flowLayoutPanel1.WrapContents = false;
             // 
@@ -244,16 +236,46 @@
             label1.TabIndex = 12;
             label1.Text = "CATEGORY:";
             // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 1;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel4.Controls.Add(panel2, 0, 2);
+            tableLayoutPanel4.Controls.Add(storedarea_flt, 0, 1);
+            tableLayoutPanel4.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(225, 0);
+            tableLayoutPanel4.Margin = new Padding(0);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 3;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel4.Size = new Size(1253, 688);
+            tableLayoutPanel4.TabIndex = 4;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.OliveDrab;
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 653);
+            panel2.Margin = new Padding(0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1253, 35);
+            panel2.TabIndex = 6;
+            // 
             // storedarea_flt
             // 
             storedarea_flt.AutoScroll = true;
             storedarea_flt.Controls.Add(_no_result);
             storedarea_flt.Dock = DockStyle.Fill;
             storedarea_flt.FlowDirection = FlowDirection.TopDown;
-            storedarea_flt.Location = new Point(221, 0);
+            storedarea_flt.Location = new Point(0, 50);
             storedarea_flt.Margin = new Padding(0);
             storedarea_flt.Name = "storedarea_flt";
-            storedarea_flt.Size = new Size(1257, 647);
+            storedarea_flt.Padding = new Padding(10);
+            storedarea_flt.Size = new Size(1253, 603);
             storedarea_flt.TabIndex = 4;
             storedarea_flt.WrapContents = false;
             // 
@@ -262,13 +284,34 @@
             _no_result.AutoSize = true;
             _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
             _no_result.ForeColor = Color.LimeGreen;
-            _no_result.Location = new Point(200, 100);
+            _no_result.Location = new Point(210, 110);
             _no_result.Margin = new Padding(200, 100, 3, 0);
             _no_result.Name = "_no_result";
             _no_result.Size = new Size(344, 46);
             _no_result.TabIndex = 4;
             _no_result.Text = "NO RECORD RESULT";
             _no_result.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.OliveDrab;
+            panel1.Controls.Add(add_btn);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1253, 50);
+            panel1.TabIndex = 5;
+            // 
+            // add_btn
+            // 
+            add_btn.Location = new Point(3, 3);
+            add_btn.Name = "add_btn";
+            add_btn.Size = new Size(217, 44);
+            add_btn.TabIndex = 0;
+            add_btn.Text = "ADD NEW TRUCK";
+            add_btn.UseVisualStyleBackColor = true;
+            add_btn.Click += add_btn_Click;
             // 
             // ManageTrucks_Form
             // 
@@ -291,8 +334,10 @@
             tableLayoutPanel3.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            tableLayoutPanel4.ResumeLayout(false);
             storedarea_flt.ResumeLayout(false);
             storedarea_flt.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -314,5 +359,8 @@
         private Button clear_btn;
         private Label _no_result;
         private Label label1;
+        private TableLayoutPanel tableLayoutPanel4;
+        private Panel panel2;
+        private Panel panel1;
     }
 }

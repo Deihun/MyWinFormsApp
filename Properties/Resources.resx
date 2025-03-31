@@ -118,22 +118,196 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AddingClientData1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingClientData1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RecordFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RecordFilter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManagePallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManagePallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SaveTruckEstimateRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SaveTruckEstimateRecord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NavigateBackup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NavigateBackup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TruckFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TruckFilter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingItemData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingItemData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ConfirmCopy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ConfirmCopy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingTruckData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingTruckData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageItems" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageItems.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingFluteData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingFluteData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ResetSystem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ResetSystem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ItemHintPicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ItemHintPicture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PalletHintPicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PalletHintPicture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AddClient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddClient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TruckEstimate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TruckEstimate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ViewRecords" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ViewRecords.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeletePallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeletePallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PalletHintPicture1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PalletHintPicture1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FluteHintPicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FluteHintPicture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddingEstimateDataSingle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingEstimateDataSingle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddNewFlute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddNewFlute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TruckHintPicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TruckHintPicture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EditClient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditClient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteClient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteClient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddTruck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddTruck.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingClientData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingClientData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditPallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditPallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddBundle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddBundle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddPallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddPallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ClientFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClientFilter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteRecord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageFlute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageFlute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageClient1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageClient1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingEstimateDataSinglePallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingEstimateDataSinglePallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingPalletData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingPalletData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditItem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingBundleData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingBundleData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageSystem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageSystem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageBundle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageBundle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddClient1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddClient1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteFlute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteFlute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteBundle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteBundle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditTruck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditTruck.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ManageClient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManageClient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MANAGE_TRUCK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MANAGE_TRUCK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditFlute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditFlute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemBackup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SystemBackup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PalletFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PalletFilter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FluteHintPicture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FluteHintPicture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingEstimateDataMultiplePallet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingEstimateDataMultiplePallet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddingEstimateDataMultiple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddingEstimateDataMultiple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditBundle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditBundle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteClient1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteClient1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FullViewRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FullViewRecord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ItemFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemFilter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BundleFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BundleFilter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ClientFilter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClientFilter1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddNewItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddNewItem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EditClient1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditClient1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteTruck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteTruck.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CheckHistory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CheckHistory.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteItem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="header" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\header.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

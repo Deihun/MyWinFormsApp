@@ -43,6 +43,10 @@
             pictureBox1 = new PictureBox();
             add_btn = new Button();
             cancel_btn = new Button();
+            name_warning = new Label();
+            standard_warning = new Label();
+            target_warning = new Label();
+            tolerance_warning = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -52,6 +56,7 @@
             // 
             groupBox1.Controls.Add(codename_tb);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(name_warning);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(243, 83);
@@ -89,6 +94,9 @@
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(standardsize_tb);
             groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(target_warning);
+            groupBox2.Controls.Add(standard_warning);
+            groupBox2.Controls.Add(tolerance_warning);
             groupBox2.Location = new Point(12, 97);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(243, 174);
@@ -193,6 +201,50 @@
             cancel_btn.UseVisualStyleBackColor = true;
             cancel_btn.Click += cancel_btn_Click;
             // 
+            // name_warning
+            // 
+            name_warning.AutoSize = true;
+            name_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            name_warning.ForeColor = Color.Red;
+            name_warning.Location = new Point(20, 37);
+            name_warning.Name = "name_warning";
+            name_warning.Size = new Size(14, 19);
+            name_warning.TabIndex = 17;
+            name_warning.Text = "!";
+            // 
+            // standard_warning
+            // 
+            standard_warning.AutoSize = true;
+            standard_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            standard_warning.ForeColor = Color.Red;
+            standard_warning.Location = new Point(4, 33);
+            standard_warning.Name = "standard_warning";
+            standard_warning.Size = new Size(14, 19);
+            standard_warning.TabIndex = 17;
+            standard_warning.Text = "!";
+            // 
+            // target_warning
+            // 
+            target_warning.AutoSize = true;
+            target_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            target_warning.ForeColor = Color.Red;
+            target_warning.Location = new Point(3, 74);
+            target_warning.Name = "target_warning";
+            target_warning.Size = new Size(14, 19);
+            target_warning.TabIndex = 18;
+            target_warning.Text = "!";
+            // 
+            // tolerance_warning
+            // 
+            tolerance_warning.AutoSize = true;
+            tolerance_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            tolerance_warning.ForeColor = Color.Red;
+            tolerance_warning.Location = new Point(20, 115);
+            tolerance_warning.Name = "tolerance_warning";
+            tolerance_warning.Size = new Size(14, 19);
+            tolerance_warning.TabIndex = 19;
+            tolerance_warning.Text = "!";
+            // 
             // AddOrEditFlute_windowpopupform
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -231,5 +283,9 @@
         private Label label4;
         private TextBox textBox1;
         private Label label5;
+        private Label name_warning;
+        private Label target_warning;
+        private Label standard_warning;
+        private Label tolerance_warning;
     }
 }

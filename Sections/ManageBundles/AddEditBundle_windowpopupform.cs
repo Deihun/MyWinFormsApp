@@ -15,14 +15,37 @@ namespace MyWinFormsApp.Sections.ManageBundles
 {
     public partial class AddEditBundle_windowpopupform : Form //INCOMPLETE, ADD DETAILS WHEN SELECTING A SPECIFIC COMBOBOX ITEM ON DETAIL LABELS
     {
-        ManageBundles_Form parent;
-        Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-        int id = -1;
+        private ManageBundles_Form parent;
+        private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
+
+        private int id = -1;
+
+        private string category = "";
         public AddEditBundle_windowpopupform(ManageBundles_Form parent)
         {
             InitializeComponent();
             instantiateCB();
             this.parent = parent;
+            updateWarning();
+        }
+
+        public AddEditBundle_windowpopupform(ManageBundles_Form parent, string item_name)
+        {
+            InitializeComponent();
+            instantiateCB();
+            this.parent = parent;
+
+            try
+            {
+                itemlist_cb.SelectedItem = item_name;
+            }
+            catch
+            {
+                itemlist_cb.Items.Add(item_name);
+                itemlist_cb.SelectedItem = item_name;
+            }
+            updateWarning();
+
         }
         public AddEditBundle_windowpopupform(ManageBundles_Form parent, int id)
         {
@@ -36,14 +59,13 @@ namespace MyWinFormsApp.Sections.ManageBundles
             DataRow bundleRow = sql.ExecuteQuery($"SELECT * FROM Bundle_Table WHERE id = {id}").Rows[0];
             quantity_tb.Text = bundleRow["quantity"].ToString();
             itemlist_cb.Text = sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(bundleRow["item_id"])}").Rows[0][0].ToString();
-            category_checkbox.Checked = !string.IsNullOrEmpty(bundleRow["category"].ToString());
-            if (category_checkbox.Checked) category_cb.Text = bundleRow["category"].ToString();
+            set_category(bundleRow["category"].ToString());
+            updateWarning();
 
         }
         private void instantiateCB()
         {
             foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT item_name FROM Item_Table WHERE is_deleted = 0").Rows) itemlist_cb.Items.Add(row["item_name"].ToString());
-            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Bundle_Table WHERE is_deleted = 0").Rows) category_cb.Items.Add(row["category"].ToString());
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -57,7 +79,10 @@ namespace MyWinFormsApp.Sections.ManageBundles
             {
                 if (id == -1) AddBundle();
                 else rewriteBundle();
-                parent.UpdateVisual();
+                parent.resetFilter();
+                parent.updatePageSelector();
+                parent.TriggerVisualUpdate();
+                parent.updatePageSelector();
                 this.Dispose();
             }
             else MessageBox.Show("Please Fill up all the occupied space");
@@ -71,7 +96,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
             {
                 {"quantity", Convert.ToInt32(quantity_tb.Text) },
                 {"item_id", itemID },
-                {"category", filter.RemoveSQLInjectionRisks(category_cb.Text.ToUpper()) }
+                {"category", category }
             };
             sql.InsertData("Bundle_Table", value);
             sql.commitReport($"A new Data Bundle '{itemlist_cb.Text}' was added");
@@ -79,7 +104,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
         private void rewriteBundle()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
             int itemID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Item_Table WHERE item_name = '{itemlist_cb.Text}';").Rows[0][0]);
-            string query = $"UPDATE Bundle_Table SET quantity = {quantity_tb.Text}, item_id = {itemID}, category = '{category_cb.Text}' WHERE id = {id}";
+            string query = $"UPDATE Bundle_Table SET quantity = {quantity_tb.Text}, item_id = {itemID}, category = '{category}' WHERE id = {id}";
             sql.ExecuteQuery(query);
             sql.commitReport($"A Data Bundle '{itemlist_cb.Text}' was modified");
         }
@@ -89,18 +114,53 @@ namespace MyWinFormsApp.Sections.ManageBundles
             DataRow row = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE item_name = '{itemlist_cb.Text}' AND is_deleted = 0").Rows[0];
             DataRow fluterow = sql.ExecuteQuery($"SELECT * FROM Flute_Table WHERE id = {row["flute_id"]}").Rows[0];
             decimal height = Convert.ToDecimal(fluterow["_value"]);
-            height = Convert.ToBoolean(row["isFolded"]) ? height * 2: height;
+            height = Convert.ToBoolean(row["isFolded"]) ? height * 2 : height;
             details_label.ForeColor = Color.Black;
             details_label.Location = new Point(20, 93);
             details_label.Text = $"Length(mm): {row["_length"]}\n" +
                                  $"Width(mm) :{row["_width"]}\n" +
                                  $"Height(mm) :{height}\n" +
                                  $"FluteType: {fluterow["code_name"]}";
+            updateWarning();
         }
 
-        private void category_checkbox_CheckedChanged(object sender, EventArgs e)
+
+        private void updateWarning()
         {
-            category_cb.Enabled = category_checkbox.Checked;
+            item_warning.Visible = itemlist_cb.Text == string.Empty;
+            quantity_warning.Visible = quantity_tb.Text == string.Empty;
+        }
+
+        private void quantity_tb_TextChanged(object sender, EventArgs e)
+        {
+            FilterInputSupportClass filter = new FilterInputSupportClass();
+            filter.ValidateNumericInput(quantity_tb);
+            quantity_tb.Text = quantity_tb.Text.Replace(".", "");
+            updateWarning();
+            ;
+        }
+
+        private void AddEditBundle_windowpopupform_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editcategory_btn_Click(object sender, EventArgs e)
+        {
+            List<string> list_of_category = new List<string>();
+            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Truck_Table WHERE is_deleted = 0;").Rows) list_of_category.Add(row["category"].ToString());
+            ListSelector ls = new ListSelector(set_category, reset_category, list_of_category);
+            ls.ShowDialog();
+        }
+        private void reset_category()
+        {
+            this.category = "";
+            this.category_path.Text = "No Category";
+        }
+        private void set_category(string _category)
+        {
+            this.category = _category;
+            this.category_path.Text = _category;
         }
     }
 }

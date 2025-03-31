@@ -37,6 +37,7 @@
             stored_bundleitemnames_flp = new FlowLayoutPanel();
             stored_client_flp = new FlowLayoutPanel();
             panel2 = new Panel();
+            copyTo_btn = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -91,7 +92,7 @@
             panel1.Controls.Add(description_label);
             panel1.Location = new Point(65, 35);
             panel1.Name = "panel1";
-            panel1.Size = new Size(775, 70);
+            panel1.Size = new Size(683, 70);
             panel1.TabIndex = 7;
             // 
             // truck_label
@@ -123,7 +124,7 @@
             stored_bundleitemnames_flp.FlowDirection = FlowDirection.TopDown;
             stored_bundleitemnames_flp.Location = new Point(65, 111);
             stored_bundleitemnames_flp.Name = "stored_bundleitemnames_flp";
-            stored_bundleitemnames_flp.Size = new Size(400, 73);
+            stored_bundleitemnames_flp.Size = new Size(351, 73);
             stored_bundleitemnames_flp.TabIndex = 10;
             stored_bundleitemnames_flp.WrapContents = false;
             stored_bundleitemnames_flp.Paint += stored_bundleitemnames_flp_Paint;
@@ -133,9 +134,9 @@
             stored_client_flp.AutoScroll = true;
             stored_client_flp.BackColor = Color.WhiteSmoke;
             stored_client_flp.FlowDirection = FlowDirection.TopDown;
-            stored_client_flp.Location = new Point(471, 111);
+            stored_client_flp.Location = new Point(422, 111);
             stored_client_flp.Name = "stored_client_flp";
-            stored_client_flp.Size = new Size(369, 73);
+            stored_client_flp.Size = new Size(326, 73);
             stored_client_flp.TabIndex = 11;
             stored_client_flp.WrapContents = false;
             // 
@@ -147,11 +148,28 @@
             panel2.Size = new Size(227, 21);
             panel2.TabIndex = 12;
             // 
+            // copyTo_btn
+            // 
+            copyTo_btn.BackColor = Color.White;
+            copyTo_btn.FlatAppearance.BorderColor = Color.FromArgb(64, 0, 0);
+            copyTo_btn.FlatStyle = FlatStyle.Flat;
+            copyTo_btn.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+            copyTo_btn.ForeColor = Color.FromArgb(64, 64, 64);
+            copyTo_btn.Location = new Point(751, 168);
+            copyTo_btn.Margin = new Padding(0);
+            copyTo_btn.Name = "copyTo_btn";
+            copyTo_btn.Size = new Size(89, 20);
+            copyTo_btn.TabIndex = 13;
+            copyTo_btn.Text = "COPY TO";
+            copyTo_btn.UseVisualStyleBackColor = false;
+            copyTo_btn.Click += copyTo_btn_Click;
+            // 
             // ViewRecordSelection_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(840, 226);
+            Controls.Add(copyTo_btn);
             Controls.Add(panel2);
             Controls.Add(stored_client_flp);
             Controls.Add(stored_bundleitemnames_flp);
@@ -181,5 +199,6 @@
         private FlowLayoutPanel stored_bundleitemnames_flp;
         private FlowLayoutPanel stored_client_flp;
         private Panel panel2;
+        private Button copyTo_btn;
     }
 }

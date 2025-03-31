@@ -44,6 +44,8 @@
             c = new Label();
             client_cb = new ComboBox();
             label1 = new Label();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            panel1 = new Panel();
             storedarea_flt = new FlowLayoutPanel();
             _no_result = new Label();
             flowLayoutPanel3 = new FlowLayoutPanel();
@@ -56,6 +58,7 @@
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
             storedarea_flt.SuspendLayout();
             flowLayoutPanel3.SuspendLayout();
             SuspendLayout();
@@ -65,15 +68,13 @@
             tablelayout_main.BackColor = Color.PaleGreen;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 1);
-            tablelayout_main.Controls.Add(flowLayoutPanel3, 0, 0);
+            tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
             tablelayout_main.Dock = DockStyle.Fill;
             tablelayout_main.Location = new Point(0, 0);
             tablelayout_main.Margin = new Padding(0);
             tablelayout_main.Name = "tablelayout_main";
-            tablelayout_main.RowCount = 2;
-            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 6F));
-            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 94F));
+            tablelayout_main.RowCount = 1;
+            tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tablelayout_main.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tablelayout_main.Size = new Size(1386, 788);
             tablelayout_main.TabIndex = 0;
@@ -81,18 +82,17 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 225F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 0);
-            tableLayoutPanel1.Controls.Add(storedarea_flt, 1, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel5, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 47);
+            tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(1386, 741);
+            tableLayoutPanel1.Size = new Size(1386, 788);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -108,7 +108,7 @@
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(207, 741);
+            flowLayoutPanel1.Size = new Size(225, 788);
             flowLayoutPanel1.TabIndex = 3;
             flowLayoutPanel1.WrapContents = false;
             // 
@@ -281,23 +281,54 @@
             label1.TabIndex = 13;
             label1.Text = "CATEGORY:";
             // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 1;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.Controls.Add(panel1, 0, 2);
+            tableLayoutPanel5.Controls.Add(storedarea_flt, 0, 1);
+            tableLayoutPanel5.Controls.Add(flowLayoutPanel3, 0, 0);
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.Location = new Point(225, 0);
+            tableLayoutPanel5.Margin = new Padding(0);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 3;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel5.Size = new Size(1161, 788);
+            tableLayoutPanel5.TabIndex = 4;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.OliveDrab;
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 753);
+            panel1.Margin = new Padding(0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1161, 35);
+            panel1.TabIndex = 10;
+            // 
             // storedarea_flt
             // 
+            storedarea_flt.AutoScroll = true;
             storedarea_flt.Controls.Add(_no_result);
             storedarea_flt.Dock = DockStyle.Fill;
             storedarea_flt.FlowDirection = FlowDirection.TopDown;
-            storedarea_flt.Location = new Point(207, 0);
+            storedarea_flt.Location = new Point(0, 50);
             storedarea_flt.Margin = new Padding(0);
             storedarea_flt.Name = "storedarea_flt";
-            storedarea_flt.Size = new Size(1179, 741);
+            storedarea_flt.Padding = new Padding(10);
+            storedarea_flt.Size = new Size(1161, 703);
             storedarea_flt.TabIndex = 4;
+            storedarea_flt.WrapContents = false;
             // 
             // _no_result
             // 
-            _no_result.AutoSize = true;
+            _no_result.Dock = DockStyle.Left;
             _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
             _no_result.ForeColor = Color.LimeGreen;
-            _no_result.Location = new Point(200, 100);
+            _no_result.Location = new Point(210, 110);
             _no_result.Margin = new Padding(200, 100, 3, 0);
             _no_result.Name = "_no_result";
             _no_result.Size = new Size(344, 46);
@@ -308,20 +339,21 @@
             // flowLayoutPanel3
             // 
             flowLayoutPanel3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flowLayoutPanel3.BackColor = Color.OliveDrab;
             flowLayoutPanel3.Controls.Add(add_btn);
             flowLayoutPanel3.Controls.Add(manageflute_btn);
             flowLayoutPanel3.Dock = DockStyle.Fill;
             flowLayoutPanel3.Location = new Point(0, 0);
             flowLayoutPanel3.Margin = new Padding(0);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
-            flowLayoutPanel3.Size = new Size(1386, 47);
+            flowLayoutPanel3.Size = new Size(1161, 50);
             flowLayoutPanel3.TabIndex = 8;
             // 
             // add_btn
             // 
             add_btn.Location = new Point(3, 3);
             add_btn.Name = "add_btn";
-            add_btn.Size = new Size(204, 41);
+            add_btn.Size = new Size(204, 44);
             add_btn.TabIndex = 0;
             add_btn.Text = "ADD NEW ITEM";
             add_btn.UseVisualStyleBackColor = true;
@@ -331,7 +363,7 @@
             // 
             manageflute_btn.Location = new Point(213, 3);
             manageflute_btn.Name = "manageflute_btn";
-            manageflute_btn.Size = new Size(204, 41);
+            manageflute_btn.Size = new Size(204, 44);
             manageflute_btn.TabIndex = 1;
             manageflute_btn.Text = "MANAGE FLUTE";
             manageflute_btn.UseVisualStyleBackColor = true;
@@ -359,8 +391,8 @@
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
+            tableLayoutPanel5.ResumeLayout(false);
             storedarea_flt.ResumeLayout(false);
-            storedarea_flt.PerformLayout();
             flowLayoutPanel3.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -377,7 +409,6 @@
         private ComboBox flutetype_cb;
         private Label label2;
         private TextBox searchname_tb;
-        private FlowLayoutPanel storedarea_flt;
         private TableLayoutPanel tableLayoutPanel4;
         private Label c;
         private ComboBox client_cb;
@@ -386,7 +417,10 @@
         private FlowLayoutPanel flowLayoutPanel2;
         private Label label4;
         private Button clear_btn;
-        private Label _no_result;
         private Label label1;
+        private Panel panel1;
+        private TableLayoutPanel tableLayoutPanel5;
+        private FlowLayoutPanel storedarea_flt;
+        private Label _no_result;
     }
 }

@@ -24,6 +24,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
             InitializeComponent();
             instantiateReferencePallet();
             this.parent = parent;
+            updateWarning();
         }
         public AddPallet_windowpopup(ManagePallet_Form parent, int id)
         {
@@ -37,6 +38,9 @@ namespace MyWinFormsApp.Sections.ManagePallet
             length_tb.Text = row["_length"].ToString();
             width_tb.Text = row["_width"].ToString();
             height_tb.Text = row["_height"].ToString();
+            this.Text = "EDIT PALLET";
+            this.add_btn.Text = "CONFIRM CHANGES";
+            updateWarning();
         }
 
         public void instantiateReferencePallet()
@@ -99,6 +103,7 @@ namespace MyWinFormsApp.Sections.ManagePallet
         private void name_tb_TextChanged(object sender, EventArgs e)
         {
             filter.SanitizeSQLInput(name_tb);
+            updateWarning();
         }
 
         private void referencepalletsize_cb_SelectedIndexChanged(object sender, EventArgs e)
@@ -112,16 +117,27 @@ namespace MyWinFormsApp.Sections.ManagePallet
         private void length_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(length_tb);
+            updateWarning();
         }
 
         private void width_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(width_tb);
+            updateWarning();
         }
 
         private void height_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(height_tb);
+            updateWarning();
+        }
+
+        private void updateWarning()
+        {
+            name_warning.Visible = name_tb.Text == string.Empty;
+            length_warning.Visible = length_tb.Text == string.Empty;
+            width_warning.Visible = width_tb.Text == string.Empty;
+            height_warning.Visible = height_tb.Text == string.Empty;
         }
     }
 

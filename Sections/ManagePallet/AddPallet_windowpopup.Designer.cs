@@ -43,6 +43,10 @@
             label2 = new Label();
             add_btn = new Button();
             cancel_btn = new Button();
+            name_warning = new Label();
+            length_warning = new Label();
+            width_warning = new Label();
+            height_warning = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -50,11 +54,12 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(name_warning);
             groupBox1.Controls.Add(name_tb);
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(401, 71);
+            groupBox1.Size = new Size(413, 71);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Basic Information";
@@ -78,6 +83,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(height_warning);
+            groupBox2.Controls.Add(width_warning);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(referencepalletsize_cb);
             groupBox2.Controls.Add(height_tb);
@@ -87,9 +94,10 @@
             groupBox2.Controls.Add(length_tb);
             groupBox2.Controls.Add(pictureBox1);
             groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(length_warning);
             groupBox2.Location = new Point(4, 77);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(397, 162);
+            groupBox2.Size = new Size(409, 162);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Dimensions";
@@ -98,7 +106,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(6, 19);
+            label5.Location = new Point(25, 20);
             label5.Name = "label5";
             label5.Size = new Size(114, 15);
             label5.TabIndex = 9;
@@ -108,7 +116,7 @@
             // 
             referencepalletsize_cb.DropDownStyle = ComboBoxStyle.DropDownList;
             referencepalletsize_cb.FormattingEnabled = true;
-            referencepalletsize_cb.Location = new Point(126, 11);
+            referencepalletsize_cb.Location = new Point(145, 12);
             referencepalletsize_cb.Name = "referencepalletsize_cb";
             referencepalletsize_cb.Size = new Size(208, 23);
             referencepalletsize_cb.TabIndex = 8;
@@ -116,7 +124,7 @@
             // 
             // height_tb
             // 
-            height_tb.Location = new Point(73, 105);
+            height_tb.Location = new Point(92, 106);
             height_tb.Name = "height_tb";
             height_tb.Size = new Size(118, 23);
             height_tb.TabIndex = 7;
@@ -125,7 +133,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(0, 108);
+            label4.Location = new Point(19, 109);
             label4.Name = "label4";
             label4.Size = new Size(76, 15);
             label4.TabIndex = 6;
@@ -133,7 +141,7 @@
             // 
             // width_tb
             // 
-            width_tb.Location = new Point(73, 76);
+            width_tb.Location = new Point(92, 77);
             width_tb.Name = "width_tb";
             width_tb.Size = new Size(118, 23);
             width_tb.TabIndex = 5;
@@ -142,7 +150,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(2, 79);
+            label3.Location = new Point(21, 80);
             label3.Name = "label3";
             label3.Size = new Size(72, 15);
             label3.TabIndex = 4;
@@ -150,7 +158,7 @@
             // 
             // length_tb
             // 
-            length_tb.Location = new Point(73, 47);
+            length_tb.Location = new Point(92, 48);
             length_tb.Name = "length_tb";
             length_tb.Size = new Size(118, 23);
             length_tb.TabIndex = 3;
@@ -159,7 +167,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.PalletHintPicture1;
-            pictureBox1.Location = new Point(195, 48);
+            pictureBox1.Location = new Point(214, 49);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(199, 105);
             pictureBox1.TabIndex = 2;
@@ -168,7 +176,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(0, 50);
+            label2.Location = new Point(19, 51);
             label2.Name = "label2";
             label2.Size = new Size(80, 15);
             label2.TabIndex = 1;
@@ -194,11 +202,55 @@
             cancel_btn.UseVisualStyleBackColor = true;
             cancel_btn.Click += cancel_btn_Click;
             // 
+            // name_warning
+            // 
+            name_warning.AutoSize = true;
+            name_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            name_warning.ForeColor = Color.Red;
+            name_warning.Location = new Point(12, 27);
+            name_warning.Name = "name_warning";
+            name_warning.Size = new Size(14, 19);
+            name_warning.TabIndex = 21;
+            name_warning.Text = "!";
+            // 
+            // length_warning
+            // 
+            length_warning.AutoSize = true;
+            length_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            length_warning.ForeColor = Color.Red;
+            length_warning.Location = new Point(7, 48);
+            length_warning.Name = "length_warning";
+            length_warning.Size = new Size(14, 19);
+            length_warning.TabIndex = 22;
+            length_warning.Text = "!";
+            // 
+            // width_warning
+            // 
+            width_warning.AutoSize = true;
+            width_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            width_warning.ForeColor = Color.Red;
+            width_warning.Location = new Point(7, 77);
+            width_warning.Name = "width_warning";
+            width_warning.Size = new Size(14, 19);
+            width_warning.TabIndex = 22;
+            width_warning.Text = "!";
+            // 
+            // height_warning
+            // 
+            height_warning.AutoSize = true;
+            height_warning.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            height_warning.ForeColor = Color.Red;
+            height_warning.Location = new Point(7, 105);
+            height_warning.Name = "height_warning";
+            height_warning.Size = new Size(14, 19);
+            height_warning.TabIndex = 23;
+            height_warning.Text = "!";
+            // 
             // AddPallet_windowpopup
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(405, 285);
+            ClientSize = new Size(425, 285);
             Controls.Add(cancel_btn);
             Controls.Add(add_btn);
             Controls.Add(groupBox2);
@@ -231,5 +283,9 @@
         private Label label5;
         private Button add_btn;
         private Button cancel_btn;
+        private Label name_warning;
+        private Label height_warning;
+        private Label width_warning;
+        private Label length_warning;
     }
 }

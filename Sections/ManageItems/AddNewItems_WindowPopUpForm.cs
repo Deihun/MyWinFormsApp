@@ -14,34 +14,41 @@ namespace MyWinFormsApp.Sections.ManageItems
 {
     public partial class AddNewItems_WindowPopUpForm : Form
     {
-        ManageItems_form parent;
-        FilterInputSupportClass filter = new FilterInputSupportClass();
-        Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-        int id = -1;
-        public AddNewItems_WindowPopUpForm(ManageItems_form parent)
+        private ManageItems_form parent;
+        private main_startup_form mainparent;
+        private FilterInputSupportClass filter = new FilterInputSupportClass();
+        private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
+
+        private int id = -1;
+
+        private string category = "";
+
+        public AddNewItems_WindowPopUpForm(ManageItems_form parent, main_startup_form mainparent)
         {
             InitializeComponent();
             initializeChoices();
+            this.mainparent = mainparent;
             this.parent = parent;
+            updateWarnings();
         }
 
-        public AddNewItems_WindowPopUpForm(ManageItems_form parent, int id)
+        public AddNewItems_WindowPopUpForm(ManageItems_form parent, int id, main_startup_form mainparent)
         {
             InitializeComponent();
             initializeChoices();
             client_cb.DropDownStyle = ComboBoxStyle.DropDown;
+            this.mainparent = mainparent;
             this.parent = parent;
             this.id = id;
 
             DataRow row = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE id = {id}").Rows[0];
-            category_checkbox.Checked = !string.IsNullOrEmpty(row["category"].ToString());
-            if (category_checkbox.Checked)category_cb.Text = row["category"].ToString();
+            set_category(row["category"].ToString());
             itemdescription_rtb.Text = row["item_name"].ToString();
             length_tb.Text = row["_length"].ToString();
             width_tb.Text = row["_width"].ToString();
             fccontrol_tb.Text = row["fc_control_number"].ToString();
             fold_rb.Checked = Convert.ToBoolean(row["isFolded"]);
-
+            button1.Text = "CONFIRM && COPY";
 
             int clientID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Client_Table WHERE id = {Convert.ToInt32(row["client_id"])}").Rows[0][0]);
             int fluteID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Flute_Table WHERE id = {Convert.ToInt32(row["flute_id"])}").Rows[0][0]);
@@ -54,6 +61,7 @@ namespace MyWinFormsApp.Sections.ManageItems
             this.itemdescription_rtb.Enabled = false;
 
             client_cb.DropDownStyle = ComboBoxStyle.DropDownList;
+            updateWarnings();
         }
 
         private void initializeChoices()
@@ -63,14 +71,20 @@ namespace MyWinFormsApp.Sections.ManageItems
 
             foreach (DataRow row in dtFlute.Rows) flutetype_cb.Items.Add(row["code_name"].ToString());
             foreach (DataRow row in dtClient.Rows) client_cb.Items.Add(row["name"].ToString());
-            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Item_Table WHERE is_deleted = 0").Rows) category_cb.Items.Add(row["category"].ToString());
         }
 
         private void add_btn_Click(object sender, EventArgs e)
         {
-                if (id == -1) addItem();
-                else rewriteItem();
-                parent.UpdateVisual();
+            bool dispose = false;
+            if (id == -1) dispose = addItem();
+            else dispose = rewriteItem();
+            if (dispose)
+            {
+                this.parent.resetFilter();
+                this.parent.updatePageSelection();
+                this.parent.TriggerVisualUpdate();
+                this.parent.updatePageSelection();
+            }
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -96,23 +110,23 @@ namespace MyWinFormsApp.Sections.ManageItems
             return Convert.ToInt32(rowFlute["id"]);
         }
 
-        private void addItem()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
+        private bool addItem(bool dispose = true)//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
             if (!filter.AreAllInputsFilled(itemdescription_rtb, client_cb, flutetype_cb, length_tb, width_tb, fccontrol_tb))
             {
                 MessageBox.Show("Please input all required empty spaces or avoid using existing name that is already added");
-                return;
+                return false;
             }
-                DataRow rowClient = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE name = '{client_cb.Text}';").Rows[0];
-                if (containsSameName())
-                {
-                    MessageBox.Show("Item Name is already taken. Please use a non existing Item name or make it not exactly the same with other existing one.");
-                    return;
-                }
+            DataRow rowClient = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE name = '{client_cb.Text}';").Rows[0];
+            if (containsSameName())
+            {
+                MessageBox.Show("Item Name is already taken. Please use a non existing Item name or make it not exactly the same with other existing one.");
+                return false;
+            }
 
-                string a = category_checkbox.Checked ? filter.RemoveSQLInjectionRisks(category_cb.Text) : "";
 
-                Dictionary<string, object> value = new Dictionary<string, object>()
+
+            Dictionary<string, object> value = new Dictionary<string, object>()
             {
 
                 {"item_name", filter.RemoveSQLInjectionRisks(itemdescription_rtb.Text)},
@@ -120,48 +134,115 @@ namespace MyWinFormsApp.Sections.ManageItems
                 {"_width", Convert.ToDecimal(width_tb.Text) },
                 {"client_id", getClientID() },
                 {"flute_id", getFluteID() },
-                {"category", a},
+                {"category", category},
                 {"isFolded", fold_rb.Checked },
                 {"fc_control_number", filter.RemoveSQLInjectionRisks(fccontrol_tb.Text) }
             };
 
-                sql.InsertData("Item_Table", value);
-                sql.commitReport($"A new data Item '{itemdescription_rtb.Text}' was added");
-            this.Dispose();
+            sql.InsertData("Item_Table", value);
+            sql.commitReport($"A new data Item '{itemdescription_rtb.Text}' was added");
+            if (dispose) this.Dispose();
+            return true;
         }
 
-        private void rewriteItem()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
+        private bool rewriteItem()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
-            if (!filter.AreAllInputsFilled(itemdescription_rtb, client_cb, flutetype_cb, length_tb, width_tb, fccontrol_tb))
+            if (filter.AreAllInputsFilled(itemdescription_rtb, client_cb, flutetype_cb, length_tb, width_tb, fccontrol_tb))
             {
                 int dabool = fold_rb.Checked ? 1 : 0;
                 string query = $"UPDATE Item_Table SET item_name = '{filter.RemoveSQLInjectionRisks(itemdescription_rtb.Text)}', fc_control_number = '{filter.RemoveSQLInjectionRisks(fccontrol_tb.Text)}', _length = {length_tb.Text}, _width = {width_tb.Text} " +
-                    $", category = '{category_cb.Text}', client_id = {getClientID()}, flute_id = {getFluteID()}, isFolded = {dabool}  WHERE id = {id}";
+                    $", category = '{category}', client_id = {getClientID()}, flute_id = {getFluteID()}, isFolded = {dabool}  WHERE id = {id}";
                 sql.ExecuteQuery(query);
                 sql.commitReport($"A data Item '{itemdescription_rtb.Text}' was modified");
+                return true;
             }
-            else MessageBox.Show("Please input all required empty spaces or avoid using existing name that is already added");
-            this.Dispose();
+            else
+            {
+                MessageBox.Show("Please input all required empty spaces or avoid using existing name that is already added");
+                return false;
+            }
+
         }
 
         private void itemname_tb_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void length_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(length_tb);
+            updateWarnings();
         }
 
         private void width_tb_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(width_tb);
+            updateWarnings();
         }
 
-        private void category_checkbox_CheckedChanged(object sender, EventArgs e)
+
+        private void button1_Click(object sender, EventArgs e)
         {
-            category_cb.Enabled = category_checkbox.Checked;
+            string a = itemdescription_rtb.Text;
+            bool confirm = false;
+
+            if (id == -1) confirm = addItem();
+            else confirm = rewriteItem();
+            if (confirm)
+            {
+                this.Dispose();
+                mainparent.copyFromItem_To_Bundle(a);
+            }
+        }
+
+        private void updateWarnings()
+        {
+            client_warning.Visible = client_cb.Text == string.Empty;
+            itemdescription_warning.Visible = itemdescription_rtb.Text == string.Empty;
+            fcControl_warning.Visible = fccontrol_tb.Text == string.Empty;
+            flute_warning.Visible = flutetype_cb.Text == string.Empty;
+            length_warning.Visible = length_tb.Text == string.Empty;
+            width_warning.Visible = width_tb.Text == string.Empty;
+        }
+
+        private void itemdescription_rtb_TextChanged(object sender, EventArgs e)
+        {
+            updateWarnings();
+        }
+
+        private void client_cb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateWarnings();
+        }
+
+        private void fccontrol_tb_TextChanged(object sender, EventArgs e)
+        {
+            updateWarnings();
+        }
+
+        private void flutetype_cb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            updateWarnings();
+        }
+
+        private void reset_category()
+        {
+            this.category = "";
+            this.category_path.Text = "No Category";
+        }
+        private void set_category(string _category)
+        {
+            this.category = _category;
+            this.category_path.Text = _category;
+        }
+
+        private void editcategory_btn_Click(object sender, EventArgs e)
+        {
+            List<string> list_of_category = new List<string>();
+            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Item_Table WHERE is_deleted = 0;").Rows) list_of_category.Add(row["category"].ToString());
+            ListSelector ls = new ListSelector(set_category, reset_category, list_of_category);
+            ls.ShowDialog();
         }
     }
 }

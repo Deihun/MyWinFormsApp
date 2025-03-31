@@ -14,16 +14,20 @@ namespace MyWinFormsApp.Sections.ManageClient
 {
     public partial class AddNewClient_WindowPopupForm : Form
     {
-        int ID = -1;
-        ManageClient_Form parent;
-        RequirementsManagement_class req;
-        Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-        FilterInputSupportClass filter = new FilterInputSupportClass();
+        private ManageClient_Form parent;
+        private RequirementsManagement_class req;
+        private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
+        private FilterInputSupportClass filter = new FilterInputSupportClass();
+
+        private int ID = -1;
+
+        private string category = "";
         public AddNewClient_WindowPopupForm(ManageClient_Form parent)
         {
             InitializeComponent();
             this.parent = parent;
             setupRequirementManager();
+            updatewarnings();
         }
 
         public AddNewClient_WindowPopupForm(ManageClient_Form parent, int id)
@@ -38,17 +42,16 @@ namespace MyWinFormsApp.Sections.ManageClient
             DataRow row = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE id = {ID}").Rows[0];
             clientname_tb.Text = row["name"].ToString();
             description_rtb.Text = row["description"].ToString();
-            category_checkbox.Checked = !string.IsNullOrEmpty(row["category"].ToString());
-            if (category_checkbox.Checked) category_cb.Text = row["category"].ToString();
+            set_category(row["category"].ToString());
             setCheckmarks(row["filter"].ToString());
             setupRequirementManager();
             clientname_tb.Enabled = false;
+            updatewarnings();
         }
 
         private void setupRequirementManager()
         {
             req = new RequirementsManagement_class(requirepallet_cb, requireclearancespace_cb);
-            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Client_Table").Rows) category_cb.Items.Add(row[0].ToString());
         }
 
         private void add_btn_Click(object sender, EventArgs e)
@@ -57,7 +60,9 @@ namespace MyWinFormsApp.Sections.ManageClient
 
             if (ID == -1) add_client();
             else rewrite_client();
-            parent.UpdateVisual();
+            this.parent.resetFilter();
+            this.parent.TriggerVisualUpdate();
+            this.parent.updatePageSelector();
         }
         private void cancel_btn_Click(object sender, EventArgs e)
         {
@@ -81,13 +86,12 @@ namespace MyWinFormsApp.Sections.ManageClient
                 MessageBox.Show("Client name is already taken. Please use a non existing Client name or make it not exactly the same with other existing one.");
                 return;
             }
-            string a = category_checkbox.Checked ? filter.RemoveSQLInjectionRisks(category_cb.Text) : "";
             Dictionary<string, object> value = new Dictionary<string, object>()
             {
                 { "name", clientname_tb.Text },
                 {"description", description_rtb.Text },
                 {"filter", req.getCheckmarks() },
-                {"category", a }
+                {"category", category}
             };
             sql.InsertData("Client_Table", value);
             sql.commitReport($"A new Data Client '{clientname_tb.Text}' was added");
@@ -100,8 +104,7 @@ namespace MyWinFormsApp.Sections.ManageClient
                 MessageBox.Show("Please fill up all the empty spaces");
                 return;
             }
-            string a = category_checkbox.Checked ? filter.RemoveSQLInjectionRisks(category_cb.Text) : "";
-            string query = $"UPDATE Client_Table SET name = '{clientname_tb.Text}', description = '{description_rtb.Text}', category = '{a}', filter = '{req.getCheckmarks()}'  WHERE id = {ID}";
+            string query = $"UPDATE Client_Table SET name = '{clientname_tb.Text}', description = '{description_rtb.Text}', category = '{category}', filter = '{req.getCheckmarks()}'  WHERE id = {ID}";
             sql.ExecuteQuery(query);
 
             sql.commitReport($"A Data Client '{clientname_tb.Text}' was modified");
@@ -119,17 +122,39 @@ namespace MyWinFormsApp.Sections.ManageClient
         private void clientname_tb_TextChanged(object sender, EventArgs e)
         {
             filter.SanitizeSQLInput(clientname_tb);
+            updatewarnings();
         }
 
         private void description_rtb_TextChanged(object sender, EventArgs e)
         {
             description_rtb.Text = description_rtb.Text.Replace("`", "");
             description_rtb.SelectionStart = description_rtb.Text.Length;
+            updatewarnings();
         }
 
-        private void category_checkbox_CheckedChanged(object sender, EventArgs e)
+
+        private void updatewarnings()
         {
-            category_cb.Enabled = category_checkbox.Checked;
+            description_warning.Visible = description_rtb.Text == string.Empty;
+            name_warning.Visible = clientname_tb.Text == string.Empty;
+        }
+
+        private void editcategory_btn_Click(object sender, EventArgs e)
+        {
+            List<string> list_of_category = new List<string>();
+            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT category FROM Truck_Table WHERE is_deleted = 0;").Rows) list_of_category.Add(row["category"].ToString());
+            ListSelector ls = new ListSelector(set_category, reset_category, list_of_category);
+            ls.ShowDialog();
+        }
+        private void reset_category()
+        {
+            this.category = "";
+            this.category_path.Text = "No Category";
+        }
+        private void set_category(string _category)
+        {
+            this.category = _category;
+            this.category_path.Text = _category;
         }
     }
 }

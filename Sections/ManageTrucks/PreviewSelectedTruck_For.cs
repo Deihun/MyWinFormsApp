@@ -51,7 +51,9 @@ namespace MyWinFormsApp.Sections.ManageTrucks
         private void DeleteMyData()
         {
             sql.ExecuteQuery($"UPDATE Truck_Table SET is_deleted = 1 WHERE id = {ID};");
-            parent.updateVisual();
+            this.parent.resetFilter();
+            this.parent.TriggerVisualUpdate();
+            this.parent.updatePageSelector();
         }
 
         private void delete_btn_Click(object sender, EventArgs e)

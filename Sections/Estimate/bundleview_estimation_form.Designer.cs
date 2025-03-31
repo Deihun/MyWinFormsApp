@@ -41,6 +41,7 @@
             palletEnabler_checkbox = new CheckBox();
             quantityof_pallet = new TextBox();
             palletchoice_combobox = new ComboBox();
+            error_provider = new Label();
             tableLayoutPanel1.SuspendLayout();
             quantityholder_flp.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -65,7 +66,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(328, 193);
+            tableLayoutPanel1.Size = new Size(325, 193);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // quantityholder_flp
@@ -76,7 +77,7 @@
             quantityholder_flp.Location = new Point(0, 40);
             quantityholder_flp.Margin = new Padding(0);
             quantityholder_flp.Name = "quantityholder_flp";
-            quantityholder_flp.Size = new Size(328, 20);
+            quantityholder_flp.Size = new Size(325, 20);
             quantityholder_flp.TabIndex = 6;
             // 
             // label2
@@ -109,7 +110,7 @@
             flowLayoutPanel2.Location = new Point(0, 0);
             flowLayoutPanel2.Margin = new Padding(0);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(328, 20);
+            flowLayoutPanel2.Size = new Size(325, 20);
             flowLayoutPanel2.TabIndex = 5;
             // 
             // label1
@@ -145,7 +146,7 @@
             delete_button.FlatStyle = FlatStyle.Flat;
             delete_button.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
             delete_button.ForeColor = Color.FromArgb(255, 192, 192);
-            delete_button.Location = new Point(253, 173);
+            delete_button.Location = new Point(250, 173);
             delete_button.Margin = new Padding(0);
             delete_button.Name = "delete_button";
             delete_button.Size = new Size(75, 20);
@@ -169,11 +170,12 @@
             flowLayoutPanel1.Controls.Add(palletEnabler_checkbox);
             flowLayoutPanel1.Controls.Add(quantityof_pallet);
             flowLayoutPanel1.Controls.Add(palletchoice_combobox);
+            flowLayoutPanel1.Controls.Add(error_provider);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.Location = new Point(0, 20);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(328, 20);
+            flowLayoutPanel1.Size = new Size(325, 20);
             flowLayoutPanel1.TabIndex = 2;
             // 
             // palletEnabler_checkbox
@@ -204,6 +206,7 @@
             // 
             // palletchoice_combobox
             // 
+            palletchoice_combobox.BackColor = SystemColors.Control;
             palletchoice_combobox.DropDownStyle = ComboBoxStyle.DropDownList;
             palletchoice_combobox.Enabled = false;
             palletchoice_combobox.Font = new Font("Segoe UI", 8F);
@@ -216,12 +219,25 @@
             palletchoice_combobox.TabIndex = 1;
             palletchoice_combobox.SelectedIndexChanged += palletchoice_combobox_SelectedIndexChanged;
             // 
+            // error_provider
+            // 
+            error_provider.AutoSize = true;
+            error_provider.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            error_provider.ForeColor = Color.FromArgb(64, 0, 0);
+            error_provider.Location = new Point(312, 0);
+            error_provider.Margin = new Padding(0);
+            error_provider.Name = "error_provider";
+            error_provider.Size = new Size(11, 13);
+            error_provider.TabIndex = 3;
+            error_provider.Text = "!";
+            error_provider.Visible = false;
+            // 
             // bundleview_estimation_form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.IndianRed;
-            ClientSize = new Size(328, 193);
+            ClientSize = new Size(325, 193);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "bundleview_estimation_form";
@@ -252,5 +268,6 @@
         private Label label2;
         private TextBox totalbundletoload_tb;
         private TextBox quantityof_pallet;
+        private Label error_provider;
     }
 }
