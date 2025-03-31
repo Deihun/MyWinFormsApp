@@ -27,7 +27,6 @@ namespace MyWinFormsApp.SupportClass
         public void reinstantiate(int max_pagenumber)
         {
             this.max_pagenumber = max_pagenumber;
-            this.selected_pagenumber = 1;
             foreach (Control control in pagebutton_list) control.Dispose();
             foreach (Control control in previewLabel_list) control.Dispose();
             previewLabel_list.Clear();

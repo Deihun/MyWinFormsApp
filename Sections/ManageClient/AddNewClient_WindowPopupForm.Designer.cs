@@ -41,15 +41,12 @@
             clientname_tb = new TextBox();
             condition = new GroupBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            requirepallet_cb = new CheckBox();
-            requireclearancespace_cb = new CheckBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
             add_btn = new Button();
             cancel_btn = new Button();
             tableLayoutPanel1.SuspendLayout();
             groupBox1.SuspendLayout();
             condition.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -194,8 +191,6 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Controls.Add(requirepallet_cb);
-            flowLayoutPanel1.Controls.Add(requireclearancespace_cb);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(3, 19);
@@ -204,26 +199,6 @@
             flowLayoutPanel1.Size = new Size(385, 187);
             flowLayoutPanel1.TabIndex = 0;
             flowLayoutPanel1.WrapContents = false;
-            // 
-            // requirepallet_cb
-            // 
-            requirepallet_cb.AutoSize = true;
-            requirepallet_cb.Location = new Point(28, 28);
-            requirepallet_cb.Name = "requirepallet_cb";
-            requirepallet_cb.Size = new Size(103, 19);
-            requirepallet_cb.TabIndex = 0;
-            requirepallet_cb.Text = "Requires Pallet";
-            requirepallet_cb.UseVisualStyleBackColor = true;
-            // 
-            // requireclearancespace_cb
-            // 
-            requireclearancespace_cb.AutoSize = true;
-            requireclearancespace_cb.Location = new Point(28, 53);
-            requireclearancespace_cb.Name = "requireclearancespace_cb";
-            requireclearancespace_cb.Size = new Size(239, 19);
-            requireclearancespace_cb.TabIndex = 1;
-            requireclearancespace_cb.Text = "Require big spaces in each Bundle inside";
-            requireclearancespace_cb.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel2
             // 
@@ -272,8 +247,6 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             condition.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.PerformLayout();
             ResumeLayout(false);
@@ -289,11 +262,9 @@
         private RichTextBox description_rtb;
         private GroupBox condition;
         private FlowLayoutPanel flowLayoutPanel1;
-        private CheckBox requirepallet_cb;
         private FlowLayoutPanel flowLayoutPanel2;
         private Button add_btn;
         private Button cancel_btn;
-        private CheckBox requireclearancespace_cb;
         private Label description_warning;
         private Label name_warning;
         private Label label7;

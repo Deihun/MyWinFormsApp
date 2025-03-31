@@ -35,7 +35,7 @@ namespace MyWinFormsApp.Sections.ManageClient
             page.Show();
 
             updateTimer = new System.Windows.Forms.Timer();
-            updateTimer.Interval = 100; 
+            updateTimer.Interval = 100;
             updateTimer.Tick += (s, e) =>
             {
                 updateTimer.Stop();
@@ -223,7 +223,7 @@ namespace MyWinFormsApp.Sections.ManageClient
             {
                 if (!checkbox.Checked) continue;
                 if (string.IsNullOrEmpty(checkbox.Text)) continue;
-               
+
                 category.Add($"client.category = '{checkbox.Tag}'");
             }
             if (conditions.Count > 0)
@@ -278,6 +278,12 @@ namespace MyWinFormsApp.Sections.ManageClient
                 MessageBox.Show($"Error: {e.Message}");
                 return count;
             }
+        }
+
+        private void requirements_btn_Click(object sender, EventArgs e)
+        {
+            Manage_ClientRules mcr = new Manage_ClientRules();
+            mcr.ShowDialog();
         }
     }
 }

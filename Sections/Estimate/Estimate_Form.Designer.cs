@@ -34,12 +34,14 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             label1 = new Label();
             truck_cb = new ComboBox();
+            category_panel = new Panel();
+            category_btn = new Button();
+            category_path = new Label();
             tableLayoutPanel2 = new TableLayoutPanel();
             storedclient_flp = new FlowLayoutPanel();
             stored_bundlecontainer = new FlowLayoutPanel();
             flowLayoutPanel2 = new FlowLayoutPanel();
             addbundle_btn = new Button();
-            add_client = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             storeddetailreport_flp = new FlowLayoutPanel();
             tableLayoutPanel4 = new TableLayoutPanel();
@@ -50,6 +52,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
+            category_panel.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -111,6 +114,7 @@
             // 
             flowLayoutPanel1.Controls.Add(label1);
             flowLayoutPanel1.Controls.Add(truck_cb);
+            flowLayoutPanel1.Controls.Add(category_panel);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Margin = new Padding(0);
@@ -141,6 +145,36 @@
             truck_cb.Size = new Size(191, 23);
             truck_cb.TabIndex = 1;
             truck_cb.SelectedIndexChanged += truck_cb_SelectedIndexChanged;
+            // 
+            // category_panel
+            // 
+            category_panel.Controls.Add(category_btn);
+            category_panel.Controls.Add(category_path);
+            category_panel.Location = new Point(256, 3);
+            category_panel.Name = "category_panel";
+            category_panel.Size = new Size(328, 36);
+            category_panel.TabIndex = 3;
+            // 
+            // category_btn
+            // 
+            category_btn.Location = new Point(28, 5);
+            category_btn.Name = "category_btn";
+            category_btn.Size = new Size(130, 22);
+            category_btn.TabIndex = 0;
+            category_btn.Text = "CHANGE CATEGORY";
+            category_btn.UseVisualStyleBackColor = true;
+            category_btn.Click += category_btn_Click;
+            // 
+            // category_path
+            // 
+            category_path.AutoSize = true;
+            category_path.ForeColor = Color.FromArgb(64, 64, 64);
+            category_path.Location = new Point(155, 8);
+            category_path.Name = "category_path";
+            category_path.Size = new Size(74, 15);
+            category_path.TabIndex = 1;
+            category_path.Text = "No Category";
+            category_path.TextChanged += category_path_TextChanged;
             // 
             // tableLayoutPanel2
             // 
@@ -190,7 +224,6 @@
             // flowLayoutPanel2
             // 
             flowLayoutPanel2.Controls.Add(addbundle_btn);
-            flowLayoutPanel2.Controls.Add(add_client);
             flowLayoutPanel2.Dock = DockStyle.Fill;
             flowLayoutPanel2.Location = new Point(0, 39);
             flowLayoutPanel2.Margin = new Padding(0);
@@ -212,21 +245,6 @@
             addbundle_btn.TextAlign = ContentAlignment.TopCenter;
             addbundle_btn.UseVisualStyleBackColor = false;
             addbundle_btn.Click += addbundle_btn_Click;
-            // 
-            // add_client
-            // 
-            add_client.BackColor = Color.White;
-            add_client.FlatStyle = FlatStyle.Flat;
-            add_client.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            add_client.Location = new Point(180, 0);
-            add_client.Margin = new Padding(25, 0, 0, 0);
-            add_client.Name = "add_client";
-            add_client.Size = new Size(153, 39);
-            add_client.TabIndex = 3;
-            add_client.Text = "ADD CLIENT (+)";
-            add_client.TextAlign = ContentAlignment.TopCenter;
-            add_client.UseVisualStyleBackColor = false;
-            add_client.Click += add_client_Click;
             // 
             // tableLayoutPanel3
             // 
@@ -324,6 +342,8 @@
             tableLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            category_panel.ResumeLayout(false);
+            category_panel.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
@@ -344,7 +364,6 @@
         private FlowLayoutPanel stored_bundlecontainer;
         private TableLayoutPanel tableLayoutPanel2;
         private FlowLayoutPanel flowLayoutPanel2;
-        private Button add_client;
         private FlowLayoutPanel storedclient_flp;
         private TableLayoutPanel tableLayoutPanel3;
         private FlowLayoutPanel storeddetailreport_flp;
@@ -352,5 +371,8 @@
         private FlowLayoutPanel flowLayoutPanel3;
         private Button action_button;
         private RichTextBox remarks_rtb;
+        private Panel category_panel;
+        private Button category_btn;
+        private Label category_path;
     }
 }

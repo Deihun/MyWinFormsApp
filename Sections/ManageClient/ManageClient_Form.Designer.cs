@@ -41,6 +41,7 @@
             storedarea_flt = new FlowLayoutPanel();
             _no_result = new Label();
             panel1 = new Panel();
+            requirements_btn = new Button();
             add_btn = new Button();
             tablelayout_main.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -223,6 +224,7 @@
             // panel1
             // 
             panel1.BackColor = Color.OliveDrab;
+            panel1.Controls.Add(requirements_btn);
             panel1.Controls.Add(add_btn);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
@@ -230,6 +232,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1228, 50);
             panel1.TabIndex = 5;
+            // 
+            // requirements_btn
+            // 
+            requirements_btn.AutoSize = true;
+            requirements_btn.Location = new Point(219, 1);
+            requirements_btn.Name = "requirements_btn";
+            requirements_btn.Size = new Size(216, 49);
+            requirements_btn.TabIndex = 1;
+            requirements_btn.Text = "REQUIREMENTS";
+            requirements_btn.UseVisualStyleBackColor = true;
+            requirements_btn.Click += requirements_btn_Click;
             // 
             // add_btn
             // 
@@ -283,5 +296,6 @@
         private Panel panel2;
         private Panel panel1;
         private Button add_btn;
+        private Button requirements_btn;
     }
 }

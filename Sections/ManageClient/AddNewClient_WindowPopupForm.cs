@@ -21,13 +21,15 @@ namespace MyWinFormsApp.Sections.ManageClient
 
         private int ID = -1;
 
+        private List<CheckBox> cb_list = new List<CheckBox>();
+
         private string category = "";
         public AddNewClient_WindowPopupForm(ManageClient_Form parent)
         {
             InitializeComponent();
             this.parent = parent;
-            setupRequirementManager();
             updatewarnings();
+            instantiate_checkbox();
         }
 
         public AddNewClient_WindowPopupForm(ManageClient_Form parent, int id)
@@ -42,27 +44,42 @@ namespace MyWinFormsApp.Sections.ManageClient
             DataRow row = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE id = {ID}").Rows[0];
             clientname_tb.Text = row["name"].ToString();
             description_rtb.Text = row["description"].ToString();
-            set_category(row["category"].ToString());
-            setCheckmarks(row["filter"].ToString());
-            setupRequirementManager();
+
             clientname_tb.Enabled = false;
             updatewarnings();
+            instantiate_checkbox();
+            check_rules_existing();
         }
 
-        private void setupRequirementManager()
+        private CheckBox create_checkbox(string name)
         {
-            req = new RequirementsManagement_class(requirepallet_cb, requireclearancespace_cb);
+            CheckBox check = new CheckBox();
+            check.Text = name;
+            check.AutoSize = true;
+            cb_list.Add(check);
+            flowLayoutPanel1.Controls.Add(check);
+            check.Show();
+            return check;
+        }
+
+        private void instantiate_checkbox()
+        {
+            foreach (DataRow row in sql.ExecuteQuery("SELECT rules FROM client_rules").Rows)
+            {
+                if (string.IsNullOrEmpty(row["rules"].ToString())) continue;
+                create_checkbox(row["rules"].ToString());
+            }
+        }
+
+        private void check_rules_existing()
+        {
+           
         }
 
         private void add_btn_Click(object sender, EventArgs e)
         {
-            req = new RequirementsManagement_class(requirepallet_cb, requireclearancespace_cb);
-
             if (ID == -1) add_client();
             else rewrite_client();
-            this.parent.resetFilter();
-            this.parent.TriggerVisualUpdate();
-            this.parent.updatePageSelector();
         }
         private void cancel_btn_Click(object sender, EventArgs e)
         {
@@ -90,11 +107,12 @@ namespace MyWinFormsApp.Sections.ManageClient
             {
                 { "name", clientname_tb.Text },
                 {"description", description_rtb.Text },
-                {"filter", req.getCheckmarks() },
+                {"filter", get_filter() },
                 {"category", category}
             };
             sql.InsertData("Client_Table", value);
             sql.commitReport($"A new Data Client '{clientname_tb.Text}' was added");
+            parent.TriggerVisualUpdate();
             this.Dispose();
         }
         private void rewrite_client()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO CONNECTED DB
@@ -108,7 +126,9 @@ namespace MyWinFormsApp.Sections.ManageClient
             sql.ExecuteQuery(query);
 
             sql.commitReport($"A Data Client '{clientname_tb.Text}' was modified");
+            parent.TriggerVisualUpdate();
             this.Dispose();
+
         }
 
 
@@ -155,6 +175,17 @@ namespace MyWinFormsApp.Sections.ManageClient
         {
             this.category = _category;
             this.category_path.Text = _category;
+        }
+
+        private string get_filter()
+        {
+            List<string> rules_per_checkbox = new List<string>();
+            foreach (CheckBox c in cb_list)
+            {
+                if (c.Checked)rules_per_checkbox.Add(c.Text);
+            }
+            rules_per_checkbox = rules_per_checkbox.Distinct().ToList();
+            return $"({string.Join("%", rules_per_checkbox)})";
         }
     }
 }

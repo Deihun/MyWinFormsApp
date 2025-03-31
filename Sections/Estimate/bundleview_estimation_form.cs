@@ -7,10 +7,18 @@ namespace MyWinFormsApp.Sections.Estimate
     public partial class bundleview_estimation_form : Form
     {
         // <REFERENCE CLASS>
-        Estimate_Form parent;
-        Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-        FilterInputSupportClass filter = new FilterInputSupportClass();
+        private Estimate_Form parent;
+        private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
+        private FilterInputSupportClass filter = new FilterInputSupportClass();
 
+        // <DICTIONARY>
+        private Dictionary<int, string> bundle_item_dictionary = new Dictionary<int, string>();
+        private Dictionary<int, string> pallet_item_dictionary = new Dictionary<int, string>();
+
+        // DATATYPES
+        private int id = -1;
+        private int pallet_id = -1;
+        private int pallet_quantity = -1;
         /// <summary>
         /// This is use for creation of Bundle Estimation Form for user to fill up the bundles.
         /// </summary>
@@ -19,8 +27,6 @@ namespace MyWinFormsApp.Sections.Estimate
             {
                 InitializeComponent();
                 this.parent = parent;
-                bundleitem_combobox.SelectedIndex = 0;
-                palletchoice_combobox.SelectedIndex = 0;
                 initializeBundleCombobox();
             }
 
@@ -31,32 +37,53 @@ namespace MyWinFormsApp.Sections.Estimate
         /// <param name="bundle_id">Reference the Bundle ID from SQLs</param>
         /// <param name="pallet_id">Reference the Pallet if it has from SQLs</param>
         /// <param name="quantityOfTotal">Reference the quantity of an a number of pallet in a created group bundle</param>
-        public bundleview_estimation_form(Estimate_Form parent, int bundle_id, int? pallet_id, int quantityOfTotal, int? quantityOfPallet)
+        public bundleview_estimation_form(Estimate_Form parent, int bundle_id, int pallet_id, int quantityOfTotal, int quantityOfPallet)
             {
                 InitializeComponent();
                 this.parent = parent;
-                DataRow allInformation = sql.ExecuteQuery("SELECT i.item_name, bundle.quantity FROM " +
-                                        "[Bundle_Table] bundle JOIN [Item_Table] i " +
-                                        "ON bundle.item_id = i.id " +
-                                        $"WHERE bundle.id = {bundle_id}").Rows[0];
-                string pallet_name = getPalletName(pallet_id);
-                bundleitem_combobox.DropDownStyle = ComboBoxStyle.Simple;
-                bundleitem_combobox.Text = allInformation["item_name"].ToString();
-                
-                totalbundletoload_tb.Enabled = true;
+                this.id = bundle_id;
+                this.pallet_id = pallet_id;
+                this.pallet_quantity = quantityOfPallet;
                 totalbundletoload_tb.Text = quantityOfTotal.ToString();
-                
-                palletEnabler_checkbox.Checked = (quantityOfPallet != 0) || quantityOfPallet != null;
-                quantityof_pallet.Enabled = true;
-                quantityof_pallet.Text = quantityOfPallet.ToString();
+            }
+        public void addAllChoices(bool editable, List<bundleview_estimation_form> list)
+        {
+            bundleitem_combobox.DropDownStyle = ComboBoxStyle.Simple;
+            palletchoice_combobox.DropDownStyle = ComboBoxStyle.Simple;
+            DataRow allInformation = sql.ExecuteQuery("SELECT i.item_name, bundle.id, bundle.quantity FROM " +
+            "[Bundle_Table] bundle JOIN [Item_Table] i " +
+            "ON bundle.item_id = i.id " +
+            $"WHERE bundle.id = {id}").Rows[0];
+            
+            if (editable)
+            {
+                initializeBundleCombobox();
+            }
 
-                updateContent();
-                palletEnabler_checkbox.Enabled = pallet_id != -1;
-                palletchoice_combobox.DropDownStyle = ComboBoxStyle.Simple;
-                palletchoice_combobox.Text = pallet_name;
-                
+            try { bundle_item_dictionary.Add(Convert.ToInt32(allInformation["id"]), $"{allInformation["item_name"]} ({allInformation["id"]})"); } catch {}
+            bundleitem_combobox.Items.Add($"{allInformation["item_name"]} ({allInformation["id"]})");
+            bundleitem_combobox.Text = $"{allInformation["item_name"]} ({allInformation["id"]})";
+
+
+
+            bundleitem_combobox.DropDownStyle = ComboBoxStyle.DropDownList;
+            palletchoice_combobox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            string pallet_name = $"{getPalletName(pallet_id)} ({pallet_id})";
+            palletEnabler_checkbox.Checked = (this.pallet_quantity != 0) || this.pallet_quantity != null;
+            quantityof_pallet.Enabled = true;
+            
+           
+
+            pallet_item_dictionary.Add(pallet_id,pallet_name);
+            totalbundletoload_tb.Enabled = true;
+            palletEnabler_checkbox.Enabled = pallet_id != -1;
+            palletchoice_combobox.Items.Add(pallet_name);
+            palletchoice_combobox.Text = pallet_name;
+            quantityof_pallet.Text = this.pallet_quantity.ToString();
+
+            try { updateContent(); } catch { list.Remove(this); this.Dispose(); }
         }
-
         public void disable_inputs()
         {
             quantityof_pallet.Enabled = false;
@@ -69,7 +96,23 @@ namespace MyWinFormsApp.Sections.Estimate
 
 
 
-                //VISUAL METHODS
+        //VISUAL METHODS
+
+        public int get_int_baseon_selected_pallet()
+        {
+            string a = "";
+            foreach (var item in pallet_item_dictionary) 
+            { 
+                if (item.Value == palletchoice_combobox.Text) return item.Key;
+            }
+            throw new Exception();
+        }
+        public int get_int_baseon_selected_bundle()
+        {
+            foreach (var item in bundle_item_dictionary) if (item.Value == bundleitem_combobox.Text) return item.Key;
+            throw new Exception();
+        }
+
         /// <summary>
         /// Change the appearance of BundleView_Form base on appropriate live existing values it has or depending on user inputs.
         /// </summary>
@@ -78,31 +121,27 @@ namespace MyWinFormsApp.Sections.Estimate
             content_label.ForeColor = Color.Black;
             if (bundleitem_combobox.SelectedIndex != 0)
             {
-                int id = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}' ").Rows[0][0]);
-                int bundleIT = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Bundle_Table WHERE item_id = '{id}' ").Rows[0][0]);
-                DataRow row = sql.ExecuteQuery($"SELECT item_id, quantity FROM Bundle_Table WHERE id = {bundleIT};").Rows[0];
-                int itemID = Convert.ToInt32(row["item_id"]);
-                int quantity = Convert.ToInt32(row["quantity"]);
-
                 this.Size = new Size(328, 193);
-                DataRow rowItem = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE id = {id}").Rows[0];
-                DataRow rowFlute = sql.ExecuteQuery($"SELECT _value, code_name FROM Flute_Table WHERE id = {Convert.ToInt32(rowItem["flute_id"])}").Rows[0];
-                decimal fluteValue = Convert.ToDecimal(rowFlute["_value"]);
-                string FluteType = rowFlute["code_name"].ToString();
+                int id = get_int_baseon_selected_bundle();
+                DataRow content = sql.ExecuteQuery("SELECT bundle.quantity, item.fc_control_number, item._length, item._width, flute.code_name, flute._value FROM Bundle_Table bundle JOIN Item_Table item ON bundle.item_id = item.id " +
+                    " JOIN Flute_Table flute ON item.flute_id = flute.id").Rows[0];
 
+                int quantity = Convert.ToInt32(content["quantity"]);
+                decimal fluteValue = Convert.ToDecimal(content["_value"]);
+                string FluteType = content["code_name"].ToString();
                 content_label.Text = $"Quantity      : {quantity} pcs\n" +
                                  $"Length(mm)    : {Math.Round(getlength(), 2)}\n" +
                                  $"Width(mm)     : {Math.Round(getwidth(), 2)}\n" +
                                  $"Height(mm)    : {Math.Round(getheight(), 2)}\n" +
                                  $"Dimensions(mm): {Math.Round(getlength() * getheight() * getwidth(), 2)}\n" +
-                                 $"F.C. Control Number: {rowItem["fc_control_number"]}\n" +
+                                 $"F.C. Control Number: {content["fc_control_number"]}\n" +
                                  $"FluteType: ({FluteType})\n";
             }
-            if (palletEnabler_checkbox.Checked && palletchoice_combobox.SelectedIndex > 0)
+            if (palletEnabler_checkbox.Checked && palletchoice_combobox.Text != "<Select a target Pallet>" && get_int_baseon_selected_pallet() != -1)
             {
                 this.Size = new Size(328, 193);
                 this.Height += 100;
-                DataRow row = sql.ExecuteQuery($"SELECT * FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}';").Rows[0];
+                DataRow row = sql.ExecuteQuery($"SELECT * FROM Pallet_Table WHERE id = {get_int_baseon_selected_pallet()};").Rows[0];
                 decimal length = Math.Round(Convert.ToDecimal(row["_length"]), 2);
                 decimal width = Math.Round(Convert.ToDecimal(row["_width"]), 2);
                 decimal height = Math.Round(Convert.ToDecimal(row["_height"]), 2);
@@ -125,30 +164,24 @@ namespace MyWinFormsApp.Sections.Estimate
         {
               bundleitem_combobox.Items.Clear();
               palletchoice_combobox.Items.Clear();
+              bundle_item_dictionary.Clear();
+              pallet_item_dictionary.Clear();
               bundleitem_combobox.Items.Add("<Select a target Bundle-Item>");
-                    palletchoice_combobox.Items.Add("<Select a target Pallet>");
-                    List<string> bundlelist = new List<string>();
-                    if (parent.clientList.Count > 0)
-                    {
-                        foreach (clientselectView_form form in parent.clientList)
-                        {
-                            int ClientID = form.getMyID();
-                            if (ClientID == -1) continue;
+              palletchoice_combobox.Items.Add("<Select a target Pallet>");
+                foreach (DataRow row in sql.ExecuteQuery("SELECT bundle.id AS ID, item.item_name AS name FROM Bundle_Table bundle JOIN Item_Table item ON bundle.item_id = item.id WHERE bundle.is_deleted = 0;").Rows) {
+                try{
+                    bundle_item_dictionary.Add(Convert.ToInt32(row["ID"]), $"{row["name"]} ({row["ID"]})");
+                }catch { } }
+              foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Pallet_Table WHERE is_deleted = 0").Rows) pallet_item_dictionary.Add(Convert.ToInt32(row["id"]), $"{row["name"]} ({row["id"]})");
+              foreach (string item_name in bundle_item_dictionary.Values) bundleitem_combobox.Items.Add(item_name);   
+              foreach (string pallet_name in pallet_item_dictionary.Values) palletchoice_combobox.Items.Add(pallet_name);
+              bundleitem_combobox.SelectedIndex = 0;
+              palletchoice_combobox.SelectedIndex = 0;
+        }
 
-                            foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Bundle_Table WHERE is_deleted = 0;").Rows)
-                            {
-                                bool canProceed = (0 >= sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(row["item_id"])} AND client_id = {ClientID} AND is_deleted = 0").Rows.Count);
-                                if (canProceed) continue;
-                                bundlelist.Add(
-                                    sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(row["item_id"])} AND client_id = {ClientID} AND is_deleted = 0").Rows[0][0].ToString()
-                                    );
-                            }
-                        }
-                    }
-                    foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Pallet_Table;").Rows) palletchoice_combobox.Items.Add(row["name"].ToString());
-                    bundleitem_combobox.Items.AddRange(bundlelist.Distinct().ToArray());
-                    bundleitem_combobox.SelectedIndex = 0;
-                    palletchoice_combobox.SelectedIndex = 0;
+        public Dictionary<int, string> get_all_bundle_content()
+        {
+            return bundle_item_dictionary;
         }
         /// <summary>
         /// Set visibility of Quantity number section input of of Bundles in a Group
@@ -208,22 +241,23 @@ namespace MyWinFormsApp.Sections.Estimate
         /// <returns>Returns a length of a selected item</returns>
         public decimal getlength()
         {
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}'").Rows[0][0]);
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Item_Table WHERE id = '{get_int_baseon_selected_bundle()}'").Rows[0][0]);
         }
 
 
         /// <returns>Returns a width of a selected item</returns>
         public decimal getwidth()
         {
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}'").Rows[0][0]);
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Item_Table WHERE id = '{get_int_baseon_selected_bundle()}'").Rows[0][0]);
         }
 
 
         /// <returns>Returns a height of a selected item, it reference flute and if is Folded</returns>
         public decimal getheight()
         {
-            decimal a = Convert.ToDecimal(sql.ExecuteQuery($"SELECT f._value\r\nFROM Item_Table i\r\nJOIN Flute_Table f ON i.flute_id = f.id\r\nWHERE i.item_name = '{bundleitem_combobox.Text}' AND i.is_deleted = 0;").Rows[0][0]) * getQuantity();
-            bool b = Convert.ToBoolean(sql.ExecuteQuery($"SELECT isFolded FROM Item_Table WHERE item_name = '{bundleitem_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+            //MessageBox.Show($"SELECT flute._value FROM Item_Table item JOIN Flute_Table flute ON item.flute_id = flute.id JOIN Bundle_Table bundle ON bundle.item_id = item.id WHERE bundle.id = {get_int_baseon_selected_bundle()}");
+            decimal a = Convert.ToDecimal(sql.ExecuteQuery($"SELECT flute._value FROM Item_Table item JOIN Flute_Table flute ON item.flute_id = flute.id JOIN Bundle_Table bundle ON bundle.item_id = item.id WHERE bundle.id = {get_int_baseon_selected_bundle()}").Rows[0][0]) * getQuantity();
+            bool b = Convert.ToBoolean(sql.ExecuteQuery($"SELECT item.isFolded FROM Item_Table item JOIN Bundle_Table bundle ON bundle.item_id = item.id WHERE bundle.id = {get_int_baseon_selected_bundle()}").Rows[0][0]);
             return b ? a * 2 : a;
         }
 
@@ -236,20 +270,15 @@ namespace MyWinFormsApp.Sections.Estimate
         }
         public int getQuantity()
         {
-            string query = $"SELECT b.quantity FROM Bundle_Table b JOIN Item_Table i ON b.item_id = i.id WHERE b.is_deleted = 0 AND i.item_name = '{bundleitem_combobox.Text}'";
+            string query = $"SELECT b.quantity FROM Bundle_Table b JOIN Item_Table i ON b.item_id = i.id WHERE b.is_deleted = 0 AND b.id = {get_int_baseon_selected_bundle()}";
             return Convert.ToInt32(sql.ExecuteQuery(query).Rows[0][0]);
         }
 
-        public int getBundleID()
-        {
-            if (bundleitem_combobox.SelectedIndex == 0) return -1;
-            return Convert.ToInt32(sql.ExecuteQuery($"SELECT b.id FROM Bundle_Table b JOIN Item_Table i ON b.item_id = i.id WHERE i.item_name = '{bundleitem_combobox.Text}'").Rows[0][0]);
-        }
 
         public int getPalletID()
         {
             if (!palletEnabler_checkbox.Checked || palletchoice_combobox.SelectedIndex == 0) return -1;
-            return Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}'").Rows[0][0]);
+            return Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Pallet_Table WHERE id = {get_int_baseon_selected_pallet()}").Rows[0][0]);
         }
         public string getPalletName()
         {
@@ -262,20 +291,20 @@ namespace MyWinFormsApp.Sections.Estimate
         }
         public decimal getLengthPallet()
         {
-            if (palletchoice_combobox.SelectedIndex == 0) return 0m;
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+            if (palletchoice_combobox.Text == "<Select a target Pallet>") return 0m;
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Pallet_Table WHERE id = {get_int_baseon_selected_pallet()}").Rows[0][0]);
         }
 
         public decimal getWidthPallet()
         {
             if (palletchoice_combobox.SelectedIndex == 0) return 0m;
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _width FROM Pallet_Table WHERE id = {get_int_baseon_selected_pallet()}").Rows[0][0]);
         }
 
         public decimal getHeightPallet()
         {
             if (palletchoice_combobox.SelectedIndex == 0) return 0m;
-            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Pallet_Table WHERE name = '{palletchoice_combobox.Text}' AND is_deleted = 0").Rows[0][0]);
+            return Convert.ToDecimal(sql.ExecuteQuery($"SELECT _length FROM Pallet_Table WHERE id = {get_int_baseon_selected_pallet()} ").Rows[0][0]);
         }
 
         public bool canPalletComputationBeUse()
@@ -300,6 +329,7 @@ namespace MyWinFormsApp.Sections.Estimate
 
         }
 
+                //CONTROL EVENTS
         private void bundleitem_combobox_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
@@ -314,10 +344,6 @@ namespace MyWinFormsApp.Sections.Estimate
             e.DrawFocusRectangle();
         }
 
-
-
-
-                //CONTROL EVENTS
         private void quantityof_pallet_TextChanged(object sender, EventArgs e)
         {
             filter.ValidateNumericInput(quantityof_pallet);

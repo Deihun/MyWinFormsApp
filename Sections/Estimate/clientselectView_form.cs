@@ -15,13 +15,13 @@ namespace MyWinFormsApp.Sections.Estimate
     {
         Estimate_Form parent;
         Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
-        public string filter = "";
+
+        public List<string> filter = new List<string>();
         private int id = -1;
         public clientselectView_form(Estimate_Form parent)
         {
             InitializeComponent();
             this.parent = parent;
-            instantiateCombobox();
         }
 
         public clientselectView_form(Estimate_Form parent, int id)
@@ -30,75 +30,33 @@ namespace MyWinFormsApp.Sections.Estimate
             this.parent = parent;
             this.id = id;
             DataRow client = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE id = {id}").Rows[0];
-            client_combobox.DropDownStyle = ComboBoxStyle.DropDown;
-            client_combobox.Text = client["name"].ToString();
+            clientname_label.Text = client["name"].ToString();
             description_label.Text = client["description"].ToString();
-            filter = client["filter"].ToString();
+            seperate(client["filter"].ToString());
+            create_warning_label();
         }
-
-        public void disable_inputs()
-        {
-            client_combobox.Enabled = false;
-            delete_button.Hide();
-        }
-
-        public void instantiateCombobox()
-        {
-            client_combobox.Items.Clear();
-            client_combobox.Items.Add("<Select a Client>");
-            foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Client_Table WHERE is_deleted = 0").Rows) client_combobox.Items.Add(row["name"]);
-            client_combobox.SelectedIndex = 0;
-        }
-
-        private void delete_button_Click(object sender, EventArgs e)
-        {
-            parent.clientList.Remove(this);
-            this.Dispose();
-            parent.UpdateSelectionWithinChange();
-            parent.UpdateVisual();
-        }
-
-        public int getMyID()
-        {
-            if (client_combobox.SelectedIndex == 0) return -1;
-            return Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Client_Table WHERE name = '{client_combobox.Text}'").Rows[0][0]);
-        }
-
-        public string getFilter()
+        public List<string> getFilter()
         {
             return filter;
         }
 
-        public bool canBeSelected()
+        public void seperate(string raw_filter)
         {
-            return (client_combobox.SelectedIndex != 0);
+            raw_filter = raw_filter.Trim('(', ')');
+            filter = raw_filter.Split('%').ToList();
         }
 
-        private void client_combobox_SelectedIndexChanged(object sender, EventArgs e)
+        private void create_warning_label()
         {
-            this.BackColor = Color.IndianRed;
-            if (client_combobox.SelectedIndex > 0) 
-            { 
-              DataRow clientrow = sql.ExecuteQuery($"SELECT * FROM Client_Table WHERE name = '{client_combobox.Text}' AND is_deleted = 0").Rows[0];
-              description_label.Text = clientrow["description"].ToString();
-              filter = clientrow["filter"].ToString();
-              description_label.ForeColor = Color.Black;
-                this.BackColor = Color.Gainsboro;
-            }
-            else if(client_combobox.Items.Count < 0)
+            foreach (string f in filter)
             {
-                description_label.ForeColor = Color.DimGray;
-                description_label.Text = "There's no existing Client data. Please create a new Client Data";
-                
-                   
+                Label l = new Label();
+                l.ForeColor = Color.DarkRed;
+                l.Text = f;
+                l.AutoSize = false;
+                storedfilter_flp.Controls.Add(l);
+                l.Show();
             }
-            else
-            {
-                description_label.ForeColor = Color.DimGray;
-                description_label.Text = "Select a Client";
-            }
-                parent.UpdateSelectionWithinChange();
-            parent.UpdateVisual();
         }
 
     }

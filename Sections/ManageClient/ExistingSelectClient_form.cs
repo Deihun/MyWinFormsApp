@@ -55,8 +55,8 @@ namespace MyWinFormsApp.Sections.ManageClient
         }
         private void instantiateConditions(string raw_condition)
         {
-            RequirementsManagement_class req = new RequirementsManagement_class(raw_condition);
-            foreach (string _req in req.getAllConditionAsList())
+            raw_condition = raw_condition.Trim('(', ')');
+            foreach (string _req in raw_condition.Split('%').ToList())
             {
                 Label label = new Label();
                 label.AutoSize = true;

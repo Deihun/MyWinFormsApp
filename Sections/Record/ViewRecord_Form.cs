@@ -31,6 +31,8 @@ namespace MyWinFormsApp.Sections.Record
         private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.Timer pageTimer;
 
+        private List<CheckBox> checkbox_list = new List<CheckBox>();
+
         public ViewRecord_Form()
         {
             InitializeComponent();
@@ -59,6 +61,7 @@ namespace MyWinFormsApp.Sections.Record
             _no_result.Visible = false;
 
         }
+
 
         private void TriggerVisualUpdate()
         {
@@ -108,7 +111,9 @@ namespace MyWinFormsApp.Sections.Record
 
         private void resetFilter()
         {
+            foreach (CheckBox check in checkbox_list) check.Dispose();
 
+            checkbox_list.Clear();
             year_cb.Items.Clear();
             client_cb.Items.Clear();
             truck_cb.Items.Clear();
@@ -116,6 +121,11 @@ namespace MyWinFormsApp.Sections.Record
             client_cb.Items.Add("<select-client>");
             truck_cb.Items.Add("<select-truck>");
 
+            foreach (DataRow row in sql.ExecuteQuery("SELECT category FROM Record_Table WHERE is_deleted = 0").Rows)
+            {
+                if (string.IsNullOrEmpty(row["category"].ToString())) continue;
+                create_check(row["category"].ToString());
+            }
             foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Client_Table WHERE is_deleted = 0").Rows) client_cb.Items.Add(row["name"].ToString());
             foreach (DataRow row in sql.ExecuteQuery("SELECT * FROM Truck_Table WHERE is_deleted = 0").Rows) truck_cb.Items.Add(row["platenumber"].ToString());
             foreach (string s in yearDate) year_cb.Items.Add(s);
@@ -179,6 +189,7 @@ namespace MyWinFormsApp.Sections.Record
             }
         }
 
+
         private void clear_btn_Click(object sender, EventArgs e)
         {
             resetFilter();
@@ -198,12 +209,25 @@ namespace MyWinFormsApp.Sections.Record
             TriggerVisualUpdate();
         }
 
+        private void checkboxTrigger(object sender, EventArgs e)
+        {
+            foreach (CheckBox cb in checkbox_list)
+            {
+                if (sender is CheckBox s) if (cb == s) continue;
+                cb.Checked = false;
+            }
+            updatePageSelector();
+            TriggerVisualUpdate();
+            updatePageSelector();
+        }
+
         private string getQueryCount()
         {
             Datetotext datetotext = new Datetotext();
-            string preset_query = "SELECT COUNT(record.id) FROM \r\nRecord_Table record JOIN AddedBundle_Table aBt ON aBt.record_id = record.id JOIN\r\nBundle_Table bundle ON aBt.bundle_id = bundle.id JOIN\r\nItem_Table item ON bundle.item_id = item.id JOIN\r\nAddedClient_Table aCt ON record.id = aCt.record_id JOIN\r\nClient_Table client ON aCt.client_id = client.id JOIN\r\nTruck_Table truck ON record.truck_id = truck.id JOIN Pallet_Table pallet ON aBt.pallet_id = pallet.id WHERE record.is_deleted = 0 AND bundle.is_deleted = 0 AND item.is_deleted = 0 AND client.is_deleted = 0 AND truck.is_deleted = 0 AND pallet.is_deleted = 0";
+            string preset_query = "  SELECT COUNT(DISTINCT record.id) FROM Record_Table record JOIN AddedBundle_Table aBt ON aBt.record_id = record.id\r\nJOIN Bundle_Table bundle ON aBt.bundle_id = bundle.id\r\nJOIN Item_Table item ON bundle.item_id = item.id\r\nJOIN Client_Table client ON item.client_id = client.id\r\nJOIN Truck_Table truck ON record.truck_id = truck.id LEFT JOIN Pallet_Table pallet ON aBt.pallet_id = pallet.id\r\nWHERE record.is_deleted = 0";
 
             List<string> conditions = new List<string>();
+            List<string> category = new List<string>();
 
             if (!string.IsNullOrEmpty(searchname_tb.Text) && searchname_tb.Text != "ex. Piatos")
                 conditions.Add($"item.item_name LIKE '%{searchname_tb.Text}%'");
@@ -220,6 +244,14 @@ namespace MyWinFormsApp.Sections.Record
             if (year_cb.Text != "<year>")
                 conditions.Add($"YEAR(record.date_added) LIKE '%{year_cb.Text}%'");
 
+            foreach (CheckBox checkbox in checkbox_list)
+            {
+                if (!checkbox.Checked) continue;
+                if (string.IsNullOrEmpty(checkbox.Text)) continue;
+                category.Add($"record.category = '{checkbox.Tag}'");
+            }
+            if (category.Count > 0)
+                preset_query += $" AND ({string.Join(" OR ", category)})";
             if (conditions.Count > 0)
                 preset_query += " AND " + string.Join(" AND ", conditions);
             //MessageBox.Show(preset_query);
@@ -229,9 +261,10 @@ namespace MyWinFormsApp.Sections.Record
         private DataTable getRecordTable_ID()
         {
             Datetotext datetotext = new Datetotext();
-            string preset_query = "SELECT DISTINCT record.id, item.item_name FROM \r\nRecord_Table record JOIN AddedBundle_Table aBt ON aBt.record_id = record.id JOIN\r\nBundle_Table bundle ON aBt.bundle_id = bundle.id JOIN\r\nItem_Table item ON bundle.item_id = item.id JOIN\r\nAddedClient_Table aCt ON record.id = aCt.record_id JOIN\r\nClient_Table client ON aCt.client_id = client.id JOIN\r\nTruck_Table truck ON record.truck_id = truck.id JOIN Pallet_Table pallet ON aBt.pallet_id = pallet.id WHERE record.is_deleted = 0 AND bundle.is_deleted = 0 AND item.is_deleted = 0 AND client.is_deleted = 0 AND truck.is_deleted = 0 AND pallet.is_deleted = 0";
+            string preset_query = "SELECT DISTINCT record.id, item.item_name FROM Record_Table record JOIN AddedBundle_Table aBt ON aBt.record_id = record.id JOIN\r\nBundle_Table bundle ON aBt.bundle_id = bundle.id JOIN\r\nItem_Table item ON bundle.item_id = item.id JOIN Client_Table client ON item.client_id = client.id JOIN Truck_Table truck ON record.truck_id = truck.id LEFT JOIN Pallet_Table pallet ON aBt.pallet_id = pallet.id WHERE record.is_deleted = 0 ";
 
             List<string> conditions = new List<string>();
+            List<string> category = new List<string>();
 
             if (!string.IsNullOrEmpty(searchname_tb.Text) && searchname_tb.Text != "ex. Piatos")
                 conditions.Add($"item.item_name LIKE '%{searchname_tb.Text}%'");
@@ -248,6 +281,14 @@ namespace MyWinFormsApp.Sections.Record
             if (year_cb.Text != "<year>")
                 conditions.Add($"YEAR(record.date_added) LIKE '%{year_cb.Text}%'");
 
+            foreach (CheckBox checkbox in checkbox_list)
+            {
+                if (!checkbox.Checked) continue;
+                if (string.IsNullOrEmpty(checkbox.Text)) continue;
+                category.Add($"record.category = '{checkbox.Tag}'");
+            }
+            if (category.Count > 0)
+                preset_query += $" AND ({string.Join(" OR ", category)})";
             if (conditions.Count > 0)
                 preset_query += " AND " + string.Join(" AND ", conditions);
             preset_query += $" ORDER BY item.item_name OFFSET {(objects_perPage * (selected_page - 1))} ROWS FETCH NEXT {objects_perPage} ROWS ONLY;";
@@ -255,6 +296,23 @@ namespace MyWinFormsApp.Sections.Record
             DataTable table = sql.ExecuteQuery(preset_query);
             return table;
         }
+
+        private CheckBox create_check(string category)
+        {
+            CheckBox check = new CheckBox();
+            check.Text = category;
+            check.Tag = category;
+            flowLayoutPanel1.Controls.Add(check);
+            checkbox_list.Add(check);
+            check.Padding = new Padding(20, 0, 0, 0);
+            check.ForeColor = Color.White;
+            check.AutoSize = true;
+            check.Visible = true;
+            check.Checked = false;
+            check.CheckedChanged += checkboxTrigger;
+            return check;
+        }
+
 
         private int getMaximumCount()
         {
@@ -278,6 +336,7 @@ namespace MyWinFormsApp.Sections.Record
             numberOfVisible = Math.Min(numberOfVisible, viewrecordselection_form_list.Count);
 
             _no_result.Visible = numberOfVisible < 1;
+            label6.Visible = checkbox_list.Count > 0;
         }
     }
 }

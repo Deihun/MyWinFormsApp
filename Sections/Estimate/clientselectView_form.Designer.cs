@@ -28,88 +28,73 @@
         /// </summary>
         private void InitializeComponent()
         {
-            client_combobox = new ComboBox();
             description_label = new Label();
-            panel1 = new Panel();
             storedfilter_flp = new FlowLayoutPanel();
-            delete_button = new Button();
-            panel1.SuspendLayout();
+            clientname_label = new Label();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // client_combobox
-            // 
-            client_combobox.DropDownStyle = ComboBoxStyle.DropDownList;
-            client_combobox.FormattingEnabled = true;
-            client_combobox.Location = new Point(12, 12);
-            client_combobox.Name = "client_combobox";
-            client_combobox.Size = new Size(243, 23);
-            client_combobox.TabIndex = 0;
-            client_combobox.SelectedIndexChanged += client_combobox_SelectedIndexChanged;
             // 
             // description_label
             // 
             description_label.AutoSize = true;
-            description_label.Dock = DockStyle.Fill;
-            description_label.Location = new Point(0, 0);
+            description_label.ForeColor = Color.DimGray;
+            description_label.Location = new Point(3, 21);
             description_label.Name = "description_label";
             description_label.Size = new Size(83, 15);
             description_label.TabIndex = 1;
             description_label.Text = "<Description>";
             // 
-            // panel1
-            // 
-            panel1.Controls.Add(description_label);
-            panel1.Location = new Point(12, 41);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(243, 58);
-            panel1.TabIndex = 2;
-            // 
             // storedfilter_flp
             // 
+            storedfilter_flp.AutoScroll = true;
             storedfilter_flp.Location = new Point(12, 102);
             storedfilter_flp.Name = "storedfilter_flp";
             storedfilter_flp.Size = new Size(243, 62);
             storedfilter_flp.TabIndex = 3;
+            storedfilter_flp.WrapContents = false;
             // 
-            // delete_button
+            // clientname_label
             // 
-            delete_button.BackColor = Color.FromArgb(192, 0, 0);
-            delete_button.FlatAppearance.BorderColor = Color.FromArgb(64, 0, 0);
-            delete_button.FlatStyle = FlatStyle.Flat;
-            delete_button.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            delete_button.ForeColor = Color.FromArgb(255, 192, 192);
-            delete_button.Location = new Point(192, 163);
-            delete_button.Margin = new Padding(0);
-            delete_button.Name = "delete_button";
-            delete_button.Size = new Size(75, 20);
-            delete_button.TabIndex = 4;
-            delete_button.Text = "DELETE";
-            delete_button.UseVisualStyleBackColor = false;
-            delete_button.Click += delete_button_Click;
+            clientname_label.AutoSize = true;
+            clientname_label.Font = new Font("Segoe UI", 12F);
+            clientname_label.ForeColor = Color.FromArgb(64, 64, 64);
+            clientname_label.Location = new Point(3, 0);
+            clientname_label.Name = "clientname_label";
+            clientname_label.Size = new Size(133, 21);
+            clientname_label.TabIndex = 5;
+            clientname_label.Text = "<CLIENT_NAME>";
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(clientname_label);
+            flowLayoutPanel1.Controls.Add(description_label);
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Location = new Point(12, 6);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(243, 90);
+            flowLayoutPanel1.TabIndex = 6;
+            flowLayoutPanel1.WrapContents = false;
             // 
             // clientselectView_form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(267, 181);
-            Controls.Add(delete_button);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(storedfilter_flp);
-            Controls.Add(panel1);
-            Controls.Add(client_combobox);
             FormBorderStyle = FormBorderStyle.None;
             Name = "clientselectView_form";
             Text = "clientselectView_form";
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private ComboBox client_combobox;
         private Label description_label;
-        private Panel panel1;
         private FlowLayoutPanel storedfilter_flp;
-        private Button delete_button;
+        private Label clientname_label;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

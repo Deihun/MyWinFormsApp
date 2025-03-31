@@ -253,6 +253,7 @@ CREATE TABLE Record_Table (
     remarks NVARCHAR(MAX),
     truck_id INT,
     client_id INT,
+    category VARCHAR(MAX),
     is_deleted BIT DEFAULT(0)
 );
 
@@ -265,6 +266,10 @@ CREATE TABLE Truck_Table (
     _height DECIMAL(18,2),
     category NVARCHAR(100),
     is_deleted BIT DEFAULT(0)
+);
+
+CREATE TABLE client_rules (
+    rules VARCHAR(50)
 );
 ";
             return query;

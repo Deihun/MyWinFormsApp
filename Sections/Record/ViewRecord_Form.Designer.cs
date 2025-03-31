@@ -47,6 +47,7 @@
             label5 = new Label();
             month_cb = new ComboBox();
             year_cb = new ComboBox();
+            label6 = new Label();
             tableLayoutPanel5 = new TableLayoutPanel();
             panel2 = new Panel();
             panel1 = new Panel();
@@ -104,6 +105,7 @@
             flowLayoutPanel1.Controls.Add(tableLayoutPanel2);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel4);
             flowLayoutPanel1.Controls.Add(flowLayoutPanel4);
+            flowLayoutPanel1.Controls.Add(label6);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(0, 0);
@@ -315,6 +317,18 @@
             year_cb.TabIndex = 9;
             year_cb.SelectedIndexChanged += year_cb_SelectedIndexChanged;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(3, 182);
+            label6.Margin = new Padding(3, 30, 3, 10);
+            label6.Name = "label6";
+            label6.Size = new Size(95, 21);
+            label6.TabIndex = 13;
+            label6.Text = "CATEGORY:";
+            // 
             // tableLayoutPanel5
             // 
             tableLayoutPanel5.ColumnCount = 1;
@@ -394,6 +408,7 @@
             tablelayout_main.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             flowLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
@@ -436,5 +451,6 @@
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel5;
         private Panel panel2;
+        private Label label6;
     }
 }
