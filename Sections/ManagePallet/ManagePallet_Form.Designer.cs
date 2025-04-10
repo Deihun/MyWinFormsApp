@@ -52,7 +52,7 @@
             // 
             // tablelayout_main
             // 
-            tablelayout_main.BackColor = Color.PaleGreen;
+            tablelayout_main.BackColor = Color.Transparent;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);

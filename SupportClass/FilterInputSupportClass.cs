@@ -15,13 +15,13 @@ namespace MyWinFormsApp.SupportClass
             int len1 = query.Length;
             int len2 = text.Length;
 
-            if (len1 > len2) return false; // Query can't be longer than text
+            if (len1 > len2) return false; 
 
             for (int i = 0; i <= len2 - len1; i++)
             {
                 string substring = text.Substring(i, len1);
                 if (ComputeLevenshtein(query, substring) <= threshold)
-                    return true; // Found a similar match
+                    return true; 
             }
 
             return false;

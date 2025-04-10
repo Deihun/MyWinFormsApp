@@ -174,7 +174,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.FluteHintPicture;
+            pictureBox1.Image = TruckEstimation.Properties.Resources.FluteHintPicture;
             pictureBox1.Location = new Point(261, 22);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(187, 249);

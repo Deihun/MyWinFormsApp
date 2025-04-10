@@ -40,10 +40,7 @@ namespace SQLSupportLibrary
         }
         public void BackupDatabase()
         {
-            // Define the backup directory
             string backupDirectory = @"C:\SQL_Backups\";
-
-            // Check if the directory exists; if not, create it
             if (!Directory.Exists(backupDirectory))
             {
                 Directory.CreateDirectory(backupDirectory);
@@ -53,8 +50,6 @@ namespace SQLSupportLibrary
             string databaseName = "TruckEstimationSystem";
             string backupFileName = $"{databaseName}_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
             string backupPath = Path.Combine(backupDirectory, backupFileName);
-
-            // Define the backup SQL command
             string backupQuery = $"BACKUP DATABASE [{databaseName}] TO DISK = '{backupPath}' " +
                                  "WITH FORMAT, INIT, NAME = @BackupName, SKIP, NOREWIND, NOUNLOAD, STATS = 10";
 

@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TruckEstimation.Sections.ManageBundles;
 
 namespace MyWinFormsApp.Sections.ManageBundles
 {
@@ -19,53 +20,50 @@ namespace MyWinFormsApp.Sections.ManageBundles
         private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
 
         private int id = -1;
+        private int item_id = -1;
 
         private string category = "";
-        public AddEditBundle_windowpopupform(ManageBundles_Form parent)
+
+        public AddEditBundle_windowpopupform(int id, bool a)
         {
             InitializeComponent();
-            instantiateCB();
-            this.parent = parent;
+            set_item(id);
             updateWarning();
         }
 
-        public AddEditBundle_windowpopupform(ManageBundles_Form parent, string item_name)
+        public AddEditBundle_windowpopupform(ManageBundles_Form parent)
         {
             InitializeComponent();
-            instantiateCB();
             this.parent = parent;
-
-            try
-            {
-                itemlist_cb.SelectedItem = item_name;
-            }
-            catch
-            {
-                itemlist_cb.Items.Add(item_name);
-                itemlist_cb.SelectedItem = item_name;
-            }
             updateWarning();
+        }
+        public void set_item(int id)
+        {
+            this.item_id = id;
+            pathItem_label.Text = sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {id}").Rows[0][0].ToString();
+        }
 
+        public AddEditBundle_windowpopupform(ManageBundles_Form parent, int id, bool a)
+        {
+            InitializeComponent();
+            this.parent = parent;
+            set_item(id);
+            updateWarning();
         }
         public AddEditBundle_windowpopupform(ManageBundles_Form parent, int id)
         {
             InitializeComponent();
-            instantiateCB();
             this.parent = parent;
             this.id = id;
             this.Text = "EDIT BUNDLE";
             this.add_btn.Text = "CONFIRM CHANGES";
 
-            DataRow bundleRow = sql.ExecuteQuery($"SELECT * FROM Bundle_Table WHERE id = {id}").Rows[0];
-            quantity_tb.Text = bundleRow["quantity"].ToString();
-            itemlist_cb.Text = sql.ExecuteQuery($"SELECT item_name FROM Item_Table WHERE id = {Convert.ToInt32(bundleRow["item_id"])}").Rows[0][0].ToString();
-            set_category(bundleRow["category"].ToString());
+            DataRow Content = sql.ExecuteQuery($"SELECT bundle.quantity, bundle.category, item.item_name, item.id FROM Item_Table item JOIN Bundle_Table bundle ON bundle.item_id = item.id WHERE bundle.id = {id}").Rows[0];
+            set_item(Convert.ToInt32(Content["id"]));
+            quantity_tb.Text = Content["quantity"].ToString();
+            set_category(Content["category"].ToString());
             updateWarning();
 
-        }
-        private void instantiateCB()
-        {
-            foreach (DataRow row in sql.ExecuteQuery("SELECT DISTINCT item_name FROM Item_Table WHERE is_deleted = 0").Rows) itemlist_cb.Items.Add(row["item_name"].ToString());
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)
@@ -75,14 +73,18 @@ namespace MyWinFormsApp.Sections.ManageBundles
 
         private void add_btn_Click(object sender, EventArgs e)
         {
-            if (itemlist_cb.Text != string.Empty && (quantity_tb.Text != string.Empty || quantity_tb.Text != "0"))
+            if (item_id != -1 && (quantity_tb.Text != string.Empty || quantity_tb.Text != "0"))
             {
                 if (id == -1) AddBundle();
                 else rewriteBundle();
-                parent.resetFilter();
-                parent.updatePageSelector();
-                parent.TriggerVisualUpdate();
-                parent.updatePageSelector();
+                try
+                {
+                    parent.resetFilter();
+                    parent.updatePageSelector();
+                    parent.TriggerVisualUpdate();
+                    parent.updatePageSelector();
+                } catch { }
+
                 this.Dispose();
             }
             else MessageBox.Show("Please Fill up all the occupied space");
@@ -91,27 +93,26 @@ namespace MyWinFormsApp.Sections.ManageBundles
         private void AddBundle() //MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
             FilterInputSupportClass filter = new FilterInputSupportClass();
-            int itemID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Item_Table WHERE item_name = '{itemlist_cb.Text}';").Rows[0][0]);
             Dictionary<string, object> value = new Dictionary<string, object>()
             {
                 {"quantity", Convert.ToInt32(quantity_tb.Text) },
-                {"item_id", itemID },
+                {"item_id", item_id },
                 {"category", category }
             };
             sql.InsertData("Bundle_Table", value);
-            sql.commitReport($"A new Data Bundle '{itemlist_cb.Text}' was added");
+            sql.commitReport($"A new Data Bundle '{pathItem_label.Text}' was added");
         }
         private void rewriteBundle()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {
-            int itemID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Item_Table WHERE item_name = '{itemlist_cb.Text}';").Rows[0][0]);
+            int itemID = Convert.ToInt32(sql.ExecuteQuery($"SELECT id FROM Item_Table WHERE item_name = '{pathItem_label.Text}';").Rows[0][0]);
             string query = $"UPDATE Bundle_Table SET quantity = {quantity_tb.Text}, item_id = {itemID}, category = '{category}' WHERE id = {id}";
             sql.ExecuteQuery(query);
-            sql.commitReport($"A Data Bundle '{itemlist_cb.Text}' was modified");
+            sql.commitReport($"A Data Bundle '{pathItem_label.Text}' was modified");
         }
 
         private void itemlist_cb_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataRow row = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE item_name = '{itemlist_cb.Text}' AND is_deleted = 0").Rows[0];
+            DataRow row = sql.ExecuteQuery($"SELECT * FROM Item_Table WHERE item_name = '{pathItem_label.Text}' AND is_deleted = 0").Rows[0];
             DataRow fluterow = sql.ExecuteQuery($"SELECT * FROM Flute_Table WHERE id = {row["flute_id"]}").Rows[0];
             decimal height = Convert.ToDecimal(fluterow["_value"]);
             height = Convert.ToBoolean(row["isFolded"]) ? height * 2 : height;
@@ -127,7 +128,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
 
         private void updateWarning()
         {
-            item_warning.Visible = itemlist_cb.Text == string.Empty;
+            item_warning.Visible = item_id == -1;
             quantity_warning.Visible = quantity_tb.Text == string.Empty;
         }
 
@@ -161,6 +162,19 @@ namespace MyWinFormsApp.Sections.ManageBundles
         {
             this.category = _category;
             this.category_path.Text = _category;
+        }
+
+        private void itemEdit_btn_Click(object sender, EventArgs e)
+        {
+            Dictionary<int, string> items = new Dictionary<int, string>();
+            foreach (DataRow row in sql.ExecuteQuery("SELECT item_name, id FROM Item_Table WHERE is_deleted = 0").Rows) items.Add(Convert.ToInt32(row["id"]), row["item_name"].ToString());
+            SelectItem_FromBundle_Form sfbf = new SelectItem_FromBundle_Form(items, set_item);
+            sfbf.ShowDialog();
+        }
+
+        private void pathItem_label_TextChanged(object sender, EventArgs e)
+        {
+            item_warning.Visible = item_id == -1;
         }
     }
 }

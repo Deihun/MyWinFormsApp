@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,30 @@ namespace MyWinFormsApp.Sections.ManageClient
             InitializeComponent();
             this.ID = id;
             this.parent = parent;
-            clientname_label.Text = name;
+            this.clientname_label.Text = name;
+            this.id_label.Text = $"ID:{id}";
             client_name = name;
             this.category = category;
             description_label.Text = description;
             instantiateConditions(raw_condition);
             instantiateItemName();
+        }
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
         }
         private void instantiateItemName()
         {
@@ -55,6 +74,14 @@ namespace MyWinFormsApp.Sections.ManageClient
         }
         private void instantiateConditions(string raw_condition)
         {
+            Label label1 = new Label();
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe", 12, FontStyle.Bold);
+            label1.ForeColor = ColorTranslator.FromHtml("#282828");
+            label1.Text = "RULES";
+            label1.Padding = new Padding(10, 0, 0, 0);
+            conditioncontainer_flp.Controls.Add(label1);
+            label1.Show();
             raw_condition = raw_condition.Trim('(', ')');
             foreach (string _req in raw_condition.Split('%').ToList())
             {
@@ -62,6 +89,7 @@ namespace MyWinFormsApp.Sections.ManageClient
                 label.AutoSize = true;
                 label.Text = _req;
                 label.ForeColor = Color.DarkRed;
+                label.Margin = new Padding(30, 0, 5, 0);
                 conditioncontainer_flp.Controls.Add(label);
                 label.Show();
             }

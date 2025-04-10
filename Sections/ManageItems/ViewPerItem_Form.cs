@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,9 @@ namespace MyWinFormsApp.Sections.ManageItems
             decimal width = Convert.ToDecimal(Item_Table["_width"]);
 
             fluteValue = isFolded ? fluteValue * 2 : fluteValue;
-            
+            id_label.Text = $"ID: {id}";
+            itemname = Item_Table["item_name"].ToString();
+
             this.parent = parent;
             this.mainparent = mparent;
             this.id = id;
@@ -60,10 +63,29 @@ namespace MyWinFormsApp.Sections.ManageItems
             this.clientname = clientname;
             
             this.flutecode = Flute_Table["code_name"].ToString();
+            
+            //SetGradientBackground("#FFFFFF", "#E6E5E5");
+            if (isError) SetGradientBackground("#FFB28C", "#D15834"); 
 
-            if (isError) this.BackColor = Color.MistyRose;
         }
 
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
+        }
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -82,7 +104,6 @@ MessageBoxIcon.Exclamation
                 sql.commitReport($"A data Item '{itemname}' was deleted");
                 DeleteMyValue();
                 this.parent.resetFilter();
-                this.parent.updatePageSelection();
                 this.parent.TriggerVisualUpdate();
                 this.parent.updatePageSelection();
             }
@@ -95,7 +116,6 @@ MessageBoxIcon.Exclamation
         {
             AddNewItems_WindowPopUpForm aniwpuf = new AddNewItems_WindowPopUpForm(parent, id, mainparent);
             aniwpuf.ShowDialog();
-            parent.UpdateVisual();
         }
         private void DeleteMyValue()//MODIFY THIS WHEN INTEGRATING FROM LOCAL TO SHARE DB
         {

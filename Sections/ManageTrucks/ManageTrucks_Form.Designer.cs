@@ -34,6 +34,7 @@
             flowLayoutPanel2 = new FlowLayoutPanel();
             label4 = new Label();
             clear_btn = new Button();
+            button1 = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             label2 = new Label();
             platenumbersearch_tb = new TextBox();
@@ -47,6 +48,7 @@
             _no_result = new Label();
             panel1 = new Panel();
             add_btn = new Button();
+            search_btn = new Button();
             tablelayout_main.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -60,7 +62,7 @@
             // 
             // tablelayout_main
             // 
-            tablelayout_main.BackColor = Color.PaleGreen;
+            tablelayout_main.BackColor = Color.Transparent;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
@@ -94,6 +96,7 @@
             // 
             flowLayoutPanel1.BackColor = Color.DarkSeaGreen;
             flowLayoutPanel1.Controls.Add(flowLayoutPanel2);
+            flowLayoutPanel1.Controls.Add(button1);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel3);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel2);
             flowLayoutPanel1.Controls.Add(label1);
@@ -140,6 +143,20 @@
             clear_btn.UseVisualStyleBackColor = false;
             clear_btn.Click += clear_btn_Click;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.White;
+            button1.Dock = DockStyle.Right;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Location = new Point(137, 34);
+            button1.Margin = new Padding(0, 0, 15, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(67, 23);
+            button1.TabIndex = 15;
+            button1.Text = "SEARCH";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
@@ -149,7 +166,7 @@
             tableLayoutPanel3.Controls.Add(platenumbersearch_tb, 1, 0);
             tableLayoutPanel3.Dock = DockStyle.Left;
             tableLayoutPanel3.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel3.Location = new Point(3, 37);
+            tableLayoutPanel3.Location = new Point(3, 60);
             tableLayoutPanel3.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
@@ -179,7 +196,6 @@
             platenumbersearch_tb.Size = new Size(125, 23);
             platenumbersearch_tb.TabIndex = 7;
             platenumbersearch_tb.Text = "<ex. AAU5659>";
-            platenumbersearch_tb.TextChanged += platenumbersearch_tb_TextChanged;
             platenumbersearch_tb.Enter += platenumbersearch_tb_Enter;
             platenumbersearch_tb.Leave += platenumbersearch_tb_Leave;
             // 
@@ -192,7 +208,7 @@
             tableLayoutPanel2.Controls.Add(wheelertype_cb, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Left;
             tableLayoutPanel2.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel2.Location = new Point(3, 64);
+            tableLayoutPanel2.Location = new Point(3, 87);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -222,14 +238,13 @@
             wheelertype_cb.Name = "wheelertype_cb";
             wheelertype_cb.Size = new Size(125, 23);
             wheelertype_cb.TabIndex = 6;
-            wheelertype_cb.SelectedIndexChanged += wheelertype_cb_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(3, 122);
+            label1.Location = new Point(3, 145);
             label1.Margin = new Padding(3, 30, 3, 10);
             label1.Name = "label1";
             label1.Size = new Size(95, 21);
@@ -268,6 +283,7 @@
             // storedarea_flt
             // 
             storedarea_flt.AutoScroll = true;
+            storedarea_flt.BackColor = Color.Transparent;
             storedarea_flt.Controls.Add(_no_result);
             storedarea_flt.Dock = DockStyle.Fill;
             storedarea_flt.FlowDirection = FlowDirection.TopDown;
@@ -283,7 +299,7 @@
             // 
             _no_result.AutoSize = true;
             _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
-            _no_result.ForeColor = Color.LimeGreen;
+            _no_result.ForeColor = Color.SeaGreen;
             _no_result.Location = new Point(210, 110);
             _no_result.Margin = new Padding(200, 100, 3, 0);
             _no_result.Name = "_no_result";
@@ -312,6 +328,19 @@
             add_btn.Text = "ADD NEW TRUCK";
             add_btn.UseVisualStyleBackColor = true;
             add_btn.Click += add_btn_Click;
+            // 
+            // search_btn
+            // 
+            search_btn.BackColor = Color.White;
+            search_btn.Dock = DockStyle.Right;
+            search_btn.FlatStyle = FlatStyle.Flat;
+            search_btn.Location = new Point(142, 34);
+            search_btn.Margin = new Padding(0, 0, 30, 0);
+            search_btn.Name = "search_btn";
+            search_btn.Size = new Size(67, 23);
+            search_btn.TabIndex = 14;
+            search_btn.Text = "SEARCH";
+            search_btn.UseVisualStyleBackColor = false;
             // 
             // ManageTrucks_Form
             // 
@@ -362,5 +391,7 @@
         private TableLayoutPanel tableLayoutPanel4;
         private Panel panel2;
         private Panel panel1;
+        private Button button1;
+        private Button search_btn;
     }
 }

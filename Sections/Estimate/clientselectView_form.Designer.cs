@@ -48,6 +48,8 @@
             // storedfilter_flp
             // 
             storedfilter_flp.AutoScroll = true;
+            storedfilter_flp.BackColor = Color.Transparent;
+            storedfilter_flp.FlowDirection = FlowDirection.TopDown;
             storedfilter_flp.Location = new Point(12, 102);
             storedfilter_flp.Name = "storedfilter_flp";
             storedfilter_flp.Size = new Size(243, 62);
@@ -67,6 +69,7 @@
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.BackColor = Color.Transparent;
             flowLayoutPanel1.Controls.Add(clientname_label);
             flowLayoutPanel1.Controls.Add(description_label);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;

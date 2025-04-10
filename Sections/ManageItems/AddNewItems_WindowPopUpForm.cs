@@ -1,4 +1,5 @@
-﻿using MyWinFormsApp.SupportClass;
+﻿using MyWinFormsApp.Sections.ManageBundles;
+using MyWinFormsApp.SupportClass;
 using SQLSupportLibrary;
 using System;
 using System.Collections.Generic;
@@ -125,21 +126,25 @@ namespace MyWinFormsApp.Sections.ManageItems
             }
 
 
+            string query = $" INSERT INTO Item_Table (item_name, _length, _width, client_id, flute_id, category, isFolded, fc_control_number) " +
+                           $" VALUES ('{filter.RemoveSQLInjectionRisks(itemdescription_rtb.Text)}', {Convert.ToDecimal(length_tb.Text)}, {Convert.ToDecimal(width_tb.Text)}, " +
+                           $" {getClientID()}, {getFluteID()}, '{category}', '{fold_rb.Checked}', '{filter.RemoveSQLInjectionRisks(fccontrol_tb.Text)}'); " +
+                           $" SELECT SCOPE_IDENTITY();";
+            id = Convert.ToInt32(sql.ExecuteQuery(query).Rows[0][0]);
+            //Dictionary<string, object> value = new Dictionary<string, object>()
+            //{
 
-            Dictionary<string, object> value = new Dictionary<string, object>()
-            {
+            //    {"item_name", filter.RemoveSQLInjectionRisks(itemdescription_rtb.Text)},
+            //    {"_length", Convert.ToDecimal(length_tb.Text) },
+            //    {"_width", Convert.ToDecimal(width_tb.Text) },
+            //    {"client_id", getClientID() },
+            //    {"flute_id", getFluteID() },
+            //    {"category", category},
+            //    {"isFolded", fold_rb.Checked },
+            //    {"fc_control_number", filter.RemoveSQLInjectionRisks(fccontrol_tb.Text) }
+            //};
 
-                {"item_name", filter.RemoveSQLInjectionRisks(itemdescription_rtb.Text)},
-                {"_length", Convert.ToDecimal(length_tb.Text) },
-                {"_width", Convert.ToDecimal(width_tb.Text) },
-                {"client_id", getClientID() },
-                {"flute_id", getFluteID() },
-                {"category", category},
-                {"isFolded", fold_rb.Checked },
-                {"fc_control_number", filter.RemoveSQLInjectionRisks(fccontrol_tb.Text) }
-            };
-
-            sql.InsertData("Item_Table", value);
+            //sql.InsertData("Item_Table", value);
             sql.commitReport($"A new data Item '{itemdescription_rtb.Text}' was added");
             if (dispose) this.Dispose();
             return true;
@@ -184,15 +189,17 @@ namespace MyWinFormsApp.Sections.ManageItems
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string a = itemdescription_rtb.Text;
             bool confirm = false;
 
             if (id == -1) confirm = addItem();
             else confirm = rewriteItem();
             if (confirm)
             {
+                AddEditBundle_windowpopupform aeb = new AddEditBundle_windowpopupform(id, true);
+                aeb.ShowDialog();
                 this.Dispose();
-                mainparent.copyFromItem_To_Bundle(a);
+
+                mainparent.copyFromItem_To_Bundle(id);
             }
         }
 

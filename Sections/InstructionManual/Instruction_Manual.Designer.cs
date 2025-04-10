@@ -36,6 +36,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Transparent;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
@@ -62,6 +63,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Transparent;
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(153, 3);
             panel1.Name = "panel1";
@@ -78,6 +80,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Instruction_Manual";
             Text = "Instruction_Manual";
+            VisibleChanged += Instruction_Manual_VisibleChanged;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }

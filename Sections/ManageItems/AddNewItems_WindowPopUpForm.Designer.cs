@@ -332,7 +332,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.ItemHintPicture;
+            pictureBox1.Image = TruckEstimation.Properties.Resources.ItemHintPicture;
             pictureBox1.Location = new Point(367, 142);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(178, 176);

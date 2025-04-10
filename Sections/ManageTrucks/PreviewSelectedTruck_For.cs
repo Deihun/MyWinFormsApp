@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,24 @@ namespace MyWinFormsApp.Sections.ManageTrucks
             this.parent = parent;
         }
 
+
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
+        }
         public void setup() //SQLQUERY FOR LOCAL
         {
             string query = $"SELECT * FROM Truck_Table WHERE id = {ID}";
@@ -39,7 +58,7 @@ namespace MyWinFormsApp.Sections.ManageTrucks
                 decimal _height = Convert.ToDecimal(row["_height"]);
                 decimal dimension = Math.Round(_length * _width * _height, 0);
 
-                
+                this.id_label.Text = $"ID: {ID}";
                 trucktype_label.Text = $"{row["platenumber"].ToString()} ({row["trucktype"].ToString()})";
                 dimensions_label.Text = $"Length(mm): {_length}\nWidth(mm): {_width}\nHeight(mm): {_height}\nDimension(mm): {dimension}";
                 platenumber = row["platenumber"].ToString();

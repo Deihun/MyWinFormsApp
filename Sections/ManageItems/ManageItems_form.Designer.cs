@@ -34,6 +34,7 @@
             flowLayoutPanel2 = new FlowLayoutPanel();
             label4 = new Label();
             clear_btn = new Button();
+            search_btn = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             label2 = new Label();
             searchname_tb = new TextBox();
@@ -65,7 +66,7 @@
             // 
             // tablelayout_main
             // 
-            tablelayout_main.BackColor = Color.PaleGreen;
+            tablelayout_main.BackColor = Color.Transparent;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
@@ -99,6 +100,7 @@
             // 
             flowLayoutPanel1.BackColor = Color.DarkSeaGreen;
             flowLayoutPanel1.Controls.Add(flowLayoutPanel2);
+            flowLayoutPanel1.Controls.Add(search_btn);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel3);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel2);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel4);
@@ -146,6 +148,20 @@
             clear_btn.UseVisualStyleBackColor = false;
             clear_btn.Click += clear_btn_Click;
             // 
+            // search_btn
+            // 
+            search_btn.BackColor = Color.White;
+            search_btn.Dock = DockStyle.Right;
+            search_btn.FlatStyle = FlatStyle.Flat;
+            search_btn.Location = new Point(142, 34);
+            search_btn.Margin = new Padding(0, 0, 30, 0);
+            search_btn.Name = "search_btn";
+            search_btn.Size = new Size(67, 23);
+            search_btn.TabIndex = 15;
+            search_btn.Text = "SEARCH";
+            search_btn.UseVisualStyleBackColor = false;
+            search_btn.Click += search_btn_Click;
+            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
@@ -154,7 +170,7 @@
             tableLayoutPanel3.Controls.Add(label2, 0, 0);
             tableLayoutPanel3.Controls.Add(searchname_tb, 1, 0);
             tableLayoutPanel3.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel3.Location = new Point(3, 37);
+            tableLayoutPanel3.Location = new Point(3, 60);
             tableLayoutPanel3.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
@@ -184,7 +200,6 @@
             searchname_tb.Size = new Size(129, 23);
             searchname_tb.TabIndex = 7;
             searchname_tb.Text = "ex. Piatos Small";
-            searchname_tb.TextChanged += searchname_tb_TextChanged;
             searchname_tb.Enter += searchname_tb_Enter;
             searchname_tb.Leave += searchname_tb_Leave;
             // 
@@ -196,7 +211,7 @@
             tableLayoutPanel2.Controls.Add(label3, 0, 0);
             tableLayoutPanel2.Controls.Add(flutetype_cb, 1, 0);
             tableLayoutPanel2.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel2.Location = new Point(3, 64);
+            tableLayoutPanel2.Location = new Point(3, 87);
             tableLayoutPanel2.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
@@ -227,7 +242,6 @@
             flutetype_cb.Name = "flutetype_cb";
             flutetype_cb.Size = new Size(129, 23);
             flutetype_cb.TabIndex = 6;
-            flutetype_cb.SelectedIndexChanged += flutetype_cb_SelectedIndexChanged;
             // 
             // tableLayoutPanel4
             // 
@@ -237,7 +251,7 @@
             tableLayoutPanel4.Controls.Add(c, 0, 0);
             tableLayoutPanel4.Controls.Add(client_cb, 1, 0);
             tableLayoutPanel4.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel4.Location = new Point(3, 92);
+            tableLayoutPanel4.Location = new Point(3, 115);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -267,14 +281,13 @@
             client_cb.Name = "client_cb";
             client_cb.Size = new Size(129, 23);
             client_cb.TabIndex = 6;
-            client_cb.SelectedIndexChanged += client_cb_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(3, 150);
+            label1.Location = new Point(3, 173);
             label1.Margin = new Padding(3, 30, 3, 10);
             label1.Name = "label1";
             label1.Size = new Size(95, 21);
@@ -422,5 +435,6 @@
         private TableLayoutPanel tableLayoutPanel5;
         private FlowLayoutPanel storedarea_flt;
         private Label _no_result;
+        private Button search_btn;
     }
 }

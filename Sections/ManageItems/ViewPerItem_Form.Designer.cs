@@ -38,6 +38,8 @@
             itemname_label = new Label();
             content_label = new Label();
             fcc_label = new Label();
+            panel1 = new Panel();
+            id_label = new Label();
             tableLayoutPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
@@ -45,6 +47,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Transparent;
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
@@ -55,13 +58,12 @@
             tableLayoutPanel1.Controls.Add(itemname_label, 1, 0);
             tableLayoutPanel1.Controls.Add(content_label, 1, 1);
             tableLayoutPanel1.Controls.Add(fcc_label, 0, 1);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
-            tableLayoutPanel1.Size = new Size(840, 226);
+            tableLayoutPanel1.Size = new Size(840, 214);
             tableLayoutPanel1.TabIndex = 0;
             tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
@@ -72,7 +74,7 @@
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(180, 45);
+            flowLayoutPanel1.Size = new Size(180, 42);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // client_label
@@ -92,7 +94,7 @@
             flute_label.Font = new Font("Segoe UI", 10F);
             flute_label.Location = new Point(723, 0);
             flute_label.Name = "flute_label";
-            flute_label.Size = new Size(114, 45);
+            flute_label.Size = new Size(114, 42);
             flute_label.TabIndex = 1;
             flute_label.Text = "<FLUTETYPE>";
             // 
@@ -100,12 +102,13 @@
             // 
             flowLayoutPanel2.Controls.Add(delete_btn);
             flowLayoutPanel2.Controls.Add(edit_btn);
+            flowLayoutPanel2.Controls.Add(id_label);
             flowLayoutPanel2.Dock = DockStyle.Fill;
             flowLayoutPanel2.FlowDirection = FlowDirection.BottomUp;
-            flowLayoutPanel2.Location = new Point(720, 45);
+            flowLayoutPanel2.Location = new Point(720, 42);
             flowLayoutPanel2.Margin = new Padding(0);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(120, 181);
+            flowLayoutPanel2.Size = new Size(120, 172);
             flowLayoutPanel2.TabIndex = 4;
             flowLayoutPanel2.WrapContents = false;
             // 
@@ -115,7 +118,7 @@
             delete_btn.FlatStyle = FlatStyle.Flat;
             delete_btn.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
             delete_btn.ForeColor = Color.FromArgb(255, 192, 192);
-            delete_btn.Location = new Point(0, 161);
+            delete_btn.Location = new Point(0, 152);
             delete_btn.Margin = new Padding(0);
             delete_btn.Name = "delete_btn";
             delete_btn.Size = new Size(120, 20);
@@ -128,7 +131,7 @@
             // 
             edit_btn.FlatStyle = FlatStyle.Flat;
             edit_btn.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            edit_btn.Location = new Point(0, 141);
+            edit_btn.Location = new Point(0, 132);
             edit_btn.Margin = new Padding(0);
             edit_btn.Name = "edit_btn";
             edit_btn.Size = new Size(120, 20);
@@ -153,7 +156,7 @@
             content_label.AutoSize = true;
             content_label.Font = new Font("Segoe UI", 14F);
             content_label.ForeColor = Color.FromArgb(64, 64, 64);
-            content_label.Location = new Point(210, 60);
+            content_label.Location = new Point(210, 57);
             content_label.Margin = new Padding(30, 15, 3, 0);
             content_label.Name = "content_label";
             content_label.Size = new Size(159, 100);
@@ -165,11 +168,31 @@
             fcc_label.AutoSize = true;
             fcc_label.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             fcc_label.ForeColor = Color.FromArgb(64, 0, 0);
-            fcc_label.Location = new Point(3, 45);
+            fcc_label.Location = new Point(3, 42);
             fcc_label.Name = "fcc_label";
             fcc_label.Size = new Size(57, 21);
             fcc_label.TabIndex = 5;
             fcc_label.Text = "label1";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Silver;
+            panel1.Location = new Point(0, 197);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(859, 120);
+            panel1.TabIndex = 1;
+            // 
+            // id_label
+            // 
+            id_label.AutoSize = true;
+            id_label.Dock = DockStyle.Top;
+            id_label.Font = new Font("Segoe UI", 25F);
+            id_label.Location = new Point(3, 26);
+            id_label.Margin = new Padding(3, 0, 3, 60);
+            id_label.Name = "id_label";
+            id_label.Size = new Size(114, 46);
+            id_label.TabIndex = 5;
+            id_label.Text = "ID";
             // 
             // ViewPerItem_Form
             // 
@@ -177,6 +200,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(840, 226);
             Controls.Add(tableLayoutPanel1);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ViewPerItem_Form";
             Text = "ViewPerItem_Form";
@@ -185,6 +209,7 @@
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
+            flowLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -200,5 +225,7 @@
         private FlowLayoutPanel flowLayoutPanel2;
         private Button delete_btn;
         private Label fcc_label;
+        private Panel panel1;
+        private Label id_label;
     }
 }

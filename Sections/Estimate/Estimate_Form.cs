@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,8 @@ namespace MyWinFormsApp.Sections.Estimate
 {
     public partial class Estimate_Form : Form
     {           //<REFERENCE CLASS>
-        storedMeasurements stored_measurement = new storedMeasurements();
-        Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
+        private storedMeasurements stored_measurement = new storedMeasurements();
+        private Sqlsupportlocal sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
 
 
         //<LIST>
@@ -34,12 +35,21 @@ namespace MyWinFormsApp.Sections.Estimate
         public int id = -1;
         private string category = "";
 
+        private System.Windows.Forms.Timer updateTimer;
+
         /// <summary>
         /// Create an Estimate Form with purpose of creating a new record of Truck Estimation
         /// </summary>
         public Estimate_Form()
         {
             InitializeComponent();
+            updateTimer = new System.Windows.Forms.Timer();
+            updateTimer.Interval = 100;
+            updateTimer.Tick += (s, e) =>
+            {
+                updateTimer.Stop();
+                trigger_update_visual();
+            };
         }
         /// <summary>
         /// View an existing Estimation Record.
@@ -48,14 +58,21 @@ namespace MyWinFormsApp.Sections.Estimate
         public Estimate_Form(int id)
         {
             InitializeComponent();
+            updateTimer = new System.Windows.Forms.Timer();
+            updateTimer.Interval = 100;
+            updateTimer.Tick += (s, e) =>
+            {
+                updateTimer.Stop();
+                trigger_update_visual();
+            };
             this.id = id;
             this.WindowState = FormWindowState.Normal;
             this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             this.addbundle_btn.Enabled = false;
             this.action_button.Text = "CLOSE";
 
-            this.truck_cb.DropDownStyle = ComboBoxStyle.DropDownList; // Ensures no free text input
-            this.truck_cb.Items.Clear(); // Clears any previous items
+            this.truck_cb.DropDownStyle = ComboBoxStyle.DropDownList; 
+            this.truck_cb.Items.Clear(); 
 
             string plateNumber = getTruckPlateNumber();
             this.truck_cb.Items.Add("Select a Truck");
@@ -64,8 +81,9 @@ namespace MyWinFormsApp.Sections.Estimate
             this.truck_cb.SelectedItem = plateNumber;
 
             this.truck_cb.Enabled = false;
-
-            category_panel.Hide();
+            this.category_btn.Hide();
+            this.category_path.Hide();
+            
             initialize_all_sub_forms_referencing_id();
             UpdateVisual();
         }
@@ -75,7 +93,7 @@ namespace MyWinFormsApp.Sections.Estimate
 
 
         //*** VISUAL METHODS
-        public void UpdateVisual(bool set_for_view_only = true)
+        private void trigger_update_visual()
         {
             resetDisplay();
             UpdateToChangeIntoQuantityMode();
@@ -83,6 +101,12 @@ namespace MyWinFormsApp.Sections.Estimate
             get_truck_values();
             computeData();
             showDisplay();
+        }
+
+        public void UpdateVisual()
+        {
+            updateTimer.Stop();
+            updateTimer.Start();
         }
         public void showDisplay()
         {
@@ -204,7 +228,7 @@ namespace MyWinFormsApp.Sections.Estimate
             label.Font = new Font("Arial", 12, FontStyle.Bold);
             label.Text = content;
             label.AutoSize = true;
-            label.ForeColor = Color.White;
+            label.ForeColor = Color.DimGray;
             storeddetailreport_flp.Controls.Add(label);
             forDisplayContentList.Add(label);
             label.Show();
@@ -220,6 +244,23 @@ namespace MyWinFormsApp.Sections.Estimate
             checkForPalletCondition();
         }
 
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
+        }
 
 
 
@@ -293,10 +334,9 @@ namespace MyWinFormsApp.Sections.Estimate
                 stored_bundlecontainer.Controls.Add(bvef);
                 bundle_list.Add(bvef);
                 bvef.Show();
-                bvef.BackColor = Color.Gainsboro;
                 bvef.addAllChoices(editable, bundle_list);
                 if (!editable) bvef.disable_inputs();
-
+                
             }
             remarks_rtb.Text = record["remarks"].ToString();
             if (!editable) remarks_rtb.ReadOnly = true;
@@ -325,7 +365,6 @@ namespace MyWinFormsApp.Sections.Estimate
             decimal palletWidth = 0m;
             decimal palletHeight = 0m;
             int palletQuantity = 0;
-
             foreach (bundleview_estimation_form form in bundle_list)
             {
                 if (!form.isApplicableForComputation()) continue;
@@ -349,7 +388,7 @@ namespace MyWinFormsApp.Sections.Estimate
                 bundleHeight = (availableTruckHeight / form.getheight());
 
                 totalFitBundle = (long)(bundleHeight * bundleLength * bundleWidth);
-                totalItemPerPieces = form.getQuantity() * totalFitBundle;
+                totalItemPerPieces = (long)(form.getQuantity() * totalFitBundle);
             }
 
             createDisplay("SINGLE ESTIMATION");
@@ -364,7 +403,8 @@ namespace MyWinFormsApp.Sections.Estimate
             }
 
             createDisplay($"PRODUCT: '{productname}'");
-            createDisplay($"Amount of bundles that can fit: {totalFitBundle}\nAmount of items in those bundles: {totalItemPerPieces}");
+            createDisplay($"Amount of bundles that can fit: {totalFitBundle}\nAmount of Items can fit in the Truck: {totalItemPerPieces}");
+
         }
         private void multipleEstimation()
         {
@@ -543,7 +583,7 @@ namespace MyWinFormsApp.Sections.Estimate
         private bool isBundleCanBePush()
         {
             if (bundle_list.Count < 1) return false;
-            foreach (bundleview_estimation_form b in bundle_list) if (b.BackColor == Color.IndianRed) return false;
+            foreach (bundleview_estimation_form b in bundle_list) if (!b.isApplicableForComputation()) return false;
             return true;
         }
 
@@ -564,6 +604,7 @@ namespace MyWinFormsApp.Sections.Estimate
         // ** CONTROL EVENTS
         private void Estimate_Form_VisibleChanged(object sender, EventArgs e)
         {
+            SetGradientBackground("#D4ECD7", "#B2E2B8");
             if (id == -1)
             {
                 initializeComboBox();
@@ -682,8 +723,8 @@ namespace MyWinFormsApp.Sections.Estimate
             AddMessage("\n\n");
             foreach (ObjectDimension obj in StoredObjects)
             {
-                int bundlesPlaced = 0;
-                decimal objectVolume = obj.Length * obj.Width * obj.Height;
+                int bundlesPlaced = 0; 
+                decimal objectVolume = (obj.Length * obj.Width * obj.Height);
                 int bundlesFit = (int)(remainingVolume / objectVolume);
 
                 if (bundlesFit < obj.Quantity) //Add message in this area sometimes result an output of two times
@@ -696,7 +737,7 @@ namespace MyWinFormsApp.Sections.Estimate
                 bundlesPlaced += obj.Quantity;
 
                 if (obj.isPallet) AddMessage($"- Successfully fit {bundlesPlaced} {obj._name} pallet of ({Math.Round(obj.Length)}x{Math.Round(obj.Width)}x{Math.Round(obj.Height)}).\n");
-                else AddMessage($"- Successfully fit {bundlesPlaced} {obj._name} Bundles of ({Math.Round(obj.Length,2)}x{Math.Round(obj.Width,2)}x{Math.Round(obj.Height,2)}).\n");
+                else AddMessage($"- Successfully fit {bundlesPlaced} {obj._name} Bundles of ({obj.Length}x{obj.Width}x{obj.Height}).\n");
             }
             AddMessage($"\nRemaining available volume: %#%{Math.Round(remainingVolume,2)}%#%");
             AddMessage("All objects fit successfully!");//until here
@@ -714,10 +755,7 @@ namespace MyWinFormsApp.Sections.Estimate
             List<string> retur = informationList.Distinct().ToList();
             return informationList;
         }
-        /*
-         VISUAL DOUBLE DISPLAY BUG, ROOT CAUSE IS RELATED TO MULTI-ESTIMATION IS CALLED TWICE
-         
-         */
+
 }
 }
 

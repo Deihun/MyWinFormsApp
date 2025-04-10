@@ -32,6 +32,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             label1 = new Label();
+            search_btn = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             label2 = new Label();
             searchname_tb = new TextBox();
@@ -54,7 +55,7 @@
             // 
             // tablelayout_main
             // 
-            tablelayout_main.BackColor = Color.PaleGreen;
+            tablelayout_main.BackColor = Color.Transparent;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
@@ -89,6 +90,7 @@
             // 
             flowLayoutPanel1.BackColor = Color.DarkSeaGreen;
             flowLayoutPanel1.Controls.Add(label1);
+            flowLayoutPanel1.Controls.Add(search_btn);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel3);
             flowLayoutPanel1.Controls.Add(label3);
             flowLayoutPanel1.Dock = DockStyle.Fill;
@@ -112,6 +114,20 @@
             label1.TabIndex = 3;
             label1.Text = "FILTER";
             // 
+            // search_btn
+            // 
+            search_btn.BackColor = Color.White;
+            search_btn.Dock = DockStyle.Right;
+            search_btn.FlatStyle = FlatStyle.Flat;
+            search_btn.Location = new Point(117, 31);
+            search_btn.Margin = new Padding(0, 0, 25, 0);
+            search_btn.Name = "search_btn";
+            search_btn.Size = new Size(97, 23);
+            search_btn.TabIndex = 15;
+            search_btn.Text = "SEARCH";
+            search_btn.UseVisualStyleBackColor = false;
+            search_btn.Click += search_btn_Click;
+            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
@@ -120,7 +136,7 @@
             tableLayoutPanel3.Controls.Add(label2, 0, 0);
             tableLayoutPanel3.Controls.Add(searchname_tb, 1, 0);
             tableLayoutPanel3.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel3.Location = new Point(3, 34);
+            tableLayoutPanel3.Location = new Point(3, 57);
             tableLayoutPanel3.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
@@ -150,7 +166,6 @@
             searchname_tb.Size = new Size(129, 23);
             searchname_tb.TabIndex = 7;
             searchname_tb.Text = "ex. Piattos";
-            searchname_tb.TextChanged += searchname_tb_TextChanged;
             searchname_tb.Enter += searchname_tb_Enter;
             searchname_tb.Leave += searchname_tb_Leave;
             // 
@@ -159,7 +174,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(3, 88);
+            label3.Location = new Point(3, 111);
             label3.Margin = new Padding(3, 30, 3, 10);
             label3.Name = "label3";
             label3.Size = new Size(95, 21);
@@ -297,5 +312,6 @@
         private Panel panel1;
         private Button add_btn;
         private Button requirements_btn;
+        private Button search_btn;
     }
 }

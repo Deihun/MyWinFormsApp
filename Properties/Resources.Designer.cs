@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyWinFormsApp.Properties {
+namespace TruckEstimation.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MyWinFormsApp.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyWinFormsApp.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TruckEstimation.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -73,16 +73,6 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AddClient {
-            get {
-                object obj = ResourceManager.GetObject("AddClient", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap AddClient1 {
             get {
                 object obj = ResourceManager.GetObject("AddClient1", resourceCulture);
@@ -103,9 +93,9 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AddingClientData {
+        internal static System.Drawing.Bitmap AddingClientData1 {
             get {
-                object obj = ResourceManager.GetObject("AddingClientData", resourceCulture);
+                object obj = ResourceManager.GetObject("AddingClientData1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +103,9 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AddingClientData1 {
+        internal static System.Drawing.Bitmap AddingClientRequirement {
             get {
-                object obj = ResourceManager.GetObject("AddingClientData1", resourceCulture);
+                object obj = ResourceManager.GetObject("AddingClientRequirement", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,6 +223,16 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AddRequirements {
+            get {
+                object obj = ResourceManager.GetObject("AddRequirements", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AddTruck {
             get {
                 object obj = ResourceManager.GetObject("AddTruck", resourceCulture);
@@ -273,16 +273,6 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ClientFilter {
-            get {
-                object obj = ResourceManager.GetObject("ClientFilter", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ClientFilter1 {
             get {
                 object obj = ResourceManager.GetObject("ClientFilter1", resourceCulture);
@@ -303,9 +293,9 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DeleteBundle {
+        internal static System.Drawing.Bitmap CopyTo {
             get {
-                object obj = ResourceManager.GetObject("DeleteBundle", resourceCulture);
+                object obj = ResourceManager.GetObject("CopyTo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,9 +303,9 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DeleteClient {
+        internal static System.Drawing.Bitmap DeleteBundle {
             get {
-                object obj = ResourceManager.GetObject("DeleteClient", resourceCulture);
+                object obj = ResourceManager.GetObject("DeleteBundle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -373,6 +363,16 @@ namespace MyWinFormsApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DeleteRequirement {
+            get {
+                object obj = ResourceManager.GetObject("DeleteRequirement", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DeleteTruck {
             get {
                 object obj = ResourceManager.GetObject("DeleteTruck", resourceCulture);
@@ -386,16 +386,6 @@ namespace MyWinFormsApp.Properties {
         internal static System.Drawing.Bitmap EditBundle {
             get {
                 object obj = ResourceManager.GetObject("EditBundle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap EditClient {
-            get {
-                object obj = ResourceManager.GetObject("EditClient", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -516,16 +506,6 @@ namespace MyWinFormsApp.Properties {
         internal static System.Drawing.Bitmap ManageBundle {
             get {
                 object obj = ResourceManager.GetObject("ManageBundle", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ManageClient {
-            get {
-                object obj = ResourceManager.GetObject("ManageClient", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

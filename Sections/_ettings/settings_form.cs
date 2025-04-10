@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,25 +20,7 @@ namespace MyWinFormsApp.Sections._ettings
             InitializeComponent();
         }
 
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
-        {
-
-        }
-
-        private void label1_MouseEnter(object sender, EventArgs e)
-        {
-            History.SetToolTip(label1, "Checks the over-all logs of every actions perform within the system");
-        }
-
-        private void label4_MouseHover(object sender, EventArgs e)
-        {
-            History.SetToolTip(label4, "Select a specified folder for a backup of Database which can be retrieve upon emergencies");
-        }
-
-        private void label2_MouseHover(object sender, EventArgs e)
-        {
-            History.SetToolTip(label2, "WARNING! This action is cannot be undone, reset the whole database removing every data within the system.");
-        }
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -71,6 +54,29 @@ MessageBoxIcon.Warning     // Icon
         {
             History_Log h = new History_Log();
             h.ShowDialog();
+        }
+
+        private void flowLayoutPanel1_VisibleChanged(object sender, EventArgs e)
+        {
+            SetGradientBackground("#D4ECD7", "#B2E2B8");
+        }
+
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
         }
     }
 }

@@ -119,7 +119,7 @@ namespace MyWinFormsApp.SupportClass
             {
                 if (page == -1) return;
 
-                page_onceselected?.Invoke(page);
+                page_onceselected?.Invoke(page-1);
                 instantiatePageNumberButton(page);
             }
         }
@@ -127,7 +127,7 @@ namespace MyWinFormsApp.SupportClass
         {
             input_page = Math.Min(max_pagenumber, input_page);
             input_page = Math.Max(input_page, 1);
-            page_onceselected?.Invoke(input_page);
+            page_onceselected?.Invoke(input_page-1);
             instantiatePageNumberButton(input_page);
         }
 

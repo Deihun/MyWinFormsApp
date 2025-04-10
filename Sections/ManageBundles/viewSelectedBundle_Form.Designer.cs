@@ -36,13 +36,18 @@
             panel1 = new Panel();
             panel2 = new Panel();
             client_label = new Label();
+            panel3 = new Panel();
+            id_label = new Label();
+            panel4 = new Panel();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // itemname_label
             // 
             itemname_label.AutoSize = true;
+            itemname_label.BackColor = Color.Transparent;
             itemname_label.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             itemname_label.Location = new Point(9, 9);
             itemname_label.Name = "itemname_label";
@@ -84,7 +89,7 @@
             delete_btn.FlatStyle = FlatStyle.Flat;
             delete_btn.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
             delete_btn.ForeColor = Color.FromArgb(255, 192, 192);
-            delete_btn.Location = new Point(732, 165);
+            delete_btn.Location = new Point(732, 155);
             delete_btn.Name = "delete_btn";
             delete_btn.Size = new Size(108, 21);
             delete_btn.TabIndex = 5;
@@ -96,7 +101,7 @@
             // 
             edit_btn.FlatStyle = FlatStyle.Flat;
             edit_btn.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
-            edit_btn.Location = new Point(732, 144);
+            edit_btn.Location = new Point(732, 134);
             edit_btn.Name = "edit_btn";
             edit_btn.Size = new Size(108, 21);
             edit_btn.TabIndex = 6;
@@ -106,6 +111,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(flutetype_label);
             panel1.Location = new Point(616, 1);
             panel1.Name = "panel1";
@@ -114,16 +120,18 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.Transparent;
             panel2.Controls.Add(content_label);
             panel2.Location = new Point(34, 62);
             panel2.Name = "panel2";
             panel2.Padding = new Padding(50, 0, 0, 0);
-            panel2.Size = new Size(692, 112);
+            panel2.Size = new Size(557, 112);
             panel2.TabIndex = 8;
             // 
             // client_label
             // 
             client_label.AutoSize = true;
+            client_label.BackColor = Color.Transparent;
             client_label.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             client_label.ForeColor = Color.FromArgb(64, 64, 64);
             client_label.Location = new Point(51, 30);
@@ -132,11 +140,40 @@
             client_label.TabIndex = 9;
             client_label.Text = "<CLIENT>";
             // 
+            // panel3
+            // 
+            panel3.BackColor = Color.Silver;
+            panel3.Location = new Point(-2, 175);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(923, 11);
+            panel3.TabIndex = 10;
+            // 
+            // id_label
+            // 
+            id_label.AutoSize = true;
+            id_label.Dock = DockStyle.Right;
+            id_label.Font = new Font("Segoe UI", 25F);
+            id_label.Location = new Point(84, 0);
+            id_label.Name = "id_label";
+            id_label.Size = new Size(140, 46);
+            id_label.TabIndex = 11;
+            id_label.Text = "ID:####";
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(id_label);
+            panel4.Location = new Point(616, 37);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(224, 43);
+            panel4.TabIndex = 12;
+            // 
             // viewSelectedBundle_Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(840, 186);
+            Controls.Add(panel4);
+            Controls.Add(panel3);
             Controls.Add(client_label);
             Controls.Add(panel1);
             Controls.Add(edit_btn);
@@ -150,6 +187,8 @@
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -163,5 +202,8 @@
         private Panel panel1;
         private Panel panel2;
         private Label client_label;
+        private Panel panel3;
+        private Label id_label;
+        private Panel panel4;
     }
 }

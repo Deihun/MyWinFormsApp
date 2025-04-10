@@ -62,10 +62,11 @@
             // 
             // main_tbp
             // 
+            main_tbp.BackColor = Color.Transparent;
             main_tbp.ColumnCount = 3;
-            main_tbp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
-            main_tbp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            main_tbp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
+            main_tbp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            main_tbp.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 175F));
+            main_tbp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             main_tbp.Controls.Add(pictureBox1, 1, 0);
             main_tbp.Controls.Add(tableLayoutPanel1, 0, 0);
             main_tbp.Controls.Add(tableLayoutPanel3, 2, 0);
@@ -77,23 +78,24 @@
             main_tbp.RowCount = 2;
             main_tbp.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
             main_tbp.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            main_tbp.Size = new Size(1443, 649);
+            main_tbp.Size = new Size(1486, 649);
             main_tbp.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Image = Properties.Resources.Arrow;
-            pictureBox1.Location = new Point(653, 13);
+            pictureBox1.Image = TruckEstimation.Properties.Resources.Arrow;
+            pictureBox1.Location = new Point(658, 95);
+            pictureBox1.Margin = new Padding(3, 85, 3, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(136, 560);
+            pictureBox1.Size = new Size(169, 478);
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.BackColor = Color.YellowGreen;
+            tableLayoutPanel1.BackColor = Color.DarkSeaGreen;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 0);
@@ -107,7 +109,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 7F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 7F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 86F));
-            tableLayoutPanel1.Size = new Size(640, 566);
+            tableLayoutPanel1.Size = new Size(645, 566);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel1
@@ -119,7 +121,7 @@
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(640, 39);
+            flowLayoutPanel1.Size = new Size(645, 39);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // label1
@@ -178,46 +180,49 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel2.Controls.Add(storedclient_flp, 1, 0);
-            tableLayoutPanel2.Controls.Add(stored_bundlecontainer, 0, 0);
+            tableLayoutPanel2.ColumnCount = 4;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 295F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Controls.Add(storedclient_flp, 2, 0);
+            tableLayoutPanel2.Controls.Add(stored_bundlecontainer, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 78);
             tableLayoutPanel2.Margin = new Padding(0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(640, 488);
+            tableLayoutPanel2.Size = new Size(645, 488);
             tableLayoutPanel2.TabIndex = 3;
             // 
             // storedclient_flp
             // 
             storedclient_flp.AutoScroll = true;
-            storedclient_flp.BackColor = Color.OliveDrab;
+            storedclient_flp.BackColor = Color.FromArgb(224, 224, 224);
             storedclient_flp.Dock = DockStyle.Fill;
             storedclient_flp.FlowDirection = FlowDirection.TopDown;
-            storedclient_flp.Location = new Point(391, 0);
+            storedclient_flp.ForeColor = Color.DarkSlateGray;
+            storedclient_flp.Location = new Point(357, 0);
             storedclient_flp.Margin = new Padding(7, 0, 7, 7);
             storedclient_flp.Name = "storedclient_flp";
             storedclient_flp.Padding = new Padding(5);
-            storedclient_flp.Size = new Size(242, 481);
+            storedclient_flp.Size = new Size(281, 481);
             storedclient_flp.TabIndex = 4;
             storedclient_flp.WrapContents = false;
             // 
             // stored_bundlecontainer
             // 
             stored_bundlecontainer.AutoScroll = true;
-            stored_bundlecontainer.BackColor = Color.OliveDrab;
+            stored_bundlecontainer.BackColor = Color.FromArgb(224, 224, 224);
             stored_bundlecontainer.Dock = DockStyle.Fill;
             stored_bundlecontainer.FlowDirection = FlowDirection.TopDown;
+            stored_bundlecontainer.ForeColor = Color.DarkSlateGray;
             stored_bundlecontainer.Location = new Point(7, 0);
             stored_bundlecontainer.Margin = new Padding(7, 0, 7, 7);
             stored_bundlecontainer.Name = "stored_bundlecontainer";
             stored_bundlecontainer.Padding = new Padding(5);
-            stored_bundlecontainer.Size = new Size(370, 481);
+            stored_bundlecontainer.Size = new Size(336, 481);
             stored_bundlecontainer.TabIndex = 3;
             stored_bundlecontainer.WrapContents = false;
             // 
@@ -228,7 +233,7 @@
             flowLayoutPanel2.Location = new Point(0, 39);
             flowLayoutPanel2.Margin = new Padding(0);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(640, 39);
+            flowLayoutPanel2.Size = new Size(645, 39);
             flowLayoutPanel2.TabIndex = 4;
             // 
             // addbundle_btn
@@ -248,31 +253,32 @@
             // 
             // tableLayoutPanel3
             // 
-            tableLayoutPanel3.BackColor = Color.YellowGreen;
+            tableLayoutPanel3.BackColor = Color.DarkSeaGreen;
             tableLayoutPanel3.ColumnCount = 1;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel3.Controls.Add(storeddetailreport_flp, 0, 0);
             tableLayoutPanel3.Controls.Add(tableLayoutPanel4, 0, 1);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(792, 10);
+            tableLayoutPanel3.Location = new Point(830, 10);
             tableLayoutPanel3.Margin = new Padding(0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.Size = new Size(641, 566);
+            tableLayoutPanel3.Size = new Size(646, 566);
             tableLayoutPanel3.TabIndex = 2;
             // 
             // storeddetailreport_flp
             // 
             storeddetailreport_flp.AutoScroll = true;
-            storeddetailreport_flp.BackColor = Color.OliveDrab;
+            storeddetailreport_flp.BackColor = Color.FromArgb(224, 224, 224);
             storeddetailreport_flp.Dock = DockStyle.Fill;
             storeddetailreport_flp.FlowDirection = FlowDirection.TopDown;
+            storeddetailreport_flp.ForeColor = Color.DarkSlateGray;
             storeddetailreport_flp.Location = new Point(3, 3);
             storeddetailreport_flp.Name = "storeddetailreport_flp";
-            storeddetailreport_flp.Size = new Size(635, 446);
+            storeddetailreport_flp.Size = new Size(640, 446);
             storeddetailreport_flp.TabIndex = 1;
             storeddetailreport_flp.WrapContents = false;
             // 
@@ -287,20 +293,20 @@
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(635, 108);
+            tableLayoutPanel4.Size = new Size(640, 108);
             tableLayoutPanel4.TabIndex = 0;
             // 
             // remarks_rtb
             // 
-            remarks_rtb.BackColor = Color.OliveDrab;
+            remarks_rtb.BackColor = Color.FromArgb(224, 224, 224);
             remarks_rtb.BorderStyle = BorderStyle.None;
             remarks_rtb.Cursor = Cursors.Hand;
             remarks_rtb.Dock = DockStyle.Fill;
             remarks_rtb.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            remarks_rtb.ForeColor = Color.Transparent;
+            remarks_rtb.ForeColor = Color.DimGray;
             remarks_rtb.Location = new Point(3, 3);
             remarks_rtb.Name = "remarks_rtb";
-            remarks_rtb.Size = new Size(629, 102);
+            remarks_rtb.Size = new Size(634, 102);
             remarks_rtb.TabIndex = 1;
             remarks_rtb.Text = "Remarks";
             // 
@@ -309,15 +315,15 @@
             flowLayoutPanel3.Controls.Add(action_button);
             flowLayoutPanel3.Dock = DockStyle.Fill;
             flowLayoutPanel3.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel3.Location = new Point(792, 576);
+            flowLayoutPanel3.Location = new Point(830, 576);
             flowLayoutPanel3.Margin = new Padding(0);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
-            flowLayoutPanel3.Size = new Size(641, 63);
+            flowLayoutPanel3.Size = new Size(646, 63);
             flowLayoutPanel3.TabIndex = 3;
             // 
             // action_button
             // 
-            action_button.Location = new Point(506, 3);
+            action_button.Location = new Point(511, 3);
             action_button.Name = "action_button";
             action_button.Size = new Size(132, 58);
             action_button.TabIndex = 0;
@@ -330,7 +336,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGreen;
-            ClientSize = new Size(1443, 649);
+            ClientSize = new Size(1486, 649);
             Controls.Add(main_tbp);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Estimate_Form";

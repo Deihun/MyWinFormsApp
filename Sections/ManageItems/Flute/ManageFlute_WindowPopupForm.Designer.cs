@@ -47,6 +47,7 @@
             // 
             flutecontainer_flp.AutoScroll = true;
             flutecontainer_flp.BackColor = Color.FromArgb(224, 224, 224);
+            flutecontainer_flp.FlowDirection = FlowDirection.TopDown;
             flutecontainer_flp.Location = new Point(122, 7);
             flutecontainer_flp.Margin = new Padding(0);
             flutecontainer_flp.Name = "flutecontainer_flp";

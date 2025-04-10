@@ -36,6 +36,8 @@ namespace MyWinFormsApp
 
 
                 InitializeComponent();
+                Application.EnableVisualStyles();
+                dashboard.parent = this;
 
                 sql = new Sqlsupportlocal(".\\SQLEXPRESS", "TruckEstimationSystem", null, null);
                 manageitem = new ManageItems_form(this);
@@ -84,10 +86,10 @@ namespace MyWinFormsApp
             dashboard.change_workpanelsection(estimate, viewer, estimation_dashboard_btn);
             estimate.paste_in(id);
         }
-        public void copyFromItem_To_Bundle(string item_name)
+        public void copyFromItem_To_Bundle(int id)
         {
             dashboard.change_workpanelsection(bundle, viewer, managebundle_dashboard_btn);
-            bundle.AddBundleFromCopy(item_name);
+            
         }
         private void managebundle_dashboard_btn_Click(Object sender, EventArgs eg) //
         {
@@ -159,6 +161,7 @@ namespace MyWinFormsApp
 
     public class Dashboard
     {
+        public main_startup_form parent;
         public List<Panel> all_dashboard_Panel;
         public List<Form> all_SectionTabs = new List<Form>();
         public List<Button> all_buttonsDashBoard = new List<Button>();
@@ -171,6 +174,9 @@ namespace MyWinFormsApp
         public void change_workpanelsection(Form Form_To_Set, Panel viewer, Button button)
         {
             _hide_forms_in_workpanelsection();
+            if (Form_To_Set is ViewRecord_Form viewform) viewform = new ViewRecord_Form();
+            if (Form_To_Set is ManageItems_form manageitem) manageitem = new ManageItems_form(parent);
+
             Form_To_Set.TopLevel = false;
             Form_To_Set.Size = viewer.Size;
             //Form_To_Set.Dock = DockStyle.Right;

@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +24,11 @@ namespace MyWinFormsApp.Sections.ManageBundles
 
         private List<viewSelectedBundle_Form> list = new List<viewSelectedBundle_Form>();
         private List<CheckBox> categ_list = new List<CheckBox>();
+        private List<FlowLayoutPanel> pages = new List<FlowLayoutPanel>();
 
-        private const int objects_perPage = 7;
+        private const int objects_perPage = 4;
         private int selected_page = 1;
+        private int max_count = 0;
 
         private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.Timer pageTimer;
@@ -32,109 +36,129 @@ namespace MyWinFormsApp.Sections.ManageBundles
         public ManageBundles_Form()
         {
             InitializeComponent();
-            int maxCount = getMaximumCount();
-            page = new PageSelection(maxCount, whenPageIsSelected);
-            panel2.Controls.Add(page);
-            page.Show();
 
             updateTimer = new System.Windows.Forms.Timer();
-            updateTimer.Interval = 100; // Delay for 100ms
+            updateTimer.Interval = 5; // Delay for 100ms
             updateTimer.Tick += (s, e) =>
             {
                 updateTimer.Stop();
                 UpdateVisual();
             };
             pageTimer = new System.Windows.Forms.Timer();
-            pageTimer.Interval = 100; // Delay for 100ms
+            pageTimer.Interval = 5; 
             pageTimer.Tick += (s, e) =>
             {
                 pageTimer.Stop();
                 _update_page_selector();
 
             };
-
-            UpdateVisual();
-            updatePageSelector();
         }
+
+
+
+
+        //UPDATE VISUALS
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
+        }
+
 
         public void TriggerVisualUpdate()
         {
-            updateTimer.Stop();
+            if (updateTimer.Enabled) return;
             updateTimer.Start();
         }
+
+
         private void whenPageIsSelected(int page)
         {
-            selected_page = page;
-            TriggerVisualUpdate();
+            foreach (FlowLayoutPanel flp in pages) flp.Hide();
+            try
+            {
+                Debug.WriteLine($"Changing Page: {page}");
+                pages[page].Show();
+            }
+            catch
+            {
+                MessageBox.Show("not normal paging detected");
+                page = 0;
+                pages[page].Show();
+            }
         }
 
-        private void flutetype_cb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            updatePageSelector();
-            TriggerVisualUpdate();
-        }
 
         private void _update_page_selector()
         {
-            page.reinstantiate(getMaximumCount());
+            foreach (Control control in panel2.Controls) control.Dispose();
+            panel2.Controls.Clear();
+            decimal result = (decimal)max_count / objects_perPage;
+            var pages = Convert.ToInt32(Math.Ceiling(result));
+            page = new PageSelection(pages, whenPageIsSelected);
+            panel2.Controls.Add(page);
+            page.Show();
         }
+
+
         public void updatePageSelector()
         {
-            pageTimer.Stop();
+            if (pageTimer.Enabled) return;
             pageTimer.Start();
         }
 
+
         public void UpdateVisual()
         {
-            resetList();
-            client_cb.Size = scale.ScaleObject(client_cb.Size);
-            flutetype_cb.Size = scale.ScaleObject(flutetype_cb.Size);
-            client_cb.Size = scale.ScaleObject(client_cb.Size);
+            foreach (FlowLayoutPanel control in pages) control.Dispose();
+            pages.Clear();
 
-            foreach (DataRow row in getRecordTable_ID().Rows) create_selectedbundleForm(Convert.ToInt32(row["id"]));
+            int object_created_count = 0;
+            int current_page_now = 0;
+            add_page();
 
-            list = list.OrderBy(vpif => vpif.BackColor == SystemColors.Control ? 0 : 1).ToList();
-            storedarea_flt.Controls.Clear();
-            foreach (var vpif in list)
+            foreach (DataRow row in getRecordTable_ID().Rows)
             {
-                storedarea_flt.Controls.Add(vpif);
-                vpif.Show();
+                var form = create_selectedbundleForm(Convert.ToInt32(row["id"]));
+                pages[current_page_now].Controls.Add(form);
+                form.Show();
+                object_created_count++;
+                Debug.WriteLine($"CurrentObjectNo: {object_created_count}, pageCodeNumber:{current_page_now}, id {row["id"]}");
+                if (object_created_count % objects_perPage == 0)
+                {
+                    add_page();
+                    current_page_now++;
+                }
             }
+            max_count = object_created_count;
+
+            Debug.WriteLine($"DEBUG" +
+                $"\n number_of_page = {current_page_now}, number_of_object = {max_count}");
             noResult();
-        }
-        private viewSelectedBundle_Form create_selectedbundleForm(int id)
-        {
-            viewSelectedBundle_Form vsbf = new viewSelectedBundle_Form(this, Convert.ToInt32(id));
-            vsbf.TopLevel = false;
-            storedarea_flt.Controls.Add(vsbf);
-            vsbf.Show();
-            list.Add(vsbf);
-            return vsbf;
-        }
-
-        public void AddBundleFromCopy(string item_name)
-        {
-            AddEditBundle_windowpopupform aebwpf = new AddEditBundle_windowpopupform(this,item_name);
-            aebwpf.ShowDialog();
-        }
-
-        private void check(object sender, EventArgs e)
-        {
-            foreach (CheckBox c in categ_list)
-            {
-                if (sender is CheckBox cb) if (cb == c) continue;
-                c.Checked = false;
-            }
             updatePageSelector();
-            TriggerVisualUpdate();
-            updatePageSelector();
+            whenPageIsSelected(0);
         }
 
-        private void resetList()
+
+        private void noResult()
         {
-            foreach (viewSelectedBundle_Form form in list) form.Dispose();
-            list.Clear();
+            _no_result.Visible = max_count < 1;
+            label1.Visible = categ_list.Count > 0;
         }
+
+
         public void resetFilter()
         {
             foreach (Control c in categ_list) c.Dispose();
@@ -165,26 +189,103 @@ namespace MyWinFormsApp.Sections.ManageBundles
             flutetype_cb.SelectedIndex = 0;
         }
 
-        private string getCheckboxName()
+
+
+        //OBJECT SETTER
+        private viewSelectedBundle_Form create_selectedbundleForm(int id)
         {
-            foreach (CheckBox c in categ_list) if (c.Checked) return c.Text;
-            return "<no-text>";
+            viewSelectedBundle_Form vsbf = new viewSelectedBundle_Form(this, Convert.ToInt32(id));
+            vsbf.TopLevel = false;
+            storedarea_flt.Controls.Add(vsbf);
+            vsbf.Show();
+            list.Add(vsbf);
+            return vsbf;
         }
 
-        private bool isAllUnchecked()
+
+        public void AddBundleFromCopy(int id)
         {
-            foreach (CheckBox c in categ_list) if (c.Checked) return false;
-            return true;
+            AddEditBundle_windowpopupform aebwpf = new AddEditBundle_windowpopupform(this, id, true);
+            aebwpf.ShowDialog();
         }
 
+
+        private FlowLayoutPanel add_page()
+        {
+            FlowLayoutPanel flp = new FlowLayoutPanel();
+            pages.Add(flp);
+            storedarea_flt.Controls.Add(flp);
+            flp.FlowDirection = FlowDirection.TopDown;
+            flp.WrapContents = false;
+            flp.AutoScroll = true;
+            flp.BackColor = TransparencyKey;
+            flp.Width = storedarea_flt.Width - 30;
+            flp.Height = Height - 100;
+            flp.Hide();
+            return flp;
+        }
+
+
+        private DataTable getRecordTable_ID()
+        {
+            Datetotext datetotext = new Datetotext();
+            string preset_query = @"SELECT DISTINCT bundle.id, MIN(item.item_name) AS item_name " +
+                                   " FROM Bundle_Table bundle JOIN Item_Table item ON bundle.item_id = item.id " +
+                                   " JOIN Flute_Table flute ON item.flute_id = flute.id " +
+                                   " JOIN Client_Table client ON item.client_id = client.id " +
+                                   " WHERE bundle.is_deleted = 0 ";
+
+            List<string> conditions = new List<string>();
+            List<string> category = new List<string>();
+
+            if (!string.IsNullOrEmpty(searchname_tb.Text) && searchname_tb.Text != "ex. Piattos Small")
+                conditions.Add($"item.item_name LIKE '%{searchname_tb.Text}%'");
+
+            if (client_cb.Text != "<select-client>" && !string.IsNullOrEmpty(client_cb.Text))
+                conditions.Add($"client.name LIKE '%{client_cb.Text}%'");
+
+            if (flutetype_cb.Text != "<select-flutetype>" && !string.IsNullOrEmpty(client_cb.Text))
+                conditions.Add($"flute.code_name LIKE '%{flutetype_cb.Text}%'");
+
+            foreach (CheckBox checkbox in categ_list)
+            {
+                if (!checkbox.Checked) continue;
+                if (string.IsNullOrEmpty(checkbox.Text)) continue;
+                category.Add($"bundle.category = '{checkbox.Tag}'");
+            }
+
+            if (category.Count > 0)
+                preset_query += $" AND ({string.Join(" OR ", category)})";
+            if (conditions.Count > 0)
+                preset_query += " AND " + string.Join(" AND ", conditions);
+            preset_query += $" GROUP BY bundle.id;";
+            //MessageBox.Show(preset_query);
+            DataTable table = sql.ExecuteQuery(preset_query);
+            return table;
+        }
+
+
+
+
+        //CONTROL EVENTS
+        private void check(object sender, EventArgs e)
+        {
+            foreach (CheckBox c in categ_list)
+            {
+                if (sender is CheckBox cb) if (cb == c) continue;
+                c.Checked = false;
+            }
+        }
 
 
         private void ManageBundles_Form_VisibleChanged(object sender, EventArgs e)
         {
+            SetGradientBackground("#D4ECD7", "#B2E2B8");
             resetFilter();
             TriggerVisualUpdate();
-            updatePageSelector();
+
         }
+
 
         private void add_btn_Click(object sender, EventArgs e)
         {
@@ -192,17 +293,6 @@ namespace MyWinFormsApp.Sections.ManageBundles
             aebwpuf.ShowDialog();
         }
 
-        private void searchname_tb_TextChanged(object sender, EventArgs e)
-        {
-            updatePageSelector();
-            TriggerVisualUpdate();
-        }
-
-        private void client_cb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            updatePageSelector();
-            TriggerVisualUpdate();
-        }
 
         private void searchname_tb_Enter(object sender, EventArgs e)
         {
@@ -213,6 +303,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
             }
         }
 
+
         private void searchname_tb_Leave(object sender, EventArgs e)
         {
             if (searchname_tb.Text == "")
@@ -222,103 +313,17 @@ namespace MyWinFormsApp.Sections.ManageBundles
             }
         }
 
+
         private void clear_btn_Click(object sender, EventArgs e)
         {
             resetFilter();
-            updatePageSelector();
             TriggerVisualUpdate();
         }
+        
 
-        private void noResult()
+        private void search_btn_Click(object sender, EventArgs e)
         {
-            storedarea_flt.Controls.Add(_no_result);
-            int a = 0;
-            foreach (viewSelectedBundle_Form f in list) a += f.Visible ? 1 : 0;
-            a = Math.Min(a, list.Count);
-            _no_result.Visible = a < 1;
-            label1.Visible = categ_list.Count > 0;
-        }
-
-        private DataTable getRecordTable_ID()
-        {
-            Datetotext datetotext = new Datetotext();
-            string preset_query = "SELECT DISTINCT bundle.id, item.item_name FROM \r\nBundle_Table bundle JOIN Item_Table item ON bundle.item_id = item.id JOIN\r\nFlute_Table flute ON item.flute_id = flute.id JOIN Client_Table client ON item.client_id = client.id \r\nWHERE bundle.is_deleted = 0 ";
-
-            List<string> conditions = new List<string>();
-            List<string> category = new List<string>();
-
-            if (!string.IsNullOrEmpty(searchname_tb.Text) && searchname_tb.Text != "ex. Piattos Small")
-                conditions.Add($"item.item_name LIKE '%{searchname_tb.Text}%'");
-
-            if (client_cb.Text != "<select-client>" && !string.IsNullOrEmpty(client_cb.Text))
-                conditions.Add($"client.name LIKE '%{client_cb.Text}%'");
-
-            if (flutetype_cb.Text != "<select-flutetype>" && !string.IsNullOrEmpty(client_cb.Text))
-                conditions.Add($"flute.code_name LIKE '%{flutetype_cb.Text}%'");
-
-            foreach (CheckBox checkbox in categ_list)
-            {
-                if (!checkbox.Checked) continue;
-                if (string.IsNullOrEmpty(checkbox.Text)) continue;
-                category.Add($"bundle.category = '{checkbox.Tag}'");
-            }
-
-            if (category.Count > 0)
-                preset_query += $" AND ({string.Join(" OR ", category)})";
-            if (conditions.Count > 0)
-                preset_query += " AND " + string.Join(" AND ", conditions);
-            preset_query += $" ORDER BY item.item_name OFFSET {(objects_perPage * (selected_page - 1))} ROWS FETCH NEXT {objects_perPage} ROWS ONLY;";
-            //MessageBox.Show(preset_query);
-            DataTable table = sql.ExecuteQuery(preset_query);
-            return table;
-        }
-
-        private string getQueryCount()
-        {
-            Datetotext datetotext = new Datetotext();
-            string preset_query = "SELECT COUNT(bundle.id) FROM \r\nBundle_Table bundle JOIN Item_Table item ON bundle.item_id = item.id JOIN\r\nFlute_Table flute ON item.flute_id = flute.id JOIN Client_Table client ON item.client_id = client.id \r\nWHERE bundle.is_deleted = 0 ";
-
-            List<string> conditions = new List<string>();
-            List<string> category = new List<string>();
-
-            if (!string.IsNullOrEmpty(searchname_tb.Text) && searchname_tb.Text != "ex. Piattos Small")
-                conditions.Add($"item.item_name LIKE '%{searchname_tb.Text}%'");
-
-            if (client_cb.Text != "<select-client>" && !string.IsNullOrEmpty(client_cb.Text))
-                conditions.Add($"client.name LIKE '%{client_cb.Text}%'");
-
-            if (flutetype_cb.Text != "<select-flutetype>" && !string.IsNullOrEmpty(client_cb.Text))
-                conditions.Add($"flute.code_name LIKE '%{flutetype_cb.Text}%'");
-            foreach (CheckBox checkbox in categ_list)
-            {
-                if (!checkbox.Checked) continue;
-                if (string.IsNullOrEmpty(checkbox.Text)) continue;
-
-                category.Add($"bundle.category = '{checkbox.Tag}'");
-            }
-
-            if (category.Count > 0)
-                preset_query += $" AND ({string.Join(" OR ", category)})";
-            if (conditions.Count > 0)
-                preset_query += " AND " + string.Join(" AND ", conditions);
-            //MessageBox.Show(preset_query);
-            return preset_query;
-        }
-
-        private int getMaximumCount()
-        {
-            int count = 0;
-            try
-            {
-                decimal value = (Convert.ToDecimal(sql.ExecuteQuery(getQueryCount()).Rows[0][0]) / objects_perPage);
-                //MessageBox.Show($"Conversion = {Convert.ToInt32(sql.ExecuteQuery(getQueryCount()).Rows[0][0])} divide by {objects_perPage} = {value}, { Convert.ToInt32(Math.Ceiling(value))}");
-                return Convert.ToInt32(Math.Ceiling(value));
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Error: {e.Message}");
-                return count;
-            }
+            TriggerVisualUpdate();
         }
     }
 }

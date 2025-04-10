@@ -36,9 +36,15 @@
             description_label = new Label();
             conditioncontainer_flp = new FlowLayoutPanel();
             flowLayoutPanel2 = new FlowLayoutPanel();
+            panel5 = new Panel();
+            id_label = new Label();
             stored_itemname_flp = new FlowLayoutPanel();
+            panel2 = new Panel();
+            panel3 = new Panel();
+            panel4 = new Panel();
             panel1.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
+            panel5.SuspendLayout();
             SuspendLayout();
             // 
             // delete_btn
@@ -72,6 +78,7 @@
             // clientname_label
             // 
             clientname_label.AutoSize = true;
+            clientname_label.BackColor = Color.Transparent;
             clientname_label.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             clientname_label.Location = new Point(19, 6);
             clientname_label.Name = "clientname_label";
@@ -82,7 +89,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.White;
+            panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(description_label);
             panel1.Location = new Point(60, 36);
             panel1.Name = "panel1";
@@ -105,7 +112,7 @@
             // conditioncontainer_flp
             // 
             conditioncontainer_flp.AutoScroll = true;
-            conditioncontainer_flp.BackColor = Color.White;
+            conditioncontainer_flp.BackColor = Color.Transparent;
             conditioncontainer_flp.FlowDirection = FlowDirection.TopDown;
             conditioncontainer_flp.Location = new Point(403, 124);
             conditioncontainer_flp.Name = "conditioncontainer_flp";
@@ -116,8 +123,10 @@
             // 
             // flowLayoutPanel2
             // 
+            flowLayoutPanel2.BackColor = Color.Transparent;
             flowLayoutPanel2.Controls.Add(delete_btn);
             flowLayoutPanel2.Controls.Add(edit_btn);
+            flowLayoutPanel2.Controls.Add(panel5);
             flowLayoutPanel2.Dock = DockStyle.Right;
             flowLayoutPanel2.FlowDirection = FlowDirection.BottomUp;
             flowLayoutPanel2.Location = new Point(751, 0);
@@ -125,10 +134,30 @@
             flowLayoutPanel2.Size = new Size(89, 226);
             flowLayoutPanel2.TabIndex = 7;
             // 
+            // panel5
+            // 
+            panel5.Controls.Add(id_label);
+            panel5.Location = new Point(3, 16);
+            panel5.Margin = new Padding(3, 3, 3, 125);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(86, 43);
+            panel5.TabIndex = 13;
+            // 
+            // id_label
+            // 
+            id_label.AutoSize = true;
+            id_label.Dock = DockStyle.Right;
+            id_label.Font = new Font("Segoe UI", 15F);
+            id_label.Location = new Point(3, 0);
+            id_label.Name = "id_label";
+            id_label.Size = new Size(83, 28);
+            id_label.TabIndex = 11;
+            id_label.Text = "ID:####";
+            // 
             // stored_itemname_flp
             // 
             stored_itemname_flp.AutoScroll = true;
-            stored_itemname_flp.BackColor = Color.White;
+            stored_itemname_flp.BackColor = Color.Transparent;
             stored_itemname_flp.FlowDirection = FlowDirection.TopDown;
             stored_itemname_flp.Location = new Point(60, 124);
             stored_itemname_flp.Name = "stored_itemname_flp";
@@ -136,22 +165,53 @@
             stored_itemname_flp.TabIndex = 8;
             stored_itemname_flp.WrapContents = false;
             // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Silver;
+            panel2.Location = new Point(-3, 216);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(843, 10);
+            panel2.TabIndex = 9;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.FromArgb(224, 224, 224);
+            panel3.Location = new Point(0, 116);
+            panel3.Margin = new Padding(0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(746, 10);
+            panel3.TabIndex = 10;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.FromArgb(224, 224, 224);
+            panel4.Location = new Point(742, 0);
+            panel4.Margin = new Padding(0);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(10, 223);
+            panel4.TabIndex = 11;
+            // 
             // ExistingSelectClient_form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(840, 226);
+            Controls.Add(panel3);
             Controls.Add(stored_itemname_flp);
             Controls.Add(conditioncontainer_flp);
             Controls.Add(panel1);
             Controls.Add(clientname_label);
             Controls.Add(flowLayoutPanel2);
+            Controls.Add(panel2);
+            Controls.Add(panel4);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ExistingSelectClient_form";
             Text = "ExistingSelectClient_form";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -166,5 +226,10 @@
         private FlowLayoutPanel conditioncontainer_flp;
         private FlowLayoutPanel flowLayoutPanel2;
         private FlowLayoutPanel stored_itemname_flp;
+        private Panel panel2;
+        private Panel panel3;
+        private Panel panel4;
+        private Panel panel5;
+        private Label id_label;
     }
 }

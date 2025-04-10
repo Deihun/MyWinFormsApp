@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Drawing.Drawing2D;
 
 namespace MyWinFormsApp.Sections.InstructionManual
 {
@@ -20,6 +21,25 @@ namespace MyWinFormsApp.Sections.InstructionManual
             InitializeComponent();
             this.image = image;
             changeSection(0);
+            SetGradientBackground("#D4ECD7", "#B2E2B8");
+        }
+
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
         }
         private int changeSection(int addSections)
         {

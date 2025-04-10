@@ -288,8 +288,8 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.ErrorImage = Properties.Resources.TruckHintPicture;
-            pictureBox1.Image = Properties.Resources.TruckHintPicture;
+            pictureBox1.ErrorImage = TruckEstimation.Properties.Resources.TruckHintPicture;
+            pictureBox1.Image = TruckEstimation.Properties.Resources.TruckHintPicture;
             pictureBox1.Location = new Point(303, 23);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(238, 142);

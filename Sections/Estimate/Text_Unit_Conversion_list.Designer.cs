@@ -36,6 +36,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Transparent;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
@@ -52,8 +53,9 @@
             // content_label
             // 
             content_label.AutoSize = true;
+            content_label.BackColor = Color.Transparent;
             content_label.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            content_label.ForeColor = Color.White;
+            content_label.ForeColor = Color.DimGray;
             content_label.Location = new Point(3, 0);
             content_label.Name = "content_label";
             content_label.Size = new Size(104, 21);

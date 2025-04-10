@@ -50,6 +50,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Transparent;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(quantityholder_flp, 0, 2);
@@ -158,6 +159,7 @@
             // content_label
             // 
             content_label.AutoSize = true;
+            content_label.ForeColor = Color.FromArgb(64, 64, 64);
             content_label.Location = new Point(25, 65);
             content_label.Margin = new Padding(25, 5, 3, 0);
             content_label.Name = "content_label";

@@ -34,6 +34,7 @@
             flowLayoutPanel2 = new FlowLayoutPanel();
             label1 = new Label();
             clear_btn = new Button();
+            search_btn = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             label2 = new Label();
             searchname_tb = new TextBox();
@@ -67,7 +68,7 @@
             // 
             // tablelayout_main
             // 
-            tablelayout_main.BackColor = Color.PaleGreen;
+            tablelayout_main.BackColor = Color.Transparent;
             tablelayout_main.ColumnCount = 1;
             tablelayout_main.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tablelayout_main.Controls.Add(tableLayoutPanel1, 0, 0);
@@ -101,6 +102,7 @@
             // 
             flowLayoutPanel1.BackColor = Color.DarkSeaGreen;
             flowLayoutPanel1.Controls.Add(flowLayoutPanel2);
+            flowLayoutPanel1.Controls.Add(search_btn);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel3);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel2);
             flowLayoutPanel1.Controls.Add(tableLayoutPanel4);
@@ -149,6 +151,20 @@
             clear_btn.UseVisualStyleBackColor = false;
             clear_btn.Click += clear_btn_Click;
             // 
+            // search_btn
+            // 
+            search_btn.BackColor = Color.White;
+            search_btn.Dock = DockStyle.Right;
+            search_btn.FlatStyle = FlatStyle.Flat;
+            search_btn.Location = new Point(142, 34);
+            search_btn.Margin = new Padding(0, 0, 30, 0);
+            search_btn.Name = "search_btn";
+            search_btn.Size = new Size(67, 23);
+            search_btn.TabIndex = 14;
+            search_btn.Text = "SEARCH";
+            search_btn.UseVisualStyleBackColor = false;
+            search_btn.Click += search_btn_Click;
+            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
@@ -157,7 +173,7 @@
             tableLayoutPanel3.Controls.Add(label2, 0, 0);
             tableLayoutPanel3.Controls.Add(searchname_tb, 1, 0);
             tableLayoutPanel3.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel3.Location = new Point(3, 37);
+            tableLayoutPanel3.Location = new Point(3, 60);
             tableLayoutPanel3.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
@@ -187,7 +203,6 @@
             searchname_tb.Size = new Size(129, 23);
             searchname_tb.TabIndex = 7;
             searchname_tb.Text = "ex. Piatos";
-            searchname_tb.TextChanged += searchname_tb_TextChanged;
             searchname_tb.Enter += searchname_tb_Enter;
             searchname_tb.Leave += searchname_tb_Leave;
             // 
@@ -199,7 +214,7 @@
             tableLayoutPanel2.Controls.Add(label3, 0, 0);
             tableLayoutPanel2.Controls.Add(client_cb, 1, 0);
             tableLayoutPanel2.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel2.Location = new Point(3, 64);
+            tableLayoutPanel2.Location = new Point(3, 87);
             tableLayoutPanel2.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
@@ -229,7 +244,6 @@
             client_cb.Name = "client_cb";
             client_cb.Size = new Size(129, 23);
             client_cb.TabIndex = 7;
-            client_cb.SelectedIndexChanged += client_cb_SelectedIndexChanged;
             // 
             // tableLayoutPanel4
             // 
@@ -239,7 +253,7 @@
             tableLayoutPanel4.Controls.Add(label4, 0, 0);
             tableLayoutPanel4.Controls.Add(truck_cb, 1, 0);
             tableLayoutPanel4.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel4.Location = new Point(3, 91);
+            tableLayoutPanel4.Location = new Point(3, 114);
             tableLayoutPanel4.Margin = new Padding(3, 3, 3, 0);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
@@ -269,14 +283,13 @@
             truck_cb.Name = "truck_cb";
             truck_cb.Size = new Size(129, 23);
             truck_cb.TabIndex = 7;
-            truck_cb.SelectedIndexChanged += truck_cb_SelectedIndexChanged;
             // 
             // flowLayoutPanel4
             // 
             flowLayoutPanel4.Controls.Add(label5);
             flowLayoutPanel4.Controls.Add(month_cb);
             flowLayoutPanel4.Controls.Add(year_cb);
-            flowLayoutPanel4.Location = new Point(3, 118);
+            flowLayoutPanel4.Location = new Point(3, 141);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(213, 31);
             flowLayoutPanel4.TabIndex = 11;
@@ -304,7 +317,6 @@
             month_cb.Name = "month_cb";
             month_cb.Size = new Size(75, 23);
             month_cb.TabIndex = 8;
-            month_cb.SelectedIndexChanged += month_cb_SelectedIndexChanged;
             // 
             // year_cb
             // 
@@ -315,14 +327,13 @@
             year_cb.Name = "year_cb";
             year_cb.Size = new Size(53, 23);
             year_cb.TabIndex = 9;
-            year_cb.SelectedIndexChanged += year_cb_SelectedIndexChanged;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(3, 182);
+            label6.Location = new Point(3, 205);
             label6.Margin = new Padding(3, 30, 3, 10);
             label6.Name = "label6";
             label6.Size = new Size(95, 21);
@@ -385,7 +396,7 @@
             // 
             _no_result.AutoSize = true;
             _no_result.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
-            _no_result.ForeColor = Color.LimeGreen;
+            _no_result.ForeColor = Color.SeaGreen;
             _no_result.Location = new Point(210, 110);
             _no_result.Margin = new Padding(200, 100, 3, 0);
             _no_result.Name = "_no_result";
@@ -398,7 +409,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.LightGreen;
+            BackColor = Color.White;
             ClientSize = new Size(1443, 649);
             Controls.Add(tablelayout_main);
             FormBorderStyle = FormBorderStyle.None;
@@ -452,5 +463,6 @@
         private TableLayoutPanel tableLayoutPanel5;
         private Panel panel2;
         private Label label6;
+        private Button search_btn;
     }
 }

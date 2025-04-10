@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,24 +53,38 @@ namespace MyWinFormsApp.Sections.ManageBundles
             FluteType += fluteIsDeleted ? " (DELETED)" : string.Empty;
             itemname += Convert.ToBoolean(rowItem["is_deleted"]) ? "(DELETED ITEM)(BUNDLE)" : "(BUNDLE)";
 
+            id_label.Text = $"ID:{id}";
             client_label.Text = client;
             itemname_label.Text = $"{itemname}";
             content_label.Text = $"Quantity      : {quantity} pcs\n" +
-                                 $"Length(mm)    : {Convert.ToDecimal(rowItem["_length"]) * quantity}\n" +
-                                 $"Width(mm)     : {Convert.ToDecimal(rowItem["_width"]) * quantity}\n" +
+                                 $"Length(mm)    : {Convert.ToDecimal(rowItem["_length"])}\n" +
+                                 $"Width(mm)     : {Convert.ToDecimal(rowItem["_width"])}\n" +
                                  $"Height(mm)    : {Convert.ToDecimal(fluteValue * quantity)}\n" +
                                  $"Dimensions(mm): {(Convert.ToDecimal(rowItem["_length"]) * quantity) * (Convert.ToInt32(rowItem["_width"]) * quantity) * (fluteValue * quantity)}";
             flutetype_label.Text = $"FluteType: ({FluteType})";
 
-            if (is_Deleted) BackColor = Color.MistyRose;
-
             this.itemname = rowItem["item_name"].ToString();
             this.flutetype = FluteType;
             this.clientname = sql.ExecuteQuery($"SELECT name FROM Client_Table WHERE id = {rowItem["client_id"]}").Rows[0][0].ToString();
-
-
         }
 
+        private void SetGradientBackground(string hexColor1, string hexColor2)
+        {
+            Color color1 = ColorTranslator.FromHtml(hexColor1);
+            Color color2 = ColorTranslator.FromHtml(hexColor2);
+
+            Bitmap bmp = new Bitmap(this.Width, this.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (LinearGradientBrush brush = new LinearGradientBrush(
+                new Rectangle(0, 0, this.Width, this.Height),
+                color1,
+                color2,
+                LinearGradientMode.Vertical)) // Change direction if needed
+            {
+                g.FillRectangle(brush, 0, 0, this.Width, this.Height);
+            }
+            this.BackgroundImage = bmp;
+        }
         private void delete_btn_Click(object sender, EventArgs e)
         {
             DeleteMyValue();
@@ -91,7 +106,7 @@ namespace MyWinFormsApp.Sections.ManageBundles
             if (result == DialogResult.Yes)
             {
                 sql.ExecuteQuery($"UPDATE Bundle_Table SET is_deleted = 1 WHERE id = {id}");
-                parent.UpdateVisual();
+                parent.TriggerVisualUpdate();
                 sql.commitReport($"A Data Bundle '{itemname}' was deleted");
             }
             else if (result == DialogResult.No)
